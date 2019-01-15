@@ -1,3 +1,7 @@
-# Telecom_English_Project_2019
+# Télécom Nancy 2019 - _English Project_
 
-Télécom Nancy - English Project - 2019
+### Authors
+
+Ophélien Amsler
+
+Bertrand Müller
