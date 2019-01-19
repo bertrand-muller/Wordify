@@ -16,9 +16,9 @@ services:
     image: postgres
     environment:
       - POSTGRES_PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_DB=animest_intranet
+      - POSTGRES_DB=english_project
       - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=QP5m7xKbkp
+      - POSTGRES_PASSWORD=english
     ports:
       - "5432:5432"
     volumes:
