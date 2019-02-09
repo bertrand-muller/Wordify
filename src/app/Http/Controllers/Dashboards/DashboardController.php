@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboards;
 
 use App\Models\Auth\User\User;
 use Arcanedev\LogViewer\Entities\Log;
@@ -42,7 +42,7 @@ class DashboardController extends Controller
             }
         }
 
-        return view('admin.dashboard', ['counts' => $counts]);
+        return view('dashboards.dashboard', ['counts' => $counts]);
     }
 
 

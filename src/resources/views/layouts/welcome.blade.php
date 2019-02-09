@@ -92,7 +92,7 @@
                             <a href="{{ url('/login') }}">{{ __('views.welcome.login') }}</a>
                         @else
                             @if(auth()->user()->hasRole('administrator'))
-                                <a href="{{ url('/admin') }}">{{ __('views.welcome.admin') }}</a>
+                                <a href="{{ url('/dashboards') }}">{{ __('views.welcome.dashboards') }}</a>
                             @endif
                             <a href="{{ url('/logout') }}">{{ __('views.welcome.logout') }}</a>
                         @endif

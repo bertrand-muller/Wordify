@@ -1,15 +1,15 @@
-@extends('admin.layouts.admin')
+@extends('dashboards.layouts.dashboards')
 
-@section('title',__('views.admin.users.edit.title', ['name' => $user->name]) )
+@section('title',__('views.dashboards.users.edit.title', ['name' => $user->name]) )
 
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            {{ Form::open(['route'=>['admin.users.update', $user->id],'method' => 'put','class'=>'form-horizontal form-label-left']) }}
+            {{ Form::open(['route'=>['dashboards.users.update', $user->id],'method' => 'put','class'=>'form-horizontal form-label-left']) }}
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name" >
-                        {{ __('views.admin.users.edit.name') }}
+                        {{ __('views.dashboards.users.edit.name') }}
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -27,7 +27,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">
-                        {{ __('views.admin.users.edit.email') }}
+                        {{ __('views.dashboards.users.edit.email') }}
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -46,7 +46,7 @@
                 @if(!$user->hasRole('administrator'))
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="active" >
-                            {{ __('views.admin.users.edit.active') }}
+                            {{ __('views.dashboards.users.edit.active') }}
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="checkbox">
@@ -67,7 +67,7 @@
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="confirmed" >
-                            {{ __('views.admin.users.edit.confirmed') }}
+                            {{ __('views.dashboards.users.edit.confirmed') }}
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="checkbox">
@@ -89,7 +89,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">
-                        {{ __('views.admin.users.edit.password') }}
+                        {{ __('views.dashboards.users.edit.password') }}
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <input id="password" type="password" class="form-control col-md-7 col-xs-12 @if($errors->has('password')) parsley-error @endif"
@@ -106,7 +106,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password_confirmation">
-                        {{ __('views.admin.users.edit.confirm_password') }}
+                        {{ __('views.dashboards.users.edit.confirm_password') }}
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <input id="password_confirmation" type="password" class="form-control col-md-7 col-xs-12 @if($errors->has('password_confirmation')) parsley-error @endif"
@@ -123,7 +123,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="roles">
-                        {{ __('views.admin.users.edit.roles') }}
+                        {{ __('views.dashboards.users.edit.roles') }}
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <select id="roles" name="roles[]" class="select2" multiple="multiple" style="width: 100%" autocomplete="off">
@@ -136,8 +136,8 @@
 
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <a class="btn btn-primary" href="{{ URL::previous() }}"> {{ __('views.admin.users.edit.cancel') }}</a>
-                        <button type="submit" class="btn btn-success"> {{ __('views.admin.users.edit.save') }}</button>
+                        <a class="btn btn-primary" href="{{ URL::previous() }}"> {{ __('views.dashboards.users.edit.cancel') }}</a>
+                        <button type="submit" class="btn btn-success"> {{ __('views.dashboards.users.edit.save') }}</button>
                     </div>
                 </div>
             {{ Form::close() }}

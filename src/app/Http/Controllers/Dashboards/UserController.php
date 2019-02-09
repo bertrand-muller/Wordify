@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboards;
 
 use App\Models\Auth\Role\Role;
 use App\Models\Auth\User\User;
@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.users.index', ['users' => User::with('roles')->sortable(['email' => 'asc'])->paginate()]);
+        return view('dashboards.users.index', ['users' => User::with('roles')->sortable(['email' => 'asc'])->paginate()]);
     }
 
     /**
@@ -49,7 +49,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.users.show', ['user' => $user]);
+        return view('dashboards.users.show', ['user' => $user]);
     }
 
     /**
@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', ['user' => $user, 'roles' => Role::get()]);
+        return view('dashboards.users.edit', ['user' => $user, 'roles' => Role::get()]);
     }
 
     /**
@@ -110,7 +110,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->intended(route('admin.users'));
+        return redirect()->intended(route('dashboards.users'));
     }
 
     /**

@@ -6,8 +6,8 @@
     <div class="container body">
         <div class="main_container">
             @section('header')
-                @include('admin.sections.navigation')
-                @include('admin.sections.header')
+                @include('dashboards.sections.navigation')
+                @include('dashboards.sections.header')
             @show
 
             @yield('left-sidebar')
@@ -29,16 +29,16 @@
             </div>
 
             <footer>
-                @include('admin.sections.footer')
+                @include('dashboards.sections.footer')
             </footer>
         </div>
     </div>
 @stop
 
 @section('styles')
-    {{ Html::style(mix('assets/admin/css/admin.css')) }}
+    {{ Html::style(mix('assets/admin/css/dashboards.css')) }}
 @endsection
 
 @section('scripts')
-    {{ Html::script(mix('assets/admin/js/admin.js')) }}
+    {{ Html::script(mix('assets/admin/js/dashboards.js')) }}
 @endsection
