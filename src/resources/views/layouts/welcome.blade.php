@@ -51,8 +51,12 @@
                 font-size: 84px;
             }
 
+            .links {
+                z-index: 10000;
+            }
+
             .links > a {
-                color: #636b6f;
+                color: white;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -72,6 +76,17 @@
 
             .m-b-md {
                 margin-bottom: 30px;
+            }
+
+            #video {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover;
+                /* background: url('{{ asset('/images/newlook/first_frame.jpg') }}') no-repeat;
+                background-size: cover; */
             }
         </style>
 
@@ -100,6 +115,9 @@
                 </div>
 
             <div class="content">
+                <video autoplay muted loop id="video">
+                    <source src="{{ asset('/videos/newlook/newlook_compress.mp4') }}" type="video/mp4">
+                </video>
                 @yield('content')
                 <div class="footer">
                     Credits:&nbsp;
@@ -108,5 +126,6 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="{{ asset('/assets/app/js/app.js') }}"></script>
     </body>
 </html>

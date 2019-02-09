@@ -2,6 +2,16 @@
     background: #F7F7F7;
 }
 
+.logo {
+    max-width: 150px;
+    margin: 50px auto auto;
+    display: block;
+}
+
+.login_wrapper {
+    margin-top: 0;
+}
+
 .login .h1 {
     font: 400 25px Helvetica, Arial, sans-serif;
     letter-spacing: -.05em;
