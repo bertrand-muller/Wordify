@@ -4,12 +4,14 @@
 
 @section('content')
     <div>
+        <img class="logo" src="{{ asset(config('newlook.logos.normal_black')) }}" />
         <div class="login_wrapper">
             <div class="animate form login_form">
                 <section class="login_content">
+                    <bR>
                     {{ Form::open(['route' => 'login']) }}
                         <h1>{{ __('views.auth.login.header') }}</h1>
-
+                        <br>
                         <div>
                             <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
                                    placeholder="{{ __('views.auth.login.input_0') }}" required autofocus>
@@ -37,6 +39,7 @@
                             </div>
                         @endif
 
+                        <br>
                         <div>
                             <button class="btn btn-default submit" type="submit">{{ __('views.auth.login.action_0') }}</button>
                             <a class="reset_pass" href="{{ route('password.request') }}">
@@ -45,24 +48,7 @@
                         </div>
 
                         <div class="clearfix"></div>
-
-                        <div class="separator">
-                            <span>{{ __('views.auth.login.message_0') }}</span>
-                            <div>
-                                <a href="{{ route('social.redirect', ['google']) }}" class="btn btn-success btn-google-plus">
-                                    <i class="fa fa-google-plus"></i>
-                                    Google+
-                                </a>
-                                <a href="{{ route('social.redirect', ['facebook']) }}" class="btn btn-success btn-facebook">
-                                    <i class="fa fa-facebook"></i>
-                                    Facebook
-                                </a>
-                                <a href="{{ route('social.redirect', ['twitter']) }}" class="btn btn-success btn-twitter">
-                                    <i class="fa fa-twitter"></i>
-                                    Twitter
-                                </a>
-                            </div>
-                        </div>
+                        <br><br>
 
                         @if(config('auth.users.registration'))
                             <div class="separator">

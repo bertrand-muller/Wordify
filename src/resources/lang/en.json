@@ -104,7 +104,7 @@
   "views.welcome.login": "Log in",
   "views.welcome.logout": "Log out",
   "views.welcome.register": "Sign up",
-  "views.welcome.admin": "Dashboard",
+  "views.welcome.dashboards": "Dashboards",
   "views.welcome.member_area": "Member Area",
 
   "**************************** Admin dashboards *****************": "Admin dashboard i18n",
