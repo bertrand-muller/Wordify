@@ -45,15 +45,21 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::get('social/login/{provider}', 'SocialLoginController@login')->name('social.login');
 });
 
-/**
- * Backend routes
- */
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
 
-    // Dashboard
+// 1 - Dashboards
+Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'Dashboards'], function () {
+
+    // 2 - Dashboard
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
-    //Users
+
+    // 2 - Words
+    Route::group(['prefix' => 'words', 'as' => 'words.', 'namespace' => 'Words'], function() {
+        Route::get('management', 'WordsManagementController@index')->name('management');
+    });
+
+
+    // 2 - Users
     Route::get('users', 'UserController@index')->name('users');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
     Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');

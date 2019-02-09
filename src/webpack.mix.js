@@ -5,8 +5,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 var pathsToClean = [
     'public/assets/app/js',
     'public/assets/app/css',
-    'public/assets/admin/js',
-    'public/assets/admin/css',
+    'public/assets/dashboards/js',
+    'public/assets/dashboards/css',
     'public/assets/auth/css',
 ];
 
@@ -71,7 +71,7 @@ mix.styles([
 
 /*
  |--------------------------------------------------------------------------
- | Admin
+ | Dashboards
  |--------------------------------------------------------------------------
  |
  */
@@ -80,28 +80,28 @@ mix.scripts([
     'node_modules/bootstrap/dist/js/bootstrap.js',
     'node_modules/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js',
     'node_modules/gentelella/build/js/custom.js',
-], 'public/assets/admin/js/admin.js').version();
+], 'public/assets/dashboards/js/dashboards.js').version();
 
 mix.styles([
     'node_modules/bootstrap/dist/css/bootstrap.css',
     'node_modules/gentelella/vendors/animate.css/animate.css',
     'node_modules/gentelella/build/css/custom.css',
-], 'public/assets/admin/css/admin.css').version();
+], 'public/assets/dashboards/css/dashboards.css').version();
 
 
 mix.copy([
     'node_modules/gentelella/vendors/bootstrap/dist/fonts',
-], 'public/assets/admin/fonts');
+], 'public/assets/dashboards/fonts');
 
 
 mix.scripts([
     'node_modules/select2/dist/js/select2.full.js',
-    'resources/assets/admin/js/users/edit.js',
-], 'public/assets/admin/js/users/edit.js').version();
+    'resources/assets/dashboards/js/users/edit.js',
+], 'public/assets/dashboards/js/users/edit.js').version();
 
 mix.styles([
     'node_modules/select2/dist/css/select2.css',
-], 'public/assets/admin/css/users/edit.css').version();
+], 'public/assets/dashboards/css/users/edit.css').version();
 
 mix.scripts([
     'node_modules/gentelella/vendors/Flot/jquery.flot.js',
@@ -122,13 +122,13 @@ mix.scripts([
     'node_modules/gentelella/vendors/Chart.js/dist/Chart.js',
     'node_modules/jcarousel/dist/jquery.jcarousel.min.js',
 
-    'resources/assets/admin/js/dashboard.js',
-], 'public/assets/admin/js/dashboard.js').version();
+    'resources/assets/dashboards/js/dashboards.js',
+], 'public/assets/dashboards/js/dashboards.js').version();
 
 mix.styles([
     'node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css',
-    'resources/assets/admin/css/dashboard.css',
-], 'public/assets/admin/css/dashboard.css').version();
+    'resources/assets/dashboards/css/dashboards.css',
+], 'public/assets/dashboards/css/dashboards.css').version();
 
 
 /*

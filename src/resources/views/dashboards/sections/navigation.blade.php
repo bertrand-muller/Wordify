@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ route('admin.dashboard') }}" class="site_title">
+            <a href="{{ route('dashboards.dashboard') }}" class="site_title">
                 <span>{{ config('app.name') }}</span>
             </a>
         </div>
@@ -24,27 +24,27 @@
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <div class="menu_section">
-                <h3>{{ __('views.backend.section.navigation.sub_header_0') }}</h3>
+                <h3>{{ __('views.menu.words.title') }}</h3>
                 <ul class="nav side-menu">
                     <li>
-                        <a href="{{ route('admin.dashboard') }}">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            {{ __('views.backend.section.navigation.menu_0_1') }}
+                        <a href="{{ route('dashboards.words.management') }}">
+                            <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                            {{ __('views.dashboards.words.management.title') }}
                         </a>
                     </li>
                 </ul>
             </div>
-            <div class="menu_section">
+            <!--<div class="menu_section">
                 <h3>{{ __('views.backend.section.navigation.sub_header_1') }}</h3>
                 <ul class="nav side-menu">
                     <li>
-                        <a href="{{ route('admin.users') }}">
+                        <a href="{{ route('dashboards.users') }}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             {{ __('views.backend.section.navigation.menu_1_1') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.permissions') }}">
+                        <a href="{{ route('dashboards.permissions') }}">
                             <i class="fa fa-key" aria-hidden="true"></i>
                             {{ __('views.backend.section.navigation.menu_1_2') }}
                         </a>
@@ -86,7 +86,7 @@
                       <a href="https://photolancer.zone/?utm_source=Laravel_Boilerplate&utm_medium=github&utm_campaign=laravel_boilerplate&utm_content=credits" target="_blank" title="Individual digital content for your next campaign"><i class="fa fa-camera-retro" aria-hidden="true"></i>Photolancer Zone</a>
                   </li>
                 </ul>
-            </div>
+            </div>-->
         </div>
         <!-- /sidebar menu -->
     </div>

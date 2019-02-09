@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboards;
 
 use App\Models\Auth\User\User;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ class PermissionController
     public function index(Request $request)
     {
         $users = User::with(['roles', 'protectionValidation'])->sortable(['email' => 'asc'])->paginate();
-        return view('admin.permissions', ['users' => $users]);
+        return view('dashboards.permissions', ['users' => $users]);
     }
 
     public function repeat(User $user, Request $request)

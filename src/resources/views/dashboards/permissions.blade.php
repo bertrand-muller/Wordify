@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('dashboards.layouts.dashboards')
 
 @section('title', __('views.membership.title'))
 
@@ -26,7 +26,7 @@
                                 &nbsp;
                             </div>
                         @else
-                            <a title="Repeat validation" class="btn btn-default pull-right" href="{{ route('admin.permissions.repeat',$user) }}">
+                            <a title="Repeat validation" class="btn btn-default pull-right" href="{{ route('dashboards.permissions.repeat',$user) }}">
                                 <i class="fa fa-refresh" aria-hidden="true"></i>
                             </a>
                             @if($user->protectionValidation)
