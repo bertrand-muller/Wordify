@@ -86,6 +86,8 @@ mix.styles([
     'node_modules/bootstrap/dist/css/bootstrap.css',
     'node_modules/gentelella/vendors/animate.css/animate.css',
     'node_modules/gentelella/build/css/custom.css',
+    'node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css',
+    'resources/assets/dashboards/css/dashboards.css'
 ], 'public/assets/dashboards/css/dashboards.css').version();
 
 
@@ -124,11 +126,6 @@ mix.scripts([
 
     'resources/assets/dashboards/js/dashboards.js',
 ], 'public/assets/dashboards/js/dashboards.js').version();
-
-mix.styles([
-    'node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css',
-    'resources/assets/dashboards/css/dashboards.css',
-], 'public/assets/dashboards/css/dashboards.css').version();
 
 
 /*
