@@ -35,3 +35,7 @@ _ide_helper.php
 .phpstorm.meta.php
 *.sqlite
 .rocketeer/
+
+# Ignore uploads except default images
+public/uploads/words/*
+!public/uploads/words/word.png

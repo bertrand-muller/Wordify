@@ -21,10 +21,12 @@
     },
     "require": {
         "php": ">=7.0",
+        "ext-json": "*",
         "albertcht/invisible-recaptcha": "^1.4",
         "arcanedev/log-viewer": "~4.0",
         "creativeorange/gravatar": "~1.0",
         "davejamesmiller/laravel-breadcrumbs": "^3.0",
+        "intervention/image": "^2.4",
         "kyslik/column-sortable": "^5.4",
         "labs64/netlicensingclient-php": "^2.3",
         "laravel/framework": "5.5.*",

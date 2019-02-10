@@ -36,7 +36,6 @@ mix.webpackConfig({
  |--------------------------------------------------------------------------
  |
  */
-
 mix.scripts([
     'node_modules/jquery/dist/jquery.js',
     'node_modules/pace-progress/pace.js',
@@ -52,13 +51,13 @@ mix.copy([
     'node_modules/font-awesome/fonts/',
 ], 'public/assets/app/fonts');
 
+
 /*
  |--------------------------------------------------------------------------
  | Auth
  |--------------------------------------------------------------------------
  |
  */
-
 mix.styles('resources/assets/auth/css/login.css', 'public/assets/auth/css/login.css').version();
 mix.styles('resources/assets/auth/css/register.css', 'public/assets/auth/css/register.css').version();
 mix.styles('resources/assets/auth/css/passwords.css', 'public/assets/auth/css/passwords.css').version();
@@ -69,13 +68,13 @@ mix.styles([
     'node_modules/gentelella/build/css/custom.css',
 ], 'public/assets/auth/css/auth.css').version();
 
+
 /*
  |--------------------------------------------------------------------------
  | Dashboards
  |--------------------------------------------------------------------------
  |
  */
-
 mix.scripts([
     'node_modules/bootstrap/dist/js/bootstrap.js',
     'node_modules/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js',
@@ -130,7 +129,40 @@ mix.scripts([
 
 /*
  |--------------------------------------------------------------------------
- | Frontend
+ | Pnotify
  |--------------------------------------------------------------------------
  |
  */
+mix.styles([
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.css',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.buttons.css',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.mobile.css'
+], 'public/assets/dashboards/css/pnotify.css').version();
+
+mix.scripts([
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.animate.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.callbacks.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.buttons.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.desktop.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.history.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.mobile.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.reference.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.tooltip.js',
+    'node_modules/gentelella/vendors/pnotify/dist/pnotify.nonblock.js'
+], 'public/assets/dashboards/js/pnotify.js').version();
+
+
+/*
+ |--------------------------------------------------------------------------
+ | Words/Management
+ |--------------------------------------------------------------------------
+ |
+ */
+mix.styles([
+    'resources/assets/dashboards/css/words/words_management.css'
+], 'public/assets/dashboards/css/words_management.css').version();
+
+mix.scripts([
+    'resources/assets/dashboards/js/words/words_management.js'
+], 'public/assets/dashboards/js/words_management.js').version();

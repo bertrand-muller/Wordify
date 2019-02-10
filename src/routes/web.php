@@ -56,6 +56,7 @@ Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'D
     // 2 - Words
     Route::group(['prefix' => 'words', 'as' => 'words.', 'namespace' => 'Words'], function() {
         Route::get('management', 'WordsManagementController@index')->name('management');
+        Route::post('management/add/word', 'WordsManagementController@addWord')->name('management.add.word');
     });
 
 
