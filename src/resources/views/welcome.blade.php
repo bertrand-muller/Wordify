@@ -2,7 +2,7 @@
 
 @section('content')
     <img src="{{ asset(config('newlook.logos.notext')) }}" style="position: relative;"/>
-    <div class="title m-b-md" style="position: relative; width: 100%; left: 0; color: white;">
+    <div class="title m-b-md" style="position: relative; width: 100%; left: 0; color: white; font-weight: bold;">
         <b>{{ config('app.name') }}</b>
     </div>
     <br>

@@ -36,9 +36,9 @@
 @stop
 
 @section('styles')
-    {{ Html::style(mix('assets/admin/css/dashboards.css')) }}
+    {{ Html::style(mix('assets/dashboards/css/dashboards.css')) }}
 @endsection
 
 @section('scripts')
-    {{ Html::script(mix('assets/admin/js/dashboards.js')) }}
+    {{ Html::script(mix('assets/dashboards/js/dashboards.js')) }}
 @endsection

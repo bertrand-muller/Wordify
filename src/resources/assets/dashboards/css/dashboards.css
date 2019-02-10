@@ -115,3 +115,7 @@
     opacity: .5;
     cursor: default;
 }
+
+h2 {
+    font-size: 20px !important;
+}
