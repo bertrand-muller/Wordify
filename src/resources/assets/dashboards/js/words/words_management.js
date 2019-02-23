@@ -44,6 +44,9 @@ $(function(ready) {
     let updatePicture = $('#updatePicture');
     let updateWordButton = $('#updateWordButton');
 
+    let deleteChooseWord = $('#deleteChooseWord');
+    let deleteWordButton = $('#deleteWordButton');
+
 
     // Function used to add a new word
     let addWord = function(french, english, frenchDefinition, englishDefinition, picture) {
@@ -73,7 +76,10 @@ $(function(ready) {
             success: function(data) {
 
                 // Add word in dropdown for 'update' form
-                updateChooseWord.append(new Option(data.english + '(' + data.french + ')', data.id));
+                updateChooseWord.append(new Option(data.english + ' (' + data.french + ')', data.id));
+
+                // Add word in dropdown for 'delete' form
+                deleteChooseWord.append(new Option(data.english + ' (' + data.french + ')', data.id));
 
                 // Display success notification.
                 displayNotification('The new word has been successfully added:<br> "' + data.english + '" (E) - "' + data.french + '" (F)', 'success');
@@ -128,6 +134,12 @@ $(function(ready) {
                 updateFrenchDefinition.val(data.frenchDefinition);
                 updateEnglishDefinition.val(data.englishDefinition);
 
+                // Update the label for option in 'update' form.
+                updateChooseWord.find('option[value="' + data.id + '"]').text(data.english + ' (' + data.french + ')');
+
+                // Update label for option in 'delete' form.
+                deleteChooseWord.find('option[value="' + data.id + '"]').text(data.english + ' (' + data.french + ')');
+
                 // Display success notification.
                 displayNotification('The word "' + data.english + '" ("' + data.french + ') has been successfully updated', 'success');
 
@@ -144,6 +156,50 @@ $(function(ready) {
                 updateWordButton.attr('disabled', false);
             }
         });
+    };
+
+
+    // Function used to delete a word.
+    let deleteWord = function(idWord) {
+
+        // Parse id to integer
+        let id = parseInt(idWord);
+
+        $.ajax({
+            type: 'POST',
+            url: '/dashboards/words/management/delete/word',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                idWord: id
+            },
+            dataType: 'json',
+            success: function(data) {
+
+                // Delete from dropdown in 'update' form.
+                updateChooseWord.find('option[value="' + data.id + '"]').remove();
+
+                // Delete from dropdown in 'delete' form.
+                deleteChooseWord.find('option[value="' + data.id + '"]').remove();
+
+                // Display success notification.
+                displayNotification('The word "' + data.english + '" ("' + data.french + ') has been successfully deleted', 'success');
+
+                // Enable the button.
+                deleteWordButton.attr('disabled', false);
+
+            },
+            error: function(html, status) {
+
+                // Display error notification.
+                displayNotification($.parseJSON(html.responseText).error, 'error');
+
+                // Enable the button.
+                deleteWordButton.attr('disabled', false);
+            }
+        });
+
     };
 
 
@@ -207,6 +263,13 @@ $(function(ready) {
         let englishDefinition = updateEnglishDefinition.val();
         let updatePictureFile = updatePicture[0].files[0];
         updateWord(idWord, french, english, frenchDefinition, englishDefinition, updatePictureFile);
+    });
+
+
+    // Detect when user wants to delete a word.
+    deleteWordButton.on('click', function() {
+        let idWord = deleteChooseWord.val();
+        deleteWord(idWord);
     });
 
 
