@@ -18,7 +18,7 @@ class CreateWordsTable extends Migration {
             $table->string('english');
             $table->string('frenchDefinition');
             $table->string('englishDefinition');
-            $table->string('picture');
+            $table->string('picture')->default('word.png');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 
