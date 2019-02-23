@@ -53,6 +53,14 @@ class WordsManagementController extends Controller {
     }
 
 
+    /**
+     * Check if a word is valid before adding it to the database
+     * @param $french Word in french
+     * @param $english Word in english
+     * @param $frenchDefinition Word definition in french
+     * @param $englishDefinition Word definition in english
+     * @return Response HTTP response
+     */
     private function checkWordValidity($french, $english, $frenchDefinition, $englishDefinition) {
 
         // Is the french word empty ?

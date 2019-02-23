@@ -8,7 +8,7 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Add new word</h2>
+                    <h2>Add a new word</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link">
@@ -31,7 +31,7 @@
                                 English <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="newEnglishWord" required="required" class="form-control col-md-7 col-xs-12">
+                                <input id="newEnglishWord" class="form-control col-md-7 col-xs-12" type="text" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -39,7 +39,7 @@
                                 French <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="newFrenchWord" name="newFrenchWord" required="required" class="form-control col-md-7 col-xs-12">
+                                <input id="newFrenchWord" class="form-control col-md-7 col-xs-12" type="text" name="newFrenchWord" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -47,7 +47,7 @@
                                 English definition <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="newEnglishDefinition" name="middle-name" class="form-control col-md-7 col-xs-12">
+                                <textarea id="newEnglishDefinition" class="form-control" type="text" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -55,7 +55,7 @@
                                 French definition <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="newFrenchDefinition" name="newFrenchDefinition" class="form-control col-md-7 col-xs-12">
+                                <textarea id="newFrenchDefinition" class="form-control" type="text" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -63,7 +63,7 @@
                                 Picture <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="newPicture" name="newPicture" style="padding-bottom: 40px;" type="file" accept=".jpeg,.png,.jpg,.JPG,.PNG" class="form-control col-md-7 col-xs-12">
+                                <input id="newPicture" class="form-control col-md-7 col-xs-12" name="newPicture" style="padding-bottom: 40px;" type="file" accept=".jpeg,.png,.jpg,.JPG,.PNG">
                             </div>
                         </div>
                         <div class="ln_solid"></div>
