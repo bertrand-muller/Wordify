@@ -58,6 +58,7 @@ Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'D
         Route::get('management', 'WordsManagementController@index')->name('management');
         Route::post('management/add/word', 'WordsManagementController@addWord')->name('management.add.word');
         Route::post('management/get/word', 'WordsManagementController@getWord')->name('management.get.word');
+        Route::post('management/delete/word', 'WordsManagementController@deleteWord')->name('management.delete.word');
         Route::post('management/update/word', 'WordsManagementController@updateWord')->name('management.update.word');
     });
 

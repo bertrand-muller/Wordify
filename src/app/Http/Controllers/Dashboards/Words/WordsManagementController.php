@@ -249,6 +249,7 @@ class WordsManagementController extends Controller {
             $word->save();
 
             return json_encode([
+                'id' => $word->id,
                 'french' => $word->french,
                 'english' => $word->english,
                 'frenchDefinition' => $word->frenchDefinition,
@@ -262,6 +263,47 @@ class WordsManagementController extends Controller {
 
         // Return error
         return $response;
+
+    }
+
+
+    /**
+     * Delete a word according to a word id
+     * @param Request $request
+     * @return false|Response|string
+     */
+    public function deleteWord(Request $request) {
+
+        // Get word id.
+        $idWord = $request->input('idWord');
+
+
+        try {
+
+            $word = Word::find($idWord);
+
+            // Delete picture on the server
+            unlink(public_path('uploads/words/') . $word->picture);
+
+            // Delete word
+            $id = $word->id;
+            $french = $word->french;
+            $english = $word->english;
+            $frenchDefinition = $word->frenchDefinition;
+            $englishDefinition = $word->englishDefinition;
+            $word->delete();
+
+            return json_encode([
+                'id' => $id,
+                'french' => $french,
+                'english' => $english,
+                'frenchDefinition' => $frenchDefinition,
+                'englishDefinition' => $englishDefinition
+            ]);
+
+        } catch(Exception $e) {
+            return Response::create(['error' => 'An error occured while deleting your word. Please try again.'], 400);
+        }
 
     }
 
