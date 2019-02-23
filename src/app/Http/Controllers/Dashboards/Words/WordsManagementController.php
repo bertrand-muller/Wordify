@@ -25,7 +25,48 @@ class WordsManagementController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('dashboards.words.words_management');
+        return view('dashboards.words.words_management', [
+            'words' => $this->getWords()
+        ]);
+    }
+
+
+    /**
+     * Get all words within the database
+     * @return Word[]|\Illuminate\Database\Eloquent\Collection Words
+     */
+    private function getWords() {
+        return Word::all();
+    }
+
+
+    /**
+     * Get a word from the database according to a specified id
+     * @param Request $request
+     * @return false|Response|string
+     */
+    public function getWord(Request $request) {
+
+        // Get word id by sanitizing it.
+        $idWord = filter_var(intval($request->input('idWord')), FILTER_SANITIZE_NUMBER_INT);
+
+
+        try {
+
+            $word = Word::find($idWord);
+
+            return json_encode([
+                'french' => $word->french,
+                'english' => $word->english,
+                'frenchDefinition' => $word->frenchDefinition,
+                'englishDefinition' => $word->englishDefinition,
+                'picture' => $word->picture
+            ]);
+
+        } catch(Exception $e) {
+            return Response::create(['error' => 'An error occured while getting the word.'], 400);
+        }
+
     }
 
 
@@ -54,7 +95,7 @@ class WordsManagementController extends Controller {
 
 
     /**
-     * Check if a word is valid before adding it to the database
+     * Check if a word is valid before adding/updating it to the database
      * @param $french Word in french
      * @param $english Word in english
      * @param $frenchDefinition Word definition in french
@@ -138,6 +179,7 @@ class WordsManagementController extends Controller {
                 $word->save();
 
                 return json_encode([
+                    'id' => $word->id,
                     'french' => $word->french,
                     'english' => $word->english,
                     'frenchDefinition' => $word->frenchDefinition,
@@ -145,12 +187,80 @@ class WordsManagementController extends Controller {
                 ]);
 
             } catch (Exception $e) {
-                return Response::create(['error' => 'An error occured while saving your word. Please try again.' . $e], 400);
+                return Response::create(['error' => 'An error occured while saving your word. Please try again.'], 400);
             }
 
         }
 
         // Return error.
+        return $response;
+
+    }
+
+
+    /**
+     * Update a word according to parameters specified by the user
+     * @param Request $request
+     * @return false|Response|string
+     */
+    public function updateWord(Request $request) {
+
+        // Get data by sanitizing them
+        $idWord = $request->input('idWord');
+        $french = filter_var($request->input('french'), FILTER_SANITIZE_STRING);
+        $english = filter_var($request->input('english'), FILTER_SANITIZE_STRING);
+        $frenchDefinition = filter_var($request->input('frenchDefinition'), FILTER_SANITIZE_STRING);
+        $englishDefinition = filter_var($request->input('englishDefinition'), FILTER_SANITIZE_STRING);
+
+
+        try {
+
+            $word = Word::find($idWord);
+            $word->french = $french;
+            $word->english = $english;
+            $word->frenchDefinition = $frenchDefinition;
+            $word->englishDefinition = $englishDefinition;
+
+            // Check if request contains a picture
+            if ($request->hasFile('picture')) {
+
+                $picture = $request->file('picture');
+                $extension = $picture->getClientOriginalExtension();
+
+                // Verify extension.
+                if (!in_array($extension, ['jpeg', 'jpg', 'JPG', 'PNG', 'png'])) {
+                    return Response::create(['error' => 'Only the following formats are accepted to upload a picture: ".jpeg", ".jpg" ou ".png"'], 400);
+                }
+
+                // Verify size is less than 4Mo (4194304 octets).
+                if ($picture->getClientSize() > 4194304) {
+                    return Response::create(['error' => 'The picture is too big. It should be less than 4Mo.'], 400);
+                }
+
+                $filename = uniqid() . time() . '.' . $extension;
+                Image::make($picture)->resize(800, 800)->save(public_path('/uploads/words/' . $filename));
+
+                // Remove previous file on server and update filepath
+                unlink(public_path('uploads/words/') . $word->picture);
+                $word->picture = $filename;
+
+            }
+
+            $word->save();
+
+            return json_encode([
+                'french' => $word->french,
+                'english' => $word->english,
+                'frenchDefinition' => $word->frenchDefinition,
+                'englishDefinition' => $word->englishDefinition
+            ]);
+
+        } catch(Exception $e) {
+            return Response::create(['error' => 'An error occured while updating your word. Please try again.'], 400);
+        }
+
+
+        // Return error
         return $response;
 
     }
