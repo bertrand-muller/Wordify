@@ -36,6 +36,7 @@ $(function(ready) {
     let newPicture = $('#newPicture');
     let newWordAddButton = $('#newWordButton');
 
+    let updateAvatar = $('#updateAvatar');
     let updateChooseWord = $('#updateChooseWord');
     let updateFrenchWord = $('#updateFrenchWord');
     let updateEnglishWord = $('#updateEnglishWord');
@@ -44,6 +45,7 @@ $(function(ready) {
     let updatePicture = $('#updatePicture');
     let updateWordButton = $('#updateWordButton');
 
+    let deleteAvatar = $('#deleteAvatar');
     let deleteChooseWord = $('#deleteChooseWord');
     let deleteWordButton = $('#deleteWordButton');
 
@@ -128,6 +130,11 @@ $(function(ready) {
             dataType: 'json',
             success: function(data) {
 
+                // Display default avatar.
+                console.log('ok');
+                console.log(data.picture);
+                updateAvatar.attr('src', '/uploads/words/' + data.picture);
+
                 // Display default values in inputs.
                 updateEnglishWord.val(data.english);
                 updateFrenchWord.val(data.french);
@@ -183,6 +190,9 @@ $(function(ready) {
                 // Delete from dropdown in 'delete' form.
                 deleteChooseWord.find('option[value="' + data.id + '"]').remove();
 
+                // Load the image with the new selected value.
+                populateDeleteForm(deleteChooseWord.val());
+
                 // Display success notification.
                 displayNotification('The word "' + data.english + '" ("' + data.french + ') has been successfully deleted', 'success');
 
@@ -221,12 +231,43 @@ $(function(ready) {
             dataType: 'json',
             success: function(data) {
 
+                // Display default avatar.
+                updateAvatar.attr('src', '/uploads/words/' + data.picture);
+
                 // Display default values in inputs.
                 updateEnglishWord.val(data.english);
                 updateFrenchWord.val(data.french);
                 updateFrenchDefinition.val(data.frenchDefinition);
                 updateEnglishDefinition.val(data.englishDefinition);
 
+            },
+            error: function(html, status) {
+                // Display error notification.
+                displayNotification($.parseJSON(html.responseText).error, 'error');
+            }
+        });
+    };
+
+
+    // Function used to populate 'delete' form according to the word chosen.
+    let populateDeleteForm = function(idWord) {
+
+        // Force id to be integer
+        let id = parseInt(idWord);
+
+        $.ajax({
+            type: 'POST',
+            url: '/dashboards/words/management/get/word',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                idWord: id
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Display default avatar.
+                deleteAvatar.attr('src', '/uploads/words/' + data.picture);
             },
             error: function(html, status) {
                 // Display error notification.
@@ -266,6 +307,13 @@ $(function(ready) {
     });
 
 
+    // Detect when user chooses a word to delete.
+    deleteChooseWord.on('change', function () {
+        let idWord = deleteChooseWord.val();
+        populateDeleteForm(idWord);
+    });
+
+
     // Detect when user wants to delete a word.
     deleteWordButton.on('click', function() {
         let idWord = deleteChooseWord.val();
@@ -275,5 +323,9 @@ $(function(ready) {
 
     // Populate update form.
     populateUpdateForm(updateChooseWord.val());
+
+
+    // Populate delete form.
+    populateDeleteForm(deleteChooseWord.val());
 
 });
