@@ -253,16 +253,13 @@ class WordsManagementController extends Controller {
                 'french' => $word->french,
                 'english' => $word->english,
                 'frenchDefinition' => $word->frenchDefinition,
-                'englishDefinition' => $word->englishDefinition
+                'englishDefinition' => $word->englishDefinition,
+                'picture' => $word->picture
             ]);
 
         } catch(Exception $e) {
             return Response::create(['error' => 'An error occured while updating your word. Please try again.'], 400);
         }
-
-
-        // Return error
-        return $response;
 
     }
 

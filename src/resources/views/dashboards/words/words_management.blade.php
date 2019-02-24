@@ -98,6 +98,11 @@
                     <br>
                     <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
                         <div class="form-group">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <img id="updateAvatar" src="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
                                 Word <span class="required">*</span>
                             </label>
@@ -180,6 +185,11 @@
                 <div class="x_content">
                     <br>
                     <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                        <div class="form-group">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <img id="deleteAvatar" src="" />
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
                                 Word <span class="required">*</span>

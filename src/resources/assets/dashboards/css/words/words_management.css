@@ -1,3 +1,9 @@
 .newWordButtons {
     text-align: center;
 }
+
+#updateAvatar, #deleteAvatar {
+    max-width: 130px;
+    margin: auto;
+    display: block;
+}
