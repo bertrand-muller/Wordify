@@ -77,17 +77,23 @@ $(function(ready) {
             dataType: 'json',
             success: function(data) {
 
-                // Add word in dropdown for 'update' form
-                updateChooseWord.append(new Option(data.english + ' (' + data.french + ')', data.id));
+                if(numberOfWordsOnLoad > 0) {
 
-                // Add word in dropdown for 'delete' form
-                deleteChooseWord.append(new Option(data.english + ' (' + data.french + ')', data.id));
+                    // Add word in dropdown for 'update' form
+                    updateChooseWord.append(new Option(data.english + ' (' + data.french + ')', data.id));
 
-                // Display success notification.
-                displayNotification('The new word has been successfully added:<br> "' + data.english + '" (E) - "' + data.french + '" (F)', 'success');
+                    // Add word in dropdown for 'delete' form
+                    deleteChooseWord.append(new Option(data.english + ' (' + data.french + ')', data.id));
 
-                // Enable the button.
-                newWordAddButton.attr('disabled', false);
+                    // Display success notification.
+                    displayNotification('The new word has been successfully added:<br> "' + data.english + '" (E) - "' + data.french + '" (F)', 'success');
+
+                    // Enable the button.
+                    newWordAddButton.attr('disabled', false);
+
+                } else {
+                    location.reload();
+                }
 
             },
             error: function(html, status) {
@@ -322,10 +328,14 @@ $(function(ready) {
 
 
     // Populate update form.
-    populateUpdateForm(updateChooseWord.val());
+    if(numberOfWordsOnLoad > 0) {
+        populateUpdateForm(updateChooseWord.val());
+    }
 
 
     // Populate delete form.
-    populateDeleteForm(deleteChooseWord.val());
+    if(numberOfWordsOnLoad > 0) {
+        populateDeleteForm(deleteChooseWord.val());
+    }
 
 });

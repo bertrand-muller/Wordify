@@ -96,71 +96,80 @@
                 </div>
                 <div class="x_content">
                     <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-                        <div class="form-group">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <img id="updateAvatar" src="" />
+                    @if(count($words) > 0)
+                        <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <img id="updateAvatar" src="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
+                                    Word <span class="required">*</span>
+                                </label>
+                                <div class="col-md-7 col-sm-7 col-xs-12">
+                                    <select id="updateChooseWord" class="form-control col-md-7 col-xs-12" required="required">
+                                        @foreach($words as $word)
+                                            <option value="{{ $word->id }}">{{ $word->english }} ({{ $word->french }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
+                                    English <span class="required">*</span>
+                                </label>
+                                <div class="col-md-7 col-sm-7 col-xs-12">
+                                    <input id="updateEnglishWord" class="form-control col-md-7 col-xs-12" type="text" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newFrenchWord">
+                                    French <span class="required">*</span>
+                                </label>
+                                <div class="col-md-7 col-sm-7 col-xs-12">
+                                    <input id="updateFrenchWord" class="form-control col-md-7 col-xs-12" type="text" name="newFrenchWord" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="newEnglishDefinition">
+                                    English definition <span class="required">*</span>
+                                </label>
+                                <div class="col-md-7 col-sm-7 col-xs-12">
+                                    <textarea id="updateEnglishDefinition" class="form-control" type="text" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 words_col-xs-12" for="newFrenchDefinition">
+                                    French definition <span class="required">*</span>
+                                </label>
+                                <div class="col-md-7 col-sm-7 col-xs-12">
+                                    <textarea id="updateFrenchDefinition" class="form-control" type="text" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newPicture">
+                                    Picture <span class="required">*</span>
+                                </label>
+                                <div class="col-md-7 col-sm-7 col-xs-12">
+                                    <input id="updatePicture" class="form-control col-md-7 col-xs-12" name="newPicture" style="padding-bottom: 40px;" type="file" accept=".jpeg,.png,.jpg,.JPG,.PNG">
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 newWordButtons">
+                                    <button id="updateWordButton" class="btn btn-success" type="button">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    @else
+                        <div class="bs-example">
+                            <div class="jumbotron">
+                                <h1>:)</h1>
+                                <p>Aucun mot n'a été défini pour le moment.</p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
-                                Word <span class="required">*</span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                <select id="updateChooseWord" class="form-control col-md-7 col-xs-12" required="required">
-                                    @foreach($words as $word)
-                                        <option value="{{ $word->id }}">{{ $word->english }} ({{ $word->french }})</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
-                                English <span class="required">*</span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                <input id="updateEnglishWord" class="form-control col-md-7 col-xs-12" type="text" required="required">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newFrenchWord">
-                                French <span class="required">*</span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                <input id="updateFrenchWord" class="form-control col-md-7 col-xs-12" type="text" name="newFrenchWord" required="required">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="newEnglishDefinition">
-                                English definition <span class="required">*</span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                <textarea id="updateEnglishDefinition" class="form-control" type="text" rows="5"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 words_col-xs-12" for="newFrenchDefinition">
-                                French definition <span class="required">*</span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                <textarea id="updateFrenchDefinition" class="form-control" type="text" rows="5"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newPicture">
-                                Picture <span class="required">*</span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                <input id="updatePicture" class="form-control col-md-7 col-xs-12" name="newPicture" style="padding-bottom: 40px;" type="file" accept=".jpeg,.png,.jpg,.JPG,.PNG">
-                            </div>
-                        </div>
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 newWordButtons">
-                                <button id="updateWordButton" class="btn btn-success" type="button">Update</button>
-                            </div>
-                        </div>
-                    </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -184,36 +193,49 @@
                 </div>
                 <div class="x_content">
                     <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-                        <div class="form-group">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <img id="deleteAvatar" src="" />
+                    @if(count($words) > 0)
+                        <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <img id="deleteAvatar" src="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
+                                    Word <span class="required">*</span>
+                                </label>
+                                <div class="col-md-7 col-sm-7 col-xs-12">
+                                    <select id="deleteChooseWord" class="form-control col-md-7 col-xs-12" required="required">
+                                        @foreach($words as $word)
+                                            <option value="{{ $word->id }}">{{ $word->english }} ({{ $word->french }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 newWordButtons">
+                                    <button id="deleteWordButton" class="btn btn-danger" type="button">Delete</button>
+                                </div>
+                            </div>
+                        </form>
+                    @else
+                        <div class="bs-example">
+                            <div class="jumbotron">
+                                <h1>:)</h1>
+                                <p>Aucun mot n'a été défini pour le moment.</p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newEnglishWord">
-                                Word <span class="required">*</span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                <select id="deleteChooseWord" class="form-control col-md-7 col-xs-12" required="required">
-                                    @foreach($words as $word)
-                                        <option value="{{ $word->id }}">{{ $word->english }} ({{ $word->french }})</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 newWordButtons">
-                                <button id="deleteWordButton" class="btn btn-danger" type="button">Delete</button>
-                            </div>
-                        </div>
-                    </form>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@javascript([
+    'numberOfWordsOnLoad' => count($words)
+])
 
 @section('scripts')
     @parent
