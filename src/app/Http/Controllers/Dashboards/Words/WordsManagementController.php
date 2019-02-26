@@ -7,6 +7,7 @@ use App\Models\Words\Word;
 use \Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
 class WordsManagementController extends Controller {
@@ -77,7 +78,7 @@ class WordsManagementController extends Controller {
      */
     private function checkFrenchWordAlreadyExists($french) {
         return (Word::where([
-            ['french', '=', $french]
+            ['french', '=', utf8_encode($french)]
         ])->count() > 0);
     }
 
@@ -89,7 +90,7 @@ class WordsManagementController extends Controller {
      */
     private function checkEnglishWordAlreadyExists($english) {
         return (Word::where([
-            ['english', '=', $english]
+            ['english', '=', utf8_encode($english)]
         ])->count() > 0);
     }
 
@@ -279,8 +280,10 @@ class WordsManagementController extends Controller {
 
             $word = Word::find($idWord);
 
-            // Delete picture on the server
-            unlink(public_path('uploads/words/') . $word->picture);
+            // Delete picture on the server if it is not the default one
+            if($word->picture != 'word.png') {
+                unlink(public_path('uploads/words/') . $word->picture);
+            }
 
             // Delete word
             $id = $word->id;
@@ -304,4 +307,83 @@ class WordsManagementController extends Controller {
 
     }
 
+
+    /**
+     * Function used to import words from a CSV file.
+     * @param Request $request
+     * @return false|Response|string
+     */
+    public function importWords(Request $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            // Check if a CSV file has been uploaded
+            if ($request->hasFile('csvFile')) {
+                $fileinfo = $request->file('csvFile');
+
+                // Check if file is readable
+                if ($fileinfo->isReadable()) {
+                    $file = $fileinfo->openFile('r');
+                    $i = 1;
+
+                    // Loop over rows
+                    while (!$file->eof()) {
+                        $row = $file->fgetcsv(';');
+                        $numberOfCells = count($row);
+
+                        // Create a new word if there are 4 cells filled
+                        if ($numberOfCells == 4) {
+
+                            // Do all verifications and add the word.
+                            $english = $row[0];
+                            $french = $row[1];
+                            $englishDefinition = $row[2];
+                            $frenchDefinition = $row[3];
+
+                            $response = $this->checkWordValidity($french, $english, $englishDefinition, $frenchDefinition);
+                            if ($response->status() == 200) {
+                                $word = new Word();
+                                $word->english = utf8_encode($english);
+                                $word->french = utf8_encode($french);
+                                $word->englishDefinition = utf8_encode($englishDefinition);
+                                $word->frenchDefinition = utf8_encode($frenchDefinition);
+                                $word->picture = 'word.png';
+                                $word->user_id = auth()->user()->id;
+                                $word->save();
+                            } else {
+                                return $response;
+                            }
+
+                        } else if ($row[0] != NULL) {
+                            DB::rollback();
+                            return Response::create(['error' => 'The line n°' . $i . ' should have four cells filled. Please provide a valid CSV file.'], 400);
+                        }
+
+                        $i++;
+                    }
+                } else {
+                    DB::rollback();
+                    return Response::create(['error' => 'The uploaded CSV file is not readable. Please provide a valid CSV file.'], 400);
+                }
+
+            } else {
+                DB::rollback();
+                return Response::create(['error' => 'No CSV file has been uploaded. Please provide a valid CSV file.'], 400);
+            }
+
+            DB::commit();
+
+            return json_encode([
+                'valid' => 'ok'
+            ]);
+
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollback();
+            return Response::create(['error' => 'An error occured while importing your words. None of the words have been imported. Please try again by checking file validity.'], 400);
+        }
+    }
 }
