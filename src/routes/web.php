@@ -60,6 +60,7 @@ Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'D
         Route::post('management/get/word', 'WordsManagementController@getWord')->name('management.get.word');
         Route::post('management/delete/word', 'WordsManagementController@deleteWord')->name('management.delete.word');
         Route::post('management/update/word', 'WordsManagementController@updateWord')->name('management.update.word');
+        Route::post('management/import/words', 'WordsManagementController@importWords')->name('management.import.words');
     });
 
 

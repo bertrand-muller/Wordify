@@ -176,6 +176,45 @@
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
+                    <h2>Import words from CSV</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="close-link">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+                    <i class="fa fa-download"></i>
+                    <br><br>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="importFile">
+                                File <span class="required">*</span>
+                            </label>
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                <input id="importFile" class="form-control col-md-7 col-xs-12" name="importFile" style="padding-bottom: 40px;" type="file" accept=".csv">
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 newWordButtons">
+                                <button id="importWordsButton" class="btn btn-success" type="button">Import</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
                     <h2>Delete a word</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>

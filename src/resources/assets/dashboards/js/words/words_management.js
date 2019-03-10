@@ -45,6 +45,9 @@ $(function(ready) {
     let updatePicture = $('#updatePicture');
     let updateWordButton = $('#updateWordButton');
 
+    let importWordsButton = $('#importWordsButton');
+    let importFile = $('#importFile');
+
     let deleteAvatar = $('#deleteAvatar');
     let deleteChooseWord = $('#deleteChooseWord');
     let deleteWordButton = $('#deleteWordButton');
@@ -137,8 +140,6 @@ $(function(ready) {
             success: function(data) {
 
                 // Display default avatar.
-                console.log('ok');
-                console.log(data.picture);
                 updateAvatar.attr('src', '/uploads/words/' + data.picture);
 
                 // Display default values in inputs.
@@ -167,6 +168,42 @@ $(function(ready) {
 
                 // Enable the button.
                 updateWordButton.attr('disabled', false);
+            }
+        });
+    };
+
+
+    // Function used to import multiple words thanks to a CSV file.
+    let importWords = function(csvFile) {
+
+        // Disable corresponding button.
+        importWordsButton.attr('disabled', true);
+
+        // Create form data.
+        let formData = new FormData();
+        formData.append('csvFile', csvFile);
+
+        $.ajax({
+            type: 'POST',
+            url: '/dashboards/words/management/import/words',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                location.reload();
+            },
+            error: function(html, status) {
+
+                // Display error notification.
+                displayNotification($.parseJSON(html.responseText).error, 'error');
+
+                // Enable the button.
+                importWordsButton.attr('disabled', false);
             }
         });
     };
@@ -324,6 +361,13 @@ $(function(ready) {
     deleteWordButton.on('click', function() {
         let idWord = deleteChooseWord.val();
         deleteWord(idWord);
+    });
+
+
+    // Detect when user wanted to import multiple words thanks to a CSV file.
+    importWordsButton.on('click', function() {
+        let csvFile = importFile[0].files[0];
+        importWords(csvFile);
     });
 
 

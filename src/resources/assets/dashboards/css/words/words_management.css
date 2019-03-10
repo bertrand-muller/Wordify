@@ -7,3 +7,10 @@
     margin: auto;
     display: block;
 }
+
+.fa.fa-download {
+    font-size: 4em;
+    color: #1B6D85;
+    text-align: center;
+    width: 100%;
+}
