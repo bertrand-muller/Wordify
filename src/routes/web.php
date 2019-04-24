@@ -50,7 +50,12 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'Dashboards'], function () {
 
     // 2 - Dashboard
-    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('/', 'NesCssController@index')->name('dashboard');
+
+    Route::get('nes', 'NesCssController@index')->name('nes');
+
+
+    Route::get('event', 'NesCssController@event')->name('nes.event');
 
 
     // 2 - Words
@@ -75,6 +80,8 @@ Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'D
     Route::get('dashboard/log-chart', 'DashboardController@getLogChartData')->name('dashboard.log.chart');
     Route::get('dashboard/registration-chart', 'DashboardController@getRegistrationChartData')->name('dashboard.registration.chart');
 });
+
+
 
 
 Route::get('/', 'HomeController@index');

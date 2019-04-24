@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Events\Auth;
+namespace App\Events;
 
-use App\Models\Auth\User\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,35 +10,29 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SocialLogin
+class PostCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
-    public $provider;
-    public $socialite;
+    public $params;
 
     /**
      * Create a new event instance.
      *
-     * @param User $user
-     * @param $provider
-     * @param $providerUser
+     * @return void
      */
-    public function __construct(User $user, $provider, $socialite)
+    public function __construct(array $params)
     {
-        $this->user = $user;
-        $this->provider = $provider;
-        $this->socialite = $socialite;
+        $this->params = $params;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel|array
+     * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('social-login.' . $this->user->id);
+        return new Channel('chan-demo');
     }
 }

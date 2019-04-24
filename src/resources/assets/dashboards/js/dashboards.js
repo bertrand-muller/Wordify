@@ -1,5 +1,4 @@
 (function ($) {
-
     //log chart
     var logActivity = {
         options: {

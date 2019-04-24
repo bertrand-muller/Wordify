@@ -42,6 +42,12 @@ mix.scripts([
 
 ], 'public/assets/app/js/app.js').version();
 
+
+mix.scripts([
+    'resources/assets/dashboards/js/socket.js',
+    'resources/assets/dashboards/js/echo.js',
+], 'public/assets/app/js/websocket.js').version();
+
 mix.styles([
     'node_modules/font-awesome/css/font-awesome.css',
     'node_modules/pace-progress/themes/blue/pace-theme-minimal.css',
@@ -166,3 +172,22 @@ mix.styles([
 mix.scripts([
     'resources/assets/dashboards/js/words/words_management.js'
 ], 'public/assets/dashboards/js/words_management.js').version();
+
+/*
+ |--------------------------------------------------------------------------
+ | Play_1
+ |--------------------------------------------------------------------------
+ |
+ */
+mix.scripts([
+    'resources/assets/dashboards/js/nes_play_1.js',
+], 'public/assets/dashboards/js/nes_play_1.js').version();
+
+/*
+ |----------------
+ | Nes.css
+ |---------------
+ */
+mix.styles([
+    'node_modules/nes.css/css/nes.css'
+], 'public/assets/css/nes.css').version();
