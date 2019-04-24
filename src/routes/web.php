@@ -46,16 +46,17 @@ Route::group(['namespace' => 'Auth'], function () {
 });
 
 
+Route::get('play/{gameId}', 'NesCssController@index')->name('game.play');
+
+
+Route::post('chat/{gameId}', 'NesCssController@sendChatMessage')->name('chat.send');
+Route::get('event', 'NesCssController@event')->name('event.send');
+
 // 1 - Dashboards
 Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'Dashboards'], function () {
 
     // 2 - Dashboard
     Route::get('/', 'NesCssController@index')->name('dashboard');
-
-    Route::get('nes', 'NesCssController@index')->name('nes');
-
-
-    Route::get('event', 'NesCssController@event')->name('nes.event');
 
 
     // 2 - Words

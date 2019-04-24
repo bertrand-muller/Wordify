@@ -6,11 +6,8 @@
     <div class="container body">
         <div class="main_container">
             @section('header')
-                @include('dashboards.sections.navigation')
                 @include('dashboards.sections.header')
             @show
-
-            @yield('left-sidebar')
 
             <div class="right_col" role="main">
                 <div class="page-title">

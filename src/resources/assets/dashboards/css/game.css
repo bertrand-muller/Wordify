@@ -1,0 +1,84 @@
+.message-list{
+    font-size: 10px;
+}
+
+.toBottom{
+    vertical-align: middle;
+}
+
+.tableCell{
+    display: flex;
+}
+
+.tableDisp{
+    display: flex;
+}
+
+img.pixelated{
+    image-rendering: pixelated;
+}
+
+.chat{
+    margin: 1em 1em 0 1em;
+    position: fixed;
+    bottom: 0px;
+    border-bottom: solid 0px black;
+    max-height: 95%;
+}
+
+#chat-messages{
+    overflow-y: scroll;
+}
+
+.message i{
+    font-style: normal;
+    text-align: center;
+    color: grey;
+    font-size: 6px;
+    width: 32px;
+    overflow-x: hidden;
+}
+
+.nes-balloon{
+    min-width: 50px;
+}
+
+.nes-balloon p{
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+.noMargin{margin: 0;}
+.noPadding{padding: 0;}
+.smallMargin{margin: 3px;}
+.smallPadding{padding: 3px;}
+.message-list > .message.-left i.smallMargin{margin-right: 3px;}
+.message-list > .message.-right i.smallMargin{margin-left: 3px;}
+.message-list > .message.smallMargin{margin-top: 3px;}
+
+.smallMargin{
+    margin: 3px !important;
+}
+
+.nes-container.with-title > .title {
+    margin-top: -0.9rem !important;
+}
+
+#chat-input{
+    font-size: 10px;
+    padding: 3px;
+}
+
+input.nes-input.btnInInput {
+    padding-right: 30px !important;
+}
+
+a.btnInInput {
+    margin-left: -30px;
+    width: 30px;
+}
+
+.largeText{
+    font-size: 1em;
+    font-weight: bold;
+}

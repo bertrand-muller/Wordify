@@ -92,7 +92,7 @@ mix.styles([
     'node_modules/gentelella/vendors/animate.css/animate.css',
     'node_modules/gentelella/build/css/custom.css',
     'node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css',
-    'resources/assets/dashboards/css/dashboards.css'
+   // 'resources/assets/dashboards/css/dashboards.css'
 ], 'public/assets/dashboards/css/dashboards.css').version();
 
 
@@ -180,8 +180,8 @@ mix.scripts([
  |
  */
 mix.scripts([
-    'resources/assets/dashboards/js/nes_play_1.js',
-], 'public/assets/dashboards/js/nes_play_1.js').version();
+    'resources/assets/dashboards/js/game.js',
+], 'public/assets/dashboards/js/game.js').version();
 
 /*
  |----------------
@@ -189,5 +189,8 @@ mix.scripts([
  |---------------
  */
 mix.styles([
-    'node_modules/nes.css/css/nes.css'
+    'node_modules/bootstrap/dist/css/bootstrap.css',
+    'resources/assets/dashboards/css/font.css',
+    'resources/assets/dashboards/css/nes.css',
+    'resources/assets/dashboards/css/game.css',
 ], 'public/assets/css/nes.css').version();
