@@ -99,6 +99,10 @@ class LoginController extends Controller
             $errors = [$this->username() => __('auth.active')];
         }
 
+        if ($user->isGuest) {
+            $errors = [$this->username() => __('auth.guest')];
+        }
+
         if ($errors) {
             auth()->logout();  //logout
 

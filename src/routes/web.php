@@ -46,17 +46,27 @@ Route::group(['namespace' => 'Auth'], function () {
 });
 
 
-Route::get('play/{gameId}', 'NesCssController@index')->name('game.play');
+Route::get('play/{gameId}', 'NesCssController@join')->name('game.play');
+Route::get('update/{gameId}', 'NesCssController@updateGame')->name('game.update');
+Route::post('play/{gameId}/start', 'NesCssController@start')->name('game.start');
+Route::post('play/{gameId}/wordHelper', 'NesCssController@wordHelper')->name('game.wordHelper');
+Route::post('play/{gameId}/selectWord', 'NesCssController@selectWord')->name('game.wordHelper');
+Route::post('play/{gameId}/wordChooser', 'NesCssController@wordChooser')->name('game.wordChooser');
+Route::post('play/{gameId}/passChooser', 'NesCssController@passChooser')->name('game.wordChooser');
+Route::post('play/{gameId}/player/add', 'NesCssController@addPlayer')->name('game.player.add');
+Route::post('play/{gameId}/player/remove', 'NesCssController@removePlayer')->name('game.player.add');
+Route::get('play/{gameId}/player/hosts', 'NesCssController@start')->name('game.player.hosts');
+Route::get('play', 'NesCssController@create')->name('game.create');
+Route::get('test', 'NesCssController@test')->name('test');
 
 
 Route::post('chat/{gameId}', 'NesCssController@sendChatMessage')->name('chat.send');
-Route::get('event', 'NesCssController@event')->name('event.send');
 
 // 1 - Dashboards
 Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'Dashboards'], function () {
 
     // 2 - Dashboard
-    Route::get('/', 'NesCssController@index')->name('dashboard');
+    Route::get('/', 'UserController@index')->name('dashboard');
 
 
     // 2 - Words

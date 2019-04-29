@@ -14,16 +14,69 @@
     display: flex;
 }
 
+.modal-content.is-dark{
+    border: solid 4px white;
+    border-radius: 0;
+}
+
+.modal-content:not(.is-dark){
+    border: solid 4px black;
+    border-radius: 0;
+}
+
+.menu section{
+    border-top: none;
+    margin-top: 0;
+}
+
+section.gameName {
+    padding: 5px;
+    text-align: center;
+}
+.menu button{
+    padding: 2px;
+    margin: 2px;
+    margin-top: 7px;
+    font-size: 10px;
+}
+
 img.pixelated{
     image-rendering: pixelated;
 }
 
-.chat{
-    margin: 1em 1em 0 1em;
-    position: fixed;
-    bottom: 0px;
-    border-bottom: solid 0px black;
-    max-height: 95%;
+@media screen and (min-width: 1200px) {
+    .chat{
+        margin: 1em 1em 0 1em;
+        position: fixed;
+        bottom: 0px;
+        border-bottom: solid 0px black;
+        max-height: 95%;
+    }
+
+    .menu{
+        position: fixed;
+        top: 0;
+        left: 0;
+        text-align: center;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .menu > .row > div{
+        background-color: white;
+        padding-bottom: 4px;
+    }
+
+    .menu > .row{
+        width: 1170px;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .chat{
+        margin: 0;
+    }
 }
 
 #chat-messages{
@@ -48,6 +101,63 @@ img.pixelated{
     word-wrap: break-word;
 }
 
+.onlineUsers, .gamePannel{
+    margin-top: 40px;
+}
+
+.gamePannel section.informations{
+    font-size: 10px;
+}
+
+.onlineUsers section, .onlineUsers section.is-dark, .gamePannel section{
+    margin-top: 1em;
+    padding: 5px;
+}
+
+#game-word_helperInput button, #game-word_chooserInput button{
+    margin-top: 7px;
+    width: 100%;
+}
+
+#game-word_chooserInput > span {
+    margin-top: 15px;
+    display: block;
+    font-size: 9px;
+}
+
+.gamePannel section{
+    padding-right: 13px;
+}
+
+.item > * {
+    margin: 10px 2px 3px 2px !important;
+}
+
+.onlineUsers .title{
+    position: relative;
+    top: 0px;
+}
+
+.nes-container.is-dark.member-card{
+    width: auto;
+    padding: 8px !important;
+    margin: 0px;
+}
+
+.member-card .avatar > img{
+    width: 32px;
+    height: 32px;
+}
+
+.member-card > .profile > .name{
+    font-size: 12px;
+}
+
+.member-card > .profile > p{
+    font-size: 8px;
+    margin-bottom: 3px;
+}
+
 .noMargin{margin: 0;}
 .noPadding{padding: 0;}
 .smallMargin{margin: 3px;}
@@ -67,6 +177,32 @@ img.pixelated{
 #chat-input{
     font-size: 10px;
     padding: 3px;
+}
+
+#chat-messages > section > div.nes-balloon > p{
+    font-size: 9px;
+}
+
+#game-word_current_words button{
+    font-size: 10px;
+    padding: 2px;
+}
+
+.nes-dialog > .title{
+    text-align: center;
+}
+
+.nes-dialog > .dialog-menu{
+    text-align: center;
+}
+
+button.play {
+    margin-top: 8px;
+    width: 100%;
+}
+
+.info{
+    font-size: 8px;
 }
 
 input.nes-input.btnInInput {

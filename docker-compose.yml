@@ -35,6 +35,19 @@ services:
     ports:
       - "3000:80"
     restart: always
+  php-queue:
+    build: ./src/dockerfiles
+    links:
+      - postgresql
+    volumes:
+      - "./src/:/var/www/html/"
+      - "./src/:/var/www/laravel-boilerplate"
+      - "./src/dockerfiles/config/php/php-fpm.conf:/etc/php-fpm.conf"
+      - "./src/dockerfiles/config/php/www.conf:/etc/php-fpm.d/www.conf"
+      - "./src/dockerfiles/config/php/php.ini:/usr/local/etc/php/php.ini"
+      - "./src/dockerfiles/config/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini"
+    restart: always
+    command: php artisan queue:listen
   redis:
     image: 'bitnami/redis:4.0'
     environment:
@@ -45,7 +58,6 @@ services:
       - '6379:6379'
     volumes:
       - 'redis_data:/bitnami/redis/data'
-    restart: always
   echo:
     image: 'k1sliy/laravel-echo-server'
     ports:

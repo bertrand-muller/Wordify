@@ -2,28 +2,33 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class PostCreatedEvent implements ShouldBroadcast
+class GameEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $params;
+    private $id;
+    private $type;
+    public $content;
+    public $word;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(array $params)
+    public function __construct($id, $content, $type, $word = null)
     {
-        $this->params = $params;
+        $this->id = $id;
+        $this->content = $content;
+        $this->type = $type;
+        $this->word = $word;
     }
 
     /**
@@ -33,6 +38,11 @@ class PostCreatedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('chan-demo');
+        switch ($this->type){
+            case 'game':
+                return new PresenceChannel('game-'.$this->id);
+            case 'player':
+                return new PrivateChannel('player-'.$this->id);
+        }
     }
 }
