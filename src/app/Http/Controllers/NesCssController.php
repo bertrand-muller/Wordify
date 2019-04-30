@@ -20,7 +20,7 @@ use Intervention\Image\Facades\Image;
 class NesCssController extends Controller {
     private static $TIMER_WORD_HELPER = 30;
     private static $TIMER_WORD_SELECT = 30;
-    private static $TIMER_WORD_CHOOSE = 5;
+    private static $TIMER_WORD_CHOOSE = 30;
     private static $TIMER_NEXT_ROUND = 10;
 
     /**
@@ -28,7 +28,7 @@ class NesCssController extends Controller {
      * @return void
      */
     public function __construct() {
-//        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     private function broacastWord($game, $word){
@@ -255,6 +255,25 @@ class NesCssController extends Controller {
         return json_encode("ok");
     }
 
+    private function getAuthUser(){
+        $user = auth()->user();
+        if ($user == null) {
+            $user = new User();
+            do {
+                $int = rand(10000, 99999);
+            } while (!User::where('email', "guest-$int@localhost.$int")->get()->isEmpty());
+            $user->name = "Guest $int";
+            $user->email = "guest-$int@localhost.$int";
+            $user->password = $this->generateRandomString();
+            $user->active = 1;
+            $user->confirmed = true;
+            $user->isGuest = true;
+            $user->save();
+            Auth::loginUsingId($user->id);
+        }
+        return $user;
+    }
+
     public function wordHelper($gameId, Request $request){
         $game = $this->getGame($gameId);
         $user = auth()->user();
@@ -432,21 +451,7 @@ class NesCssController extends Controller {
     public function join($gameId) {
         $game = $this->getGame($gameId);
 
-        $user = auth()->user();
-        if ($user == null) {
-            $user = new User();
-            do {
-                $int = rand(10000, 99999);
-            } while (!User::where('email', "guest-$int@localhost.$int")->get()->isEmpty());
-            $user->name = "Guest $int";
-            $user->email = "guest-$int@localhost.$int";
-            $user->password = $this->generateRandomString();
-            $user->active = 1;
-            $user->confirmed = true;
-            $user->isGuest = true;
-            $user->save();
-            Auth::loginUsingId($user->id);
-        }
+        $user = $this->getAuthUser();
 
         return view('dashboards.nes_play_1', [
             'gameId' => $game->id,
@@ -520,5 +525,12 @@ class NesCssController extends Controller {
         $event = new NewChatEvent($gameId, $message, auth()->user()->id, auth()->user()->name, auth()->user()->image);
         event($event);
         return json_encode($event);
+    }
+
+    public function index(){
+        $user = $this->getAuthUser();
+        return view('dashboards.index', [
+            'user' => $user
+        ]);
     }
 }

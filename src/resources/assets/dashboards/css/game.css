@@ -45,6 +45,10 @@ img.pixelated{
 }
 
 @media screen and (min-width: 1200px) {
+    .join section{
+        margin-left: 1em;
+    }
+
     .chat{
         margin: 1em 1em 0 1em;
         position: fixed;
@@ -105,13 +109,75 @@ img.pixelated{
     margin-top: 40px;
 }
 
-.gamePannel section.informations{
+.gamePannel section.informations, .profile section.guestLogin, .profile section.loginForm, .profile section.signupForm{
     font-size: 10px;
 }
 
-.onlineUsers section, .onlineUsers section.is-dark, .gamePannel section{
+.profile section.loginForm .nes-field,
+.profile section.signupForm .nes-field{
+    padding-bottom: 1em;
+}
+
+
+.profile section.loginForm button,
+.profile section.signupForm button{
+    width: 100%;
+    font-size: 16px;
+}
+
+.profile section.loginForm .nes-field:last-of-type,
+.profile section.signupForm .nes-field:last-of-type{
+    padding-bottom: 0;
+}
+
+.profile > div:first-of-type > section,
+.rules > section.is-dark,
+.join > div:first-of-type > section
+{
+    margin-top: 0 !important;
+}
+
+.join > div > section{
+    position: relative;
+    top: -40px;
+}
+
+.join > div:first-of-type > section{
+    position: relative;
+    top: 0px;
+}
+
+.radioGroup > label > span{
+    margin: 0 0.7em 0 0.5em;
+    font-weight: lighter;
+    font-size: 14px;
+}
+
+.profile > div:last-of-type > section,
+.rules > section.is-dark,
+.join > div:last-of-type > section
+{
+    margin-bottom: 1em !important;
+}
+
+.onlineUsers section, .onlineUsers section.is-dark, .gamePannel section,
+.profile section, .rules section.is-dark{
     margin-top: 1em;
     padding: 5px;
+}
+
+.join section{
+    margin-top: 1em;
+    padding: 5px;
+}
+
+.join section button{
+    width: 100%;
+}
+
+.join section label{
+    margin-top: 8px;
+    font-size: 10px;
 }
 
 #game-word_helperInput button, #game-word_chooserInput button{
@@ -125,7 +191,7 @@ img.pixelated{
     font-size: 9px;
 }
 
-.gamePannel section{
+.gamePannel section, .profile section, .join section{
     padding-right: 13px;
 }
 
@@ -136,6 +202,11 @@ img.pixelated{
 .onlineUsers .title{
     position: relative;
     top: 0px;
+}
+
+.gameName{
+    border-top: none;
+    margin-bottom: 1em;
 }
 
 .nes-container.is-dark.member-card{
@@ -172,6 +243,13 @@ img.pixelated{
 
 .nes-container.with-title > .title {
     margin-top: -0.9rem !important;
+}
+
+.rules{
+    font-size: 10px;
+}
+.rules button{
+    width: 100%;
 }
 
 #chat-input{
@@ -212,6 +290,21 @@ input.nes-input.btnInInput {
 a.btnInInput {
     margin-left: -30px;
     width: 30px;
+}
+
+.join input.nes-input.btnInInput {
+    width: 100%;
+    padding-right: 80px !important;
+}
+
+.join a.btnInInput {
+    float: right;
+    padding: 5px 8px!important;
+    top: -50px;
+    left: 8px;
+    color: white;
+    width: 80px;
+    padding-right: 80px !important;
 }
 
 .largeText{

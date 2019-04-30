@@ -183,6 +183,10 @@ mix.scripts([
     'resources/assets/dashboards/js/game.js',
 ], 'public/assets/dashboards/js/game.js').version();
 
+mix.scripts([
+    'resources/assets/dashboards/js/index.js',
+], 'public/assets/dashboards/js/index.js').version();
+
 
 mix.scripts([
     'node_modules/bootstrap/js/modal.js',

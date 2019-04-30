@@ -19,7 +19,7 @@ Route::group(['namespace' => 'Auth'], function () {
 
     // Authentication Routes...
     Route::get('login', 'LoginController@showLoginForm')->name('login');
-    Route::post('login', 'LoginController@login');
+    Route::post('login', 'LoginController@loginFromGuest');
     Route::get('logout', 'LoginController@logout')->name('logout');
 
     // Registration Routes...
@@ -58,6 +58,7 @@ Route::post('play/{gameId}/player/remove', 'NesCssController@removePlayer')->nam
 Route::get('play/{gameId}/player/hosts', 'NesCssController@start')->name('game.player.hosts');
 Route::get('play', 'NesCssController@create')->name('game.create');
 Route::get('test', 'NesCssController@test')->name('test');
+Route::get('/', 'NesCssController@index')->name('main');
 
 
 Route::post('chat/{gameId}', 'NesCssController@sendChatMessage')->name('chat.send');
@@ -95,7 +96,8 @@ Route::group(['prefix' => 'dashboards', 'as' => 'dashboards.', 'namespace' => 'D
 
 
 
-Route::get('/', 'HomeController@index');
+//Route::get('/', 'HomeController@index');
+Route::get('/index', 'HomeController@index');
 
 /**
  * Membership

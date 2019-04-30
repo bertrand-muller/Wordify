@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Models\Auth\User\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Ramsey\Uuid\Uuid;
@@ -41,7 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        //$this->middleware('guest');
     }
 
     /**
@@ -79,7 +80,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'confirmation_code' => Uuid::uuid4(),
-            'confirmed' => false
+            'confirmed' => true
         ]);
 
         if (config('auth.users.default_role')) {
@@ -87,6 +88,23 @@ class RegisterController extends Controller
         }
 
         return $user;
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        /*
+         * Remove the socialite session variable if exists
+         */
+
+        \Session::forget(config('access.socialite_session_name'));
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect('/');
     }
 
     /**
@@ -97,12 +115,14 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+        $this->logout($request);
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        $user = $this->create($request->all());
 
         $this->guard()->login($user);
 
+        Auth::loginUsingId($user->id);
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
     }
@@ -120,9 +140,9 @@ class RegisterController extends Controller
 
             $this->guard()->logout();
 
-            $user->notify(new ConfirmEmail());
+            //$user->notify(new ConfirmEmail());
 
-            return redirect(route('login'));
+            return redirect(route('index'));
         }
     }
 }

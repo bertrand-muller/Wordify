@@ -35,7 +35,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        //$this->middleware('guest', ['except' => 'logout']);
     }
 
     /**
@@ -78,6 +78,11 @@ class LoginController extends Controller
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors($errors);
+    }
+
+    public function loginFromGuest(Request $request){
+        $this->logout($request);
+        return $this->login($request);
     }
 
     /**
