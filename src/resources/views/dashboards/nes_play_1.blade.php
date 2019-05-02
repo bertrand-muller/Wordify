@@ -5,6 +5,30 @@
 @section('page')
 <div class="container body">
     <!-- API TO USE: https://www.wordsapi.com/ -->
+    <!--
+    SCREEN:
+        - win
+        - end + begin new game
+    ADMIN:
+        - add word
+        - remove word
+        - validate word
+     BADGES:
+        - débutant ... experts
+        - pourcentage réussite global
+        - pourcentage réussite deviner
+        - pourcentage réussite faire deviner
+        - parties jouées
+     HELP:
+        - get word definition
+     PROFILE:
+        - upload d'avatar
+     BOTS:
+        - get synonym / submit word = API
+        - select words
+        - choose word / pass => API + union
+        - choose bot quantity + bots replace players which leaved if players < 5
+    -->
     <div class="main_container">
         <!-- Modal -->
         <div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -50,9 +74,9 @@
         <div class="row">
             <div class="col-md-3 onlineUsers">
                 <section class="nes-container with-title is-dark">
-                    <h3 class="title">Host</h3>
-                    <div class="item" id="players-host">
-                        >_
+                    <h3 class="title">Game ID</h3>
+                    <div class="item" id="players-gameInfo">
+                        {{$gameKey}}
                     </div>
                 </section>
                 <section class="nes-container with-title is-dark">
@@ -70,12 +94,6 @@
                 <section class="nes-container with-title is-dark">
                     <h3 class="title">Players</h3>
                     <div class="item" id="players-list">
-                    </div>
-                </section>
-                <section class="nes-container with-title is-dark">
-                    <h3 class="title">Guests</h3>
-                    <div class="item" id="guests-list">
-
                     </div>
                 </section>
             </div>

@@ -17,10 +17,10 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 
 Broadcast::channel('game-{gameId}', function ($user, $gameId) {
     return [
-        'userId' => $user->id,
-        'userName' => $user->name,
-        'userDesc' => $user->desc,
-        'userImage' => $user->image,
+        'id' => $user->id,
+        'name' => $user->name,
+        'desc' => $user->desc,
+        'image' => $user->image,
         'gameId' => $gameId
     ];
 });

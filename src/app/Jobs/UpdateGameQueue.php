@@ -17,15 +17,17 @@ class UpdateGameQueue implements ShouldQueue
 
     private $gameId;
     private $nextStep;
+    private $currentRound;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($gameId, $nextStep)
+    public function __construct($gameId, $nextStep, $currentRound)
     {
         $this->gameId = $gameId;
         $this->nextStep = $nextStep;
+        $this->currentRound = $currentRound;
     }
 
     /**
@@ -40,7 +42,7 @@ class UpdateGameQueue implements ShouldQueue
         $gameData = json_decode($game->data);
         $round = $gameData->rounds[$gameData->currentRound-1];
 
-        if($round->step < $this->nextStep){ // if action not already performed
+        if($round->step < $this->nextStep && $gameData->currentRound == $this->currentRound){ // if action not already performed
             switch ($this->nextStep){
                 case 2:
                     $playersWord = json_decode($game->playersWord);
@@ -57,12 +59,15 @@ class UpdateGameQueue implements ShouldQueue
                     $controller->goToGuessStep($game, $round, $gameData);
                     break;
                 case 4:
-                   // try {
-                        $controller->passChooser($game->key, true);
-                    /*}catch (\Exception $e){
-                        $event = new NewChatEvent($game->id,'error '.$e->getMessage(),1,'Admin','');
+                    $controller->passChooser($game->key, true);
+                    break;
+                case 5:
+                    if($game->currentRound == $game->nbRounds){
+                        $event = new NewChatEvent($game->id,'TODO end',1,'Admin','');
                         event($event);
-                    }*/
+                    }else{
+                        $controller->start($game->key, true);
+                    }
                     break;
                 default:
                     $event = new NewChatEvent($game->id,'TODO '.$this->nextStep,1,'Admin','');

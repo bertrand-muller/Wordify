@@ -85,6 +85,34 @@ class LoginController extends Controller
         return $this->login($request);
     }
 
+    public function updateProfile(Request $request){
+        $errors = [];
+        $name = filter_var($request->input('name'), FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = $request->input('password');
+        $confirmPassword = $request->input('password_confirmation');
+        $user = auth()->user();
+        if($name != ""){
+            $user->name = $name;
+            $user->save();
+        }
+        if($password != ""){
+           if($password == $confirmPassword){
+               if(strlen($password) < 6){
+                   $errors = [$this->username() => 'The password must be at least 6 characters.'];
+               }else{
+                   $user->password = bcrypt($password);
+                   $user->save();
+               }
+           }else{
+               $errors = [$this->username() => 'The password confirmation does not match.'];
+           }
+        }
+
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'password_confirmation'))
+            ->withErrors($errors);
+    }
+
     /**
      * The user has been authenticated.
      *

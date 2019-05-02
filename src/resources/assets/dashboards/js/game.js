@@ -8,7 +8,7 @@ let e = new Echo({
 let chat_input = $('#chat-input');
 let gameSection = $("#game");
 let gameBegin = $("#game-begin");
-let playersHost = $("#players-host");
+let playersGame = $("#players-gameInfo");
 let playersChooser = $("#players-chooser");
 let gameWord_display = $("#game-word_display");
 let gameWord_current = $("#game-word_current");
@@ -27,9 +27,10 @@ let gameBegin_interval;
 let gameWord_timer_interval;
 let gameBegin_dotCount;
 let gameBegin_button = gameBegin.find("button");
+let usersOnline = [];
 
 let isHost = function(){
-    return playersHost.attr("host-userId") == currentUserId;
+    return playersGame.attr("host-userId") == currentUserId;
 };
 
 let isChooser = function(){
@@ -37,32 +38,38 @@ let isChooser = function(){
 };
 
 let addUser = function(section, user){
-    $("#"+section+"-list").append(
-        $("<section>")
-            .attr("profile-userId", user.id)
-            .addClass("nes-container is-dark member-card")
-            .append(
-                $("<div>")
-                    .addClass("avatar")
-                    .append(
-                        $("<img>")
-                            .attr("src","/uploads/users/"+user.image)
-                    )
-            )
-            .append(
-                $("<div>")
-                    .addClass("profile")
-                    .append(
-                        $("<h4>")
-                            .addClass("name")
-                            .text(user.name)
-                    )
-                    .append(
-                        $("<p>")
-                            .text(user.desc)
-                    )
-            )
+    let sectionToAdd = $("<section>")
+        .attr("profile-userId", user.id)
+        .addClass("nes-container is-dark member-card"+(user.id == currentUserId ? ' isCurrentUser':''))
+        .append(
+            $("<div>")
+                .addClass("avatar")
+                .append(
+                    $("<img>")
+                        .attr("src","/uploads/users/"+user.image)
+                )
+                .append(
+                    $("<span>").text(playersGame.attr("host-userId") == user.id ? 'host' : '')
+                )
+        )
+        .append(
+            $("<div>")
+                .addClass("users")
+                .append(
+                    $("<h4>")
+                        .addClass("name")
+                        .text(user.name)
+                )
+                .append(
+                    $("<p>")
+                        .text(user.desc)
+                )
     );
+    if(user.id == currentUserId){
+        $("#" + section + "-list").prepend(sectionToAdd);
+    }else {
+        $("#" + section + "-list").append(sectionToAdd);
+    }
     update_nbPlayers();
 };
 
@@ -119,7 +126,7 @@ let update_nbPlayers = function(){
 gameBegin_button.click(function () {
     if(isHost() && !gameBegin_button.hasClass('is-disabled')) {
         gameBegin_button.attr("disabled", true);
-        gameBegin_button.addClass("is-disabled");
+        gameBegin_button.addClass("is-disabled").removeClass("is-primary");
         gameBegin_button.text("Game will start soon !");
         $.ajax({
             type: 'POST',
@@ -131,11 +138,11 @@ gameBegin_button.click(function () {
             success: function (data) {
                 //console.log(data);
                 gameBegin_button.text("Game is starting !");
-                gameBegin_button.attr("disabled", true);
+                gameBegin_button.attr("disabled", true).addClass("is-disabled").addClass("is-primary");
             },
             error: function (html, status) {
                 console.log(html);
-                gameBegin_button.attr("disabled", false);
+                gameBegin_button.attr("disabled", false).removeClass("is-disabled").addClass("is-primary");
                 update_nbPlayers();
             }
         });
@@ -160,6 +167,11 @@ gameWord_helperInput_button.click(function () {
         dataType: 'json',
         success: function (data) {
             gameWord_helperInput.hide();
+            gameWord_helperInput_button.attr("disabled", false);
+            gameWord_helperInput_input.attr("disabled", false);
+            gameWord_helperInput_button.removeClass("is-disabled");
+            gameWord_helperInput_input.removeClass("is-disabled");
+            gameWord_helperInput_button.text("Send the word");
         },
         error: function (html, status) {
             console.log("error",html);
@@ -192,6 +204,13 @@ gameWord_chooserInput_buttonPass.click(function () {
         dataType: 'json',
         success: function (data) {
             gameWord_chooserInput_input.hide();
+            gameWord_chooserInput_button.attr("disabled", false);
+            gameWord_chooserInput_buttonPass.attr("disabled", false);
+            gameWord_chooserInput_input.attr("disabled", false);
+            gameWord_chooserInput_button.removeClass("is-disabled");
+            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+            gameWord_chooserInput_input.removeClass("is-disabled");
+            gameWord_chooserInput_buttonPass.text("Don't guess the word");
         },
         error: function (html, status) {
             console.log("error",html);
@@ -226,6 +245,13 @@ gameWord_chooserInput_button.click(function () {
         dataType: 'json',
         success: function (data) {
             gameWord_chooserInput_input.hide();
+            gameWord_chooserInput_button.attr("disabled", false);
+            gameWord_chooserInput_buttonPass.attr("disabled", false);
+            gameWord_chooserInput_input.attr("disabled", false);
+            gameWord_chooserInput_button.removeClass("is-disabled");
+            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+            gameWord_chooserInput_input.removeClass("is-disabled");
+            gameWord_chooserInput_button.text("Guess the word");
         },
         error: function (html, status) {
             console.log("error",html);
@@ -390,18 +416,43 @@ let sendSelectWord = function (){
     });
 };
 
+gameSection.children().hide();
+
+let isUserOnline = function(userId){
+    let response = false;
+    usersOnline.forEach(function (user) {
+        if(user.id+"" == userId){
+            response = true;
+        }
+    });
+    return response;
+};
+
 let printGame = function(game, words){
+    console.log("game",game);
+
     // {"currentRound":0,"nbRounds":5,"gameStatus":"begin","rounds":[]}
     gameSection.children().hide();
     $("#players-game").text(game.currentRound+" / "+game.nbRounds);
-    playersHost.attr("host-userId", game.hostId).text(game.hostName);
-    playersChooser.attr("host-userId", null).text(">_");
-    $("#players-list").children().remove();
-    for (var k in game.players){
-        if (game.players.hasOwnProperty(k)) {
-            addUser("players", game.players[k]);
+    $(".onlineUsers").find("section.member-card .avatar span").text("");
+    $(".onlineUsers").find("section.member-card").each(function (index, element) {
+        let userId = $(element).attr('profile-userId');
+        let text = '';
+        if(!game.players[userId] && game.gameStatus != 'begin'){
+            text = 'watch';
         }
-    }
+        if(!isUserOnline(userId)){
+            text = "away";
+        }
+        if(userId == game.hostId){
+            text = 'host';
+        }
+        $(element).find('.avatar span').text(text);
+        // TODO Afk ?
+    });
+    //$(".onlineUsers").find("section.member-card[profile-userId='"+game.hostId+"'] .avatar span").text("Host");
+    playersGame.attr("host-userId", game.hostId).attr("game-status", game.gameStatus);
+    playersChooser.attr("host-userId", null).text(">_");
 
     switch(game.gameStatus){
         case "begin":
@@ -455,11 +506,27 @@ let printGame = function(game, words){
 if(currentWord) {
     gameWord_display.find("span").text(currentWord);
 }
-printGame(JSON.parse(game), (words == null ? [] : JSON.parse(words)));
+
+if(isHost()){
+    $.ajax({
+        type: 'GET',
+        url: window.location.pathname+'/host',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'json',
+        success: function(data) {
+            //console.log(data);
+        },
+        error: function(html, status) {
+            console.log(html);
+            // TODO error !
+        }
+    });
+}
 
 e.private('player-'+currentUserId)
     .listen('GameEvent', function (game) {
-        console.log("game",JSON.parse(game.content));
         let word = JSON.parse(game.word);
         let words = null;
         if(word){
@@ -474,51 +541,44 @@ e.private('player-'+currentUserId)
 
 e.join('game-'+gameId)
     .here((users) => {
+        let jsonGame = JSON.parse(game);
+        usersOnline = users;
+
+        for (var k in jsonGame.players) {
+            if (jsonGame.players.hasOwnProperty(k)) {
+                addUser('players', jsonGame.players[k]);
+            }
+        }
+
         users.forEach(function (element) {
-            //addUser('players', element);
+            if(!jsonGame.players.hasOwnProperty(element.id)) {
+                addUser('players', element);
+            }
         });
+        printGame(jsonGame, (words == null ? [] : JSON.parse(words)));
     })
     .joining((user) => {
-        //addUser('players', user);
-        if(isHost()){
-            $.ajax({
-                type: 'POST',
-                url: window.location.pathname+'/player/add',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {userId : user.userId},
-                dataType: 'json',
-                success: function(data) {
-                    //console.log('add', data);
-                },
-                error: function(html, status) {
-                    console.log(html);
-                    // TODO error !
-                }
-            });
+        if($(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"']").length == 0) {
+            addUser('players', user);
+        }else{
+            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .avatar span").text('');
         }
+        usersOnline[user.id] = user;
     })
     .leaving((user) => {
-        //$(".onlineUsers").find("section.member-card[profile-userId='"+user.userId+"']").remove();
-        let updateHost = false
-        if(playersHost.attr("host-userId") == user.userId){
-            //console.log("Host leaved");
-            updateHost = true;
-            $("#players-list").find("section").each(function (index, element) {
-                if(element != user.userId && element < currentUserId){
-                    updateHost = false;
-                }
-            });
+        delete usersOnline[user.id];
+        if(playersGame.attr("game-status") == 'begin'){
+            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"']").remove();
+        }else{
+            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .avatar span").text("away");
         }
-        if(isHost() || updateHost){
+        if(playersGame.attr("host-userId") == user.id){
             $.ajax({
-                type: 'POST',
-                url: window.location.pathname+'/player/remove',
+                type: 'GET',
+                url: window.location.pathname+'/host',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                data: {userId : user.userId},
                 dataType: 'json',
                 success: function(data) {
                     //console.log(data);

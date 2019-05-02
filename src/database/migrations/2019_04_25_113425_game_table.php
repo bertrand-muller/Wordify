@@ -16,6 +16,8 @@ class GameTable extends Migration
             $table->increments('id');
             $table->string('key')->unique();
             $table->string('currentWord')->nullable();
+            $table->string('status');
+            $table->boolean('isPrivate');
             $table->json('playersWord')->nullable();
             $table->json('data');
             $table->timestamps();

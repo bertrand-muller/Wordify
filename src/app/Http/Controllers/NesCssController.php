@@ -71,26 +71,50 @@ class NesCssController extends Controller {
         return $user;
     }
 
-    private function getUserDatas($user){
+    private function getUserDatas($user, $game = null){
         return [
             'id' => $user->id,
             'name' => $user->name,
             'image' => $user->image,
-            'desc' => $user->desc
+            'desc' => $user->desc,
+            'here' => $game ? $this->isInGame($game, $user->id) : true
         ];
     }
 
-    public function addPlayer(Request $request, $gameId){
+    public function join($gameId) {
+        $game = $this->getGame($gameId);
+        $user = $this->getAuthUser();
+
+        if(!$this->isPlaceInRoom($game) && !$this->isInGame($game, $user->id)){
+            return redirect(route('index'))->withErrors([$user->getAuthIdentifierName() => 'There is no space anymore']);
+        }
+
+        return view('dashboards.nes_play_1', [
+            'gameId' => $game->id,
+            'gameKey' => $game->key,
+            'game' => $game->data,
+            'words' => $this->getCurrentPlayersWord($game),
+            'currentUserId' => $user->id,
+            'currentUserName' => $user->name,
+            'currentWord' => $this->getCurrentWord($game),
+        ]);
+    }
+
+    /*public function addPlayer(Request $request, $gameId){
         $game = $this->getGame($gameId);
         $user = $this->getUser($request->input('userId'));
 
         $gameData = json_decode($game->data);
         $gameData->players->{$user->id} = $this->getUserDatas($user);
         $game->data = json_encode($gameData);
+        $game->nbPlayers++;
+        if($game->nbPlayers > 7){
+            return (new Response)->setStatusCode(400);
+        }
         $game->save();
-        $event = new GameEvent($game->id, $game->data, 'game');
-        event($event);
-        return json_encode("ok");
+        //$event = new GameEvent($game->id, $game->data, 'game');
+        //event($event);
+        return json_encode($game->data);
     }
 
     public function removePlayer(Request $request, $gameId){
@@ -98,19 +122,118 @@ class NesCssController extends Controller {
         $user = $this->getUser($request->input('userId'));
 
         $gameData = json_decode($game->data);
-        unset($gameData->players->{$user->id});
-        if($user->id == $gameData->hostId){
-            $players = get_object_vars($gameData->players);
-            $playersIds = array_keys($players);
-            $newHost = $players[$playersIds[rand(0,sizeof($playersIds)-1)]];
-            $gameData->hostId = $newHost->id;
-            $gameData->hostName = $newHost->name;
+        if(!isset($gameData->players->{$user->id})){
+            return (new Response)->setStatusCode(202)->setContent(json_encode("ok"));
+        }else {
+            unset($gameData->players->{$user->id});
+            $previousHost = $gameData->hostId;
+            if ($user->id == $previousHost) {
+                $players = get_object_vars($gameData->players);
+                $playersIds = array_keys($players);
+                $newHost = $players[$playersIds[rand(0, sizeof($playersIds) - 1)]];
+                $gameData->hostId = $newHost->id;
+                $gameData->hostName = $newHost->name;
+            }
+            $game->data = json_encode($gameData);
+            $game->nbPlayers--;
+            $game->save();
+            if ($user->id == $previousHost) {
+                $event = new GameEvent($game->id, $game->data, 'game');
+                event($event);
+            }
+            return json_encode("ok");
         }
+    }*/
+
+    public function getHost($gameId){
+        sleep(1);
+        $game = $this->getGame($gameId);
+
+        $gameData = json_decode($game->data);
+        $previousHost = $gameData->hostId;
+        $users = $this->getUsersInRoom($game);
+
+        foreach ($users as $user){
+            if($user->id == $previousHost){
+                return response(json_encode("ok"), 202);
+            }
+        }
+
+        $newHost = User::find($users[rand(0, sizeof($users) - 1)]->id);
+        $gameData->hostId = $newHost->id;
+        $gameData->hostName = $newHost->name;
         $game->data = json_encode($gameData);
         $game->save();
         $event = new GameEvent($game->id, $game->data, 'game');
         event($event);
         return json_encode("ok");
+
+    }
+
+    private function getUsersInRoom($game){
+        $ch = curl_init();
+
+        // Check if initialization had gone wrong*
+        if ($ch === false) {
+            throw new Exception('failed to initialize');
+        }
+
+        curl_setopt($ch, CURLOPT_URL, 'http://echo:6001/apps/bf3ca786357a179b/channels/presence-game-'.$game->id.'/users?auth_key=e9f35bc4827c0917763c91553f7d151f');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $content = curl_exec($ch);
+
+        // Check the return value of curl_exec(), too
+        if ($content === false) {
+            throw new Exception(curl_error($ch), curl_errno($ch));
+        }
+        return json_decode($content)->users;
+    }
+
+    public function isPlaceInRoom($game){
+        $ch = curl_init();
+
+        // Check if initialization had gone wrong*
+        if ($ch === false) {
+            throw new Exception('failed to initialize');
+        }
+
+        curl_setopt($ch, CURLOPT_URL, 'http://echo:6001/apps/bf3ca786357a179b/channels/presence-game-'.$game->id.'/users?auth_key=e9f35bc4827c0917763c91553f7d151f');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $content = curl_exec($ch);
+
+        // Check the return value of curl_exec(), too
+        if ($content === false) {
+            throw new Exception(curl_error($ch), curl_errno($ch));
+        }
+        return count(json_decode($content)->users) < 3; // TODO -> 7
+    }
+
+    public function isInGame($game, $userId){
+        $ch = curl_init();
+
+        // Check if initialization had gone wrong*
+        if ($ch === false) {
+            throw new Exception('failed to initialize');
+        }
+
+        curl_setopt($ch, CURLOPT_URL, 'http://echo:6001/apps/bf3ca786357a179b/channels/presence-game-'.$game->id.'/users?auth_key=e9f35bc4827c0917763c91553f7d151f');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $content = curl_exec($ch);
+
+        // Check the return value of curl_exec(), too
+        if ($content === false) {
+            throw new Exception(curl_error($ch), curl_errno($ch));
+        }
+        $users = json_decode($content)->users;
+        foreach ($users as $user){
+            if($user->id == $userId){
+                return true;
+            }
+        }
+        return false;
     }
 
     private function getChooser($gameData){
@@ -171,7 +294,7 @@ class NesCssController extends Controller {
         $round->word = $game->currentWord;
         $round->guessWord = $word;
         $round->win = $percent > 90 ? 1 : -1;
-        dd($round);
+        //dd($round);
         $this->goToFinalStep($game, $round, $gameData);
         return json_encode("ok");
     }
@@ -324,7 +447,7 @@ class NesCssController extends Controller {
         $game->data = json_encode($gameData);
         $game->save();
         $this->broacastWord($game, json_encode(['words' => $game->playersWord]));
-        $this->dispatch((new UpdateGameQueue($game->id, 3))->delay(self::$TIMER_WORD_SELECT));
+        $this->dispatch((new UpdateGameQueue($game->id, 3, $gameData->currentRound))->delay(self::$TIMER_WORD_SELECT));
     }
 
     public function goToFinalStep($game, $round, $gameData){
@@ -335,7 +458,7 @@ class NesCssController extends Controller {
         $game->save();
         $event = new GameEvent($game->id, $game->data, 'game');
         event($event);
-        $this->dispatch((new UpdateGameQueue($game->id, 5))->delay(self::$TIMER_NEXT_ROUND));
+        $this->dispatch((new UpdateGameQueue($game->id, 5, $gameData->currentRound))->delay(self::$TIMER_NEXT_ROUND));
     }
 
     public function goToGuessStep($game, $round, $gameData){
@@ -369,40 +492,55 @@ class NesCssController extends Controller {
         $game->save();
         $event = new GameEvent($game->id, $game->data, 'game');
         event($event);
-        $this->dispatch((new UpdateGameQueue($game->id, 4))->delay(self::$TIMER_WORD_CHOOSE));
+        $this->dispatch((new UpdateGameQueue($game->id, 4, $gameData->currentRound))->delay(self::$TIMER_WORD_CHOOSE));
     }
 
-    public function updateGame($gameId){
+    public function start($gameId, $autoQueue = false){
         $game = $this->getGame($gameId);
-        $this->dispatch((new UpdateGameQueue($game->id, 3))->delay(self::$TIMER_WORD_SELECT));
-        return json_encode("ok");
-    }
-
-    public function start($gameId){
-        $game = $this->getGame($gameId);
-        $chooser = $this->getChooser(json_decode($game->data));
 
         $gameData = json_decode($game->data);
 
-        $gameData->currentRound++;
-        $gameData->gameStatus = "running";
-// TODO check if game can start & ishost
+        $users = $this->getUsersInRoom($game);
+
+        if(!$autoQueue) {
+            if ($gameData->hostId != auth()->user()->id) {
+                return response('Not host', 400);
+            }
+        }
+        if(count($users) < 2){return response('Not enought players', 400);} // todo -> 3
+        if(count($users) > 7){return response('Too much players', 400);}
+
+        unset($gameData->players);
+        $gameData->players = new \stdClass();
+
+        foreach ($users as $userId) {
+            $user = User::find($userId->id);
+            $gameData->players->{$user->id} = $this->getUserDatas($user, $game);
+        }
+        $game->data = json_encode($gameData);
+
+        $gameData = json_decode($game->data);
+        $chooser = $this->getChooser($gameData);
+
         $words = [];
         $playerWords = [];
-        $players = get_object_vars($gameData->players);
-        foreach ($players as $player){
-            if($player->id != $chooser->id) {
-                $words[$player->id] = [
-                    'id' => $player->id,
-                    'name' => $player->name,
+        foreach ($gameData->players as $user) {
+            if($user->id != $chooser->id) {
+                $words[$user->id] = [
+                    'id' => $user->id,
+                    'name' => $user->name,
                     'done' => false,
                     'word' => null,
                     'isSelected' => null,
                     'select' => new \stdClass()
                 ];
-                $playerWords[$player->id] = "";
+                $playerWords[$user->id] = "";
             }
         }
+
+        $gameData->currentRound++;
+        $gameData->gameStatus = 'running';
+        $game->status = 'running';
 
         $gameData->rounds[] = [
             'id' => $gameData->currentRound,
@@ -424,43 +562,73 @@ class NesCssController extends Controller {
         $game->currentWord = $word;
         $game->save();
         $this->broacastWord($game, json_encode(['word' => $word]));
-        $this->dispatch((new UpdateGameQueue($game->id, 2))->delay(self::$TIMER_WORD_HELPER));
+        $this->dispatch((new UpdateGameQueue($game->id, 2, $gameData->currentRound))->delay(self::$TIMER_WORD_HELPER));
         return json_encode("ok");
     }
 
-    public function create(){
+    public function randomJoin(){
+        $games = Game::where([
+            ['status', '=',  'begin'],
+            ['isPrivate', '=', false],
+        ])->get();
+        foreach ($games as $key => $game){
+            if(!$this->isPlaceInRoom($game)){
+                $games->forget($key);
+            }
+        }
+        $nbGames = $games->count();
+        if($nbGames == 0){
+            $games = Game::where([
+                ['status', '=',  'running'],
+                ['isPrivate', '=', false],
+            ])->get();
+            foreach ($games as $key => $game){
+                if(!$this->isPlaceInRoom($game)){
+                    $games->forget($key);
+                }
+            }
+            $nbGames = $games->count();
+            if($nbGames == 0){
+                return $this->createAuto();
+            }
+        }
+        $game = $games->get($games->keys()[rand(0,$nbGames-1)]);
+        return redirect()->route('game.play', ['gameId' => $game->key]);
+    }
+
+    public function createAuto(){
+        return $this->createGame();
+    }
+
+    private function createGame($nbRounds = 5, $private = false){
         $game = new Game();
         do {
             $game->key = $this->generateRandomString(6);
         }while(!Game::where('key', $game->key)->get()->isEmpty());
         $data = [
-            'players' => [auth()->user()->id => $this->getUserDatas(auth()->user())],
+            'players' => new \stdClass(),
             'currentRound' => 0,
-            'nbRounds' => 5,
+            'nbRounds' => $nbRounds,
             'gameStatus' => 'begin',
             'hostName' => auth()->user()->name,
             'hostId' => auth()->user()->id,
             'rounds' => []
         ];
+        $game->isPrivate = $private;
+        $game->status = 'begin';
         $game->data = json_encode($data);
         $game->save();
 
         return redirect()->route('game.play', ['gameId' => $game->key]);
     }
 
-    public function join($gameId) {
-        $game = $this->getGame($gameId);
-
-        $user = $this->getAuthUser();
-
-        return view('dashboards.nes_play_1', [
-            'gameId' => $game->id,
-            'game' => $game->data,
-            'words' => $this->getCurrentPlayersWord($game),
-            'currentUserId' => $user->id,
-            'currentUserName' => $user->name,
-            'currentWord' => $this->getCurrentWord($game),
-        ]);
+    public function createWithParams(Request $request){
+        $nbRounds = intval(filter_var($request->input('nbRounds'), FILTER_SANITIZE_NUMBER_INT));
+        if($nbRounds < 1 || $nbRounds > 10){
+            $nbRounds = 5;
+        }
+        $isPrivate = $request->input('isPrivate') === 'yes' ? true : false;
+        return $this->createGame($nbRounds, $isPrivate);
     }
 
     /*public function test(){
