@@ -60,35 +60,33 @@
                 </section>
             </div>
             <div class="col-md-3 manageWords">
-                <div class="row">
-                    <section class="nes-container with-title" id="findWord">
-                        <h3 class="title">Find a word</h3>
-                        <div class="nes-field">
-                            <label>Word</label>
-                            <input type="text" class="nes-input" placeholder="Word to find" maxlength="20">
-                        </div>
-                        <label></label>
-                        <div class="nes-field">
-                            <button type="button" class="nes-btn is-primary">Find the word</button>
-                        </div>
-                        <label></label>
-                        <div class="nes-field">
-                            <button type="button" class="nes-btn is-warning">Remove filter</button>
-                        </div>
-                    </section>
-                    <section class="nes-container with-title" id="addWord">
-                        <h3 class="title">Add a word</h3>
-                        <div><span class="nes-text"></span></div>
-                        <div class="nes-field">
-                            <label>Word</label>
-                            <input type="text" class="nes-input" placeholder="Word to add" maxlength="20">
-                        </div>
-                        <label></label>
-                        <div class="nes-field">
-                            <button type="button" class="nes-btn is-success">Add the word</button>
-                        </div>
-                    </section>
-                </div>
+                <section class="nes-container with-title" id="findWord">
+                    <h3 class="title">Find a word</h3>
+                    <div class="nes-field">
+                        <label>Word</label>
+                        <input type="text" class="nes-input" placeholder="Word to find" maxlength="20">
+                    </div>
+                    <label></label>
+                    <div class="nes-field">
+                        <button type="button" class="nes-btn is-primary">Find the word</button>
+                    </div>
+                    <label></label>
+                    <div class="nes-field">
+                        <button type="button" class="nes-btn is-warning">Remove filter</button>
+                    </div>
+                </section>
+                <section class="nes-container with-title" id="addWord">
+                    <h3 class="title">Add a word</h3>
+                    <div><span class="nes-text"></span></div>
+                    <div class="nes-field">
+                        <label>Word</label>
+                        <input type="text" class="nes-input" placeholder="Word to add" maxlength="20">
+                    </div>
+                    <label></label>
+                    <div class="nes-field">
+                        <button type="button" class="nes-btn is-success">Add the word</button>
+                    </div>
+                </section>
             </div>
             <div class="col-md-4 wordsToValidate">
                 <section class="nes-container with-title" id="word-list">

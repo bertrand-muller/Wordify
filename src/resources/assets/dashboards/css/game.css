@@ -147,6 +147,10 @@ img.pixelated{
     font-size: 10px;
 }
 
+#findWord{
+    margin-top: 17px !important;
+}
+
 .split{
     display: block;
     border-top: solid 3px #333;
@@ -157,7 +161,11 @@ img.pixelated{
     display: none;
 }
 
-.profile section button, .manageWords section button{
+.manageWords section button{
+    width: 100%;
+}
+
+.profile section button{
     width: 100%;
     font-size: 16px;
 }
@@ -201,7 +209,7 @@ img.pixelated{
 }
 
 .onlineUsers section, .onlineUsers section.is-dark, .gamePannel section,
-.profile section, .manageWords section, .wordsToValidate section, .rules section.is-dark, .wordsToValidate section{
+.profile section, .manageWords section, .wordsToValidate section, .rules section.is-dark{
     margin-top: 1em;
     padding: 5px;
 }
