@@ -244,6 +244,9 @@
                     <div class="row">
                         <section class="nes-container with-title" id="join_submitWord">
                             <h3 class="title">Submit a new word</h3>
+                            <div>
+                                <span class="nes-text"></span>
+                            </div>
                             <div class="nes-field">
                                 <label>Word</label>
                                 <input type="text" class="nes-input" placeholder="Word to submit" maxlength="20">

@@ -36,30 +36,81 @@
         </div>
         <div class="row">
             <div class="col-md-5 wordsToValidate">
-                <section class="nes-container with-title">
+                <section class="nes-container with-title" id="wordValidated">
                     <h3 class="title">Words to validate</h3>
                     @foreach($wordsToValidate as $wordToValidate)
-                        <div class="row">
-                            <div class="col-xs-7">
-                                <button type="button" class="nes-btn smallPadding is-primary"><i class="fa fa-user"></i></button>
-                                <button type="button" class="nes-btn smallPadding">?</button>
-                                {{$wordToValidate->word}}
+                        <div class="row" wordId="{{$wordToValidate->id}}">
+                            <div class="col-xs-3">
+                                <button type="button" class="nes-btn smallPadding smallMargin is-primary btn-profile" userId="{{$wordToValidate->userId}}"><i class="fa fa-user"></i></button>
+                                <button type="button" class="nes-btn smallPadding smallMargin btn-question">?</button>
                             </div>
-                            <div class="col-xs-5 text-right">
-                                <button type="button" class="nes-btn smallPadding is-success">&#x2714;</button>
-                                <button type="button" class="nes-btn smallPadding is-error">X</button>
+                            <div class="wordHeight col-xs-5">
+                                <span>{{$wordToValidate->word}}</span>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                <button type="button" class="nes-btn smallPadding smallMargin is-success btn-check">&#x2714;</button>
+                                <button type="button" class="nes-btn smallPadding smallMargin is-error btn-cross">X</button>
                             </div>
                         </div>
                         <label class="split"></label>
                     @endforeach
-                    @if(sizeof($wordsToValidate) == 0)
-                        <p>
-                            No word to validate
-                        </p>
-                    @endif
+                    <p>
+                        No word to validate
+                    </p>
                 </section>
-            </section>
-            <div class="col-md-7 profile">
+            </div>
+            <div class="col-md-3 manageWords">
+                <div class="row">
+                    <section class="nes-container with-title" id="findWord">
+                        <h3 class="title">Find a word</h3>
+                        <div class="nes-field">
+                            <label>Word</label>
+                            <input type="text" class="nes-input" placeholder="Word to find" maxlength="20">
+                        </div>
+                        <label></label>
+                        <div class="nes-field">
+                            <button type="button" class="nes-btn is-primary">Find the word</button>
+                        </div>
+                        <label></label>
+                        <div class="nes-field">
+                            <button type="button" class="nes-btn is-warning">Remove filter</button>
+                        </div>
+                    </section>
+                    <section class="nes-container with-title" id="addWord">
+                        <h3 class="title">Add a word</h3>
+                        <div><span class="nes-text"></span></div>
+                        <div class="nes-field">
+                            <label>Word</label>
+                            <input type="text" class="nes-input" placeholder="Word to add" maxlength="20">
+                        </div>
+                        <label></label>
+                        <div class="nes-field">
+                            <button type="button" class="nes-btn is-success">Add the word</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="col-md-4 wordsToValidate">
+                <section class="nes-container with-title" id="word-list">
+                    <h3 class="title">Words validated words</h3>
+                    @foreach($words as $word)
+                        <div class="row" wordId="{{$word->id}}">
+                            <div class="col-xs-2">
+                                <button type="button" class="nes-btn smallPadding smallMargin btn-question">?</button>
+                            </div>
+                            <div class="wordHeight col-xs-8">
+                                <span>{{$word->word}}</span>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <button type="button" class="nes-btn smallPadding smallMargin is-error btn-cross">X</button>
+                            </div>
+                        </div>
+                        <label class="split"></label>
+                    @endforeach
+                    <p>
+                        No word in database
+                    </p>
+                </section>
             </div>
         </div>
     </div>

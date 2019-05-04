@@ -102,7 +102,42 @@ join_createGame.find("button").click(function () {
 });
 
 join_submitWord.find("button").click(function () {
-    console.log("TODO : submit word");
+    if(join_submitWord.find("input").val() != "") {
+        let btn = $(this);
+        btn.attr("disabled", true).removeClass("is-success").addClass("is-disabled");
+        join_submitWord.find("input").attr("disabled", true);
+        $.ajax({
+            type: 'POST',
+            url: '/word/submit',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                word: join_submitWord.find("input").val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                join_submitWord.find("span.nes-text").removeClass("is-error").addClass("is-success").text('Word "'+data.word+'" has been submited.');
+                btn.attr("disabled", false).addClass("is-success").removeClass("is-disabled");
+                join_submitWord.find("input").attr("disabled", false);
+                join_submitWord.find("input").val("");
+            },
+            error: function (jqrXhr) {
+                switch (jqrXhr.status) {
+                    case 400:
+                        join_submitWord.find("span.nes-text").removeClass("is-success").addClass("is-error").text('Word "'+jqrXhr.responseJSON+'" already exists.');
+                        join_submitWord.find("input").val("");
+                        break;
+                    default:
+                        join_submitWord.find("span.nes-text").removeClass("is-success").addClass("is-error").text('An error occured, please try again.');
+                        console.log(jqrXhr);
+                }
+                join_submitWord.find("input").attr("disabled", false);
+                btn.attr("disabled", false).addClass("is-success").removeClass("is-disabled");
+                // TODO error !
+            }
+        });
+    }
 });
 
 rules_previous.click(function () {

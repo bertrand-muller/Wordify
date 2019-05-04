@@ -44,7 +44,7 @@ img.pixelated{
     image-rendering: pixelated;
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1000px) {
     .join section{
         margin-left: 1em;
     }
@@ -100,7 +100,7 @@ img.pixelated{
     min-width: 50px;
 }
 
-#definitionModal p.content{
+#definitionModal p.content, #join_submitWord, .manageWords section{
     font-size: 10px;
 }
 
@@ -153,20 +153,22 @@ img.pixelated{
     margin: 1em 0.8em 0.5em 0.8em;
 }
 
-.wordsToValidate .split:last-of-type{
+.wordsToValidate .split:last-of-type, .manageWords .split:last-of-type{
     display: none;
 }
 
-.profile section button{
+.profile section button, .manageWords section button{
     width: 100%;
     font-size: 16px;
 }
 
-.profile .nes-field:last-of-type{
+.profile .nes-field:last-of-type, .manageWords .nes-field:last-of-type, .wordsToValidate .nes-field:last-of-type{
     padding-bottom: 0;
 }
 
 .profile > div:first-of-type > section,
+.wordsToValidate > div:first-of-type > section,
+.manageWords > div:first-of-type > section,
 .rules > section.is-dark,
 .join > div:first-of-type > section
 {
@@ -190,6 +192,8 @@ img.pixelated{
 }
 
 .profile > div:last-of-type > section,
+.wordsToValidate > div:last-of-type > section,
+.manageWords > div:last-of-type > section,
 .rules > section.is-dark,
 .join > div:last-of-type > section
 {
@@ -197,7 +201,7 @@ img.pixelated{
 }
 
 .onlineUsers section, .onlineUsers section.is-dark, .gamePannel section,
-.profile section, .rules section.is-dark, .wordsToValidate section{
+.profile section, .manageWords section, .wordsToValidate section, .rules section.is-dark, .wordsToValidate section{
     margin-top: 1em;
     padding: 5px;
 }
@@ -227,7 +231,7 @@ img.pixelated{
     font-size: 9px;
 }
 
-.gamePannel section, .profile section, .join section{
+.gamePannel section, .profile section, .join section, .manageWords section, .wordsToValidate section{
     padding-right: 13px;
 }
 

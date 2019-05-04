@@ -62,10 +62,15 @@ Route::post('play', 'NesCssController@createWithParams');
 Route::get('join', 'NesCssController@randomJoin')->name('game.randomJoin');
 Route::get('test', 'NesCssController@test')->name('test');
 Route::get('/', 'NesCssController@index')->name('index');
-Route::get('/definition/{word}', 'NesCssController@definition')->name('definition');
 
 
+Route::get('/user/{userId}', 'NesCssController@getProfile')->name('user.profile');
 Route::get('/admin', 'NesCssController@admin')->name('admin');
+Route::post('/word/submit', 'NesCssController@submitWord')->name('word.submit');
+Route::post('/word/delete', 'NesCssController@deleteWord')->name('word.delete');
+Route::post('/word/validate', 'NesCssController@validateWord')->name('word.validate');
+Route::get('/word/definition/{word}', 'NesCssController@definition')->name('definition');
+Route::get('/word/datas/{word}', 'NesCssController@datas')->name('datas');
 
 // clear queue
 Route::get('/pop', function() {

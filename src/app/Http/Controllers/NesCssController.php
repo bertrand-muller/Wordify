@@ -758,6 +758,45 @@ WORD;
         return json_encode($event);
     }
 
+    public function submitWord(Request $request){
+        $wordInput = filter_var($request->input('word'), FILTER_SANITIZE_SPECIAL_CHARS);
+        if(Word::where("word",$wordInput)->get()->isEmpty()) {
+            $word = new Word();
+            $word->word = ucfirst(strtolower($wordInput));
+            $word->valid = $this->isAdmin();
+            $word->userId = auth()->user()->id;
+            $word->save();
+            return json_encode($word);
+        }else{
+            return response(json_encode($wordInput), 400);
+        }
+    }
+
+    public function deleteWord(Request $request){
+        $this->checkIsAdmin();
+        $wordId = filter_var($request->input('wordId'), FILTER_SANITIZE_NUMBER_INT);
+        $word = Word::find($wordId);
+        if($word) {
+            $word->delete();
+            return json_encode('ok');
+        }else{
+            return response(json_encode($wordId.' does not exist'), 400);
+        }
+    }
+
+    public function validateWord(Request $request){
+        $this->checkIsAdmin();
+        $wordId = filter_var($request->input('wordId'), FILTER_SANITIZE_NUMBER_INT);
+        $word = Word::find($wordId);
+        if($word) {
+            $word->valid = true;
+            $word->save();
+            return json_encode($word);
+        }else{
+            return response(json_encode($wordId.' does not exist'), 400);
+        }
+    }
+
     public function index(){
         $user = $this->getAuthUser();
         return view('dashboards.index', [
@@ -765,16 +804,23 @@ WORD;
         ]);
     }
 
+    private function checkIsAdmin(){
+        if(!$this->isAdmin()){
+            abort(401,'User is not admin');
+        }
+    }
+
+    private function isAdmin(){
+        return auth()->user()->roles()->where('name', 'administrator')->exists();
+    }
+
     public function admin(){
         $user = $this->getAuthUser();
-        if($user->roles()->where('name', 'administrator')->exists()) {
-            return view('dashboards.admin', [
-                'user' => $user,
-                'words' => Word::where('valid', true)->get(),
-                'wordsToValidate' => Word::where('valid', false)->get(),
-            ]);
-        }else{
-            return response("Not admin",401);
-        }
+        $this->checkIsAdmin();
+        return view('dashboards.admin', [
+            'user' => $user,
+            'words' => Word::where('valid', true)->orderBy('word', 'asc')->get(),
+            'wordsToValidate' => Word::where('valid', false)->get(),
+        ]);
     }
 }
