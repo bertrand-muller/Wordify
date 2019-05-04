@@ -14,7 +14,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
     "clean-webpack-plugin": "^0.1.16",
-    "cross-env": "^3.2.4",
+    "cross-env": "^5.2.0",
     "echarts-stat": "^1.1.1",
     "font-awesome": "^4.7.0",
     "gentelella": "^1.4.0",

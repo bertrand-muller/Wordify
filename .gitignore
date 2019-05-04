@@ -1,3 +1,5 @@
+!.gitkeep
+
 .idea
 src/public/uploads/users
 db/data

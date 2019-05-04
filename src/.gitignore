@@ -1,5 +1,3 @@
-!.gitkeep
-
 data/
 
 # Laravel, nodeJS, Bower, Gulp exclusions, Composer exclusions
@@ -9,7 +7,7 @@ node_modules/
 npm-shrinkwrap.json
 bower_components/
 bootstrap/compiled.php
-bootstrap/cache/
+bootstrap/cache/*
 
 storage/
 storage/debugbar/
@@ -38,4 +36,6 @@ _ide_helper.php
 
 # Ignore uploads except default images
 public/uploads/words/*
-!public/uploads/words/word.png
+!public/uploads/words/word.png!.gitkeep
+
+!.gitkeep
