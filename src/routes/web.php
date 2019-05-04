@@ -62,6 +62,10 @@ Route::post('play', 'NesCssController@createWithParams');
 Route::get('join', 'NesCssController@randomJoin')->name('game.randomJoin');
 Route::get('test', 'NesCssController@test')->name('test');
 Route::get('/', 'NesCssController@index')->name('index');
+Route::get('/definition/{word}', 'NesCssController@definition')->name('definition');
+
+
+Route::get('/admin', 'NesCssController@admin')->name('admin');
 
 // clear queue
 Route::get('/pop', function() {

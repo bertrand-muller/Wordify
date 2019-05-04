@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class LoginController extends Controller
 {
@@ -106,6 +109,31 @@ class LoginController extends Controller
            }else{
                $errors = [$this->username() => 'The password confirmation does not match.'];
            }
+        }
+
+        if ($request->hasFile('picture')) {
+
+            $picture = $request->file('picture');
+            $extension = $picture->getClientOriginalExtension();
+
+            // Verify extension.
+            if (!in_array($extension, ['jpeg', 'jpg', 'JPG', 'PNG', 'png'])) {
+                return Response::create(['error' => 'Only the following formats are accepted to upload a picture: ".jpeg", ".jpg" ou ".png"'], 400);
+            }
+
+            // Verify size is less than 4Mo (4194304 octets).
+            if ($picture->getClientSize() > 4194304) {
+                return Response::create(['error' => 'The picture is too big. It should be less than 4Mo.'], 400);
+            }
+
+            if($user->image != 'guest.png') {
+                unlink(public_path('/uploads/users/' . $user->image));
+            }
+            $filename = uniqid() . time() . '.' . $extension;
+            Image::make($picture)->resize(32, 32)->save(public_path('/uploads/users/' . $filename));
+
+            $user->image = $filename;
+            $user->save();
         }
 
         return redirect()->back()

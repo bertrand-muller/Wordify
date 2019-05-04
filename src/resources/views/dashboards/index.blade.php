@@ -30,6 +30,9 @@
 
             @if(!$user->isGuest)
                 <div class="col-md-4 logOut">
+                    @if($user->roles()->where('name', 'administrator')->exists())
+                        <button id="profile_adminPannel_button" type="button" class="nes-btn is-warning">Admin pannel</button>
+                    @endif
                     <button id="profile_logOut_button" type="button" class="nes-btn is-error">Log out</button>
                 </div>
             @endif
@@ -157,7 +160,7 @@
                     <div class="row">
                         <section class="nes-container with-title updateProfile">
                             <h3 class="title">Update profile</h3>
-                            {{ Form::open(['route' => 'updateProfile']) }}
+                            {{ Form::open(['route' => 'updateProfile', 'files' => true]) }}
                                 <div class="nes-field">
                                     <label>Name</label>
                                     <input type="text" name="name" class="nes-input" placeholder="Name" value="{{ $user->name  }}">
@@ -170,6 +173,24 @@
                                 <div class="nes-field">
                                     <label>Confirm new password</label>
                                     <input type="password" name="password_confirmation" class="nes-input" placeholder="Password" value="">
+                                </div>
+                                <div class="split"></div>
+                                <div class="nes-field">
+                                    <label>Avatar</label>
+                                    <div class="avatar-sectionInput">
+                                        <input class="inputfile nes-input" id="picture-input" name="picture" type="file" accept=".jpeg,.png,.jpg,.JPG,.PNG">
+                                        <label for="picture-input">
+                                            <div class="nes-input">
+                                                <span class="nes-text" id="picture-output">Choose a file...</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="avatar-sectionDisplay">
+                                        <div class="nes-input">
+                                            <img class="nes-avatar" src="/uploads/users/{{$user->image}}"/>
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="nes-field">
                                     <button type="button" class="nes-btn">Update profile</button>

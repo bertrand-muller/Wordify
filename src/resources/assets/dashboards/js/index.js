@@ -5,6 +5,7 @@ let join_submitWord = $("#join_submitWord");
 let profile_login = $(".loginForm");
 let profile_update = $(".updateProfile");
 let profile_logOut = $("#profile_logOut_button");
+let profile_adminPannel = $("#profile_adminPannel_button")
 let profile_signup = $(".signupForm");
 let rules_content = $("#rules_content");
 let rules_previous = $("#rules_previous");
@@ -32,8 +33,17 @@ profile_logOut.click(function () {
     window.location.href = "/logout";
 });
 
+profile_adminPannel.click(function () {
+    window.location.href = "/admin";
+});
+
 join_randomGame.find("button").click(function () {
     window.location.href = "/join";
+});
+
+$("#picture-input").change(function (e) {
+    let arr = $(this).val().split('\\');
+    $("#picture-output").text(arr[arr.length-1]).addClass("is-ok")
 });
 
 join_gameWithId_button.click(function () {

@@ -17,6 +17,6 @@ class Word extends Model {
      * The attributes that are mass assignable.
      * @var array
      */
-    protected $fillable = ['french', 'english', 'frenchDefinition', 'englishDefinition'];
+    protected $fillable = ['word','valid','userId'];
 
 }

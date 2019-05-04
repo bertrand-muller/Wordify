@@ -6,16 +6,20 @@ let e = new Echo({
 
 
 let chat_input = $('#chat-input');
+let game_allRounds = $("#game-allRounds");
 let gameSection = $("#game");
 let gameBegin = $("#game-begin");
 let playersGame = $("#players-gameInfo");
+let playersRounds = $("#players-game");
 let playersChooser = $("#players-chooser");
+let gameWord_wordGuest_display = $("#game-wordGuesser_display");
 let gameWord_display = $("#game-word_display");
 let gameWord_current = $("#game-word_current");
 let gameWord_currentWords = $("#game-word_current_words");
 let gameWord_helperInput = $("#game-word_helperInput");
 let gameWord_chooserInput = $("#game-word_chooserInput");
 let gameWord_timer = $("#game-timer");
+let gameWord_status = $("#game-word_status");
 let gameWord_helperInput_button = gameWord_helperInput.find("button");
 let gameWord_helperInput_input = gameWord_helperInput.find("input");
 let gameWord_chooserInput_button = gameWord_chooserInput.find("button:not(.is-error)");
@@ -48,9 +52,6 @@ let addUser = function(section, user){
                     $("<img>")
                         .attr("src","/uploads/users/"+user.image)
                 )
-                .append(
-                    $("<span>").text(playersGame.attr("host-userId") == user.id ? 'host' : '')
-                )
         )
         .append(
             $("<div>")
@@ -61,8 +62,7 @@ let addUser = function(section, user){
                         .text(user.name)
                 )
                 .append(
-                    $("<p>")
-                        .text(user.desc)
+                    $("<span>").text(playersGame.attr("host-userId") == user.id ? 'host' : isUserOnline(user.id) || playersGame.attr("game-status") == "begin" ? '' : 'watch')
                 )
     );
     if(user.id == currentUserId){
@@ -74,29 +74,31 @@ let addUser = function(section, user){
 };
 
 let sendChat = function(){
-    chat_input.attr("disabled", true);
-    $.ajax({
-        type: 'POST',
-        url: '/chat/'+gameId,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {
-            message: $("#chat-input").val()
-        },
-        dataType: 'json',
-        success: function(data) {
-            //console.log(data);
-            chat_input.attr("disabled", false);
-            chat_input.val("");
-            chat_input.focus();
-        },
-        error: function(html, status) {
-            console.log(html);
-            chat_input.attr("disabled", false);
-            chat_input.focus();
-        }
-    });
+    if(chat_input.val() != "") {
+        chat_input.attr("disabled", true);
+        $.ajax({
+            type: 'POST',
+            url: '/chat/' + gameId,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                message: $("#chat-input").val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+                chat_input.attr("disabled", false);
+                chat_input.val("");
+                chat_input.focus();
+            },
+            error: function (html, status) {
+                console.log(html);
+                chat_input.attr("disabled", false);
+                chat_input.focus();
+            }
+        });
+    }
 };
 
 $("#chat-btn").click(sendChat);
@@ -150,120 +152,129 @@ gameBegin_button.click(function () {
 });
 
 gameWord_helperInput_button.click(function () {
-    gameWord_helperInput_button.attr("disabled", true);
-    gameWord_helperInput_input.attr("disabled", true);
-    gameWord_helperInput_button.addClass("is-disabled");
-    gameWord_helperInput_input.addClass("is-disabled");
-    gameWord_helperInput_button.text("Sending...");
-    $.ajax({
-        type: 'POST',
-        url: window.location.pathname + '/wordHelper',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {
-            word: gameWord_helperInput_input.val()
-        },
-        dataType: 'json',
-        success: function (data) {
-            gameWord_helperInput.hide();
-            gameWord_helperInput_button.attr("disabled", false);
-            gameWord_helperInput_input.attr("disabled", false);
-            gameWord_helperInput_button.removeClass("is-disabled");
-            gameWord_helperInput_input.removeClass("is-disabled");
-            gameWord_helperInput_button.text("Send the word");
-        },
-        error: function (html, status) {
-            console.log("error",html);
-            gameWord_helperInput_button.attr("disabled", false);
-            gameWord_helperInput_input.attr("disabled", false);
-            gameWord_helperInput_button.removeClass("is-disabled");
-            gameWord_helperInput_input.removeClass("is-disabled");
-            gameWord_helperInput_button.text("Send the word");
-        }
-    });
+    if(gameWord_helperInput_input.val() != "") {
+        gameWord_helperInput_button.attr("disabled", true);
+        gameWord_helperInput_input.attr("disabled", true);
+        gameWord_helperInput_button.addClass("is-disabled");
+        gameWord_helperInput_input.addClass("is-disabled");
+        gameWord_helperInput_button.text("Sending...");
+        $.ajax({
+            type: 'POST',
+            url: window.location.pathname + '/wordHelper',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                word: gameWord_helperInput_input.val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                gameWord_helperInput.hide();
+                gameWord_helperInput_input.val("");
+                gameWord_helperInput_button.attr("disabled", false);
+                gameWord_helperInput_input.attr("disabled", false);
+                gameWord_helperInput_button.removeClass("is-disabled");
+                gameWord_helperInput_input.removeClass("is-disabled");
+                gameWord_helperInput_button.text("Send the word");
+            },
+            error: function (html, status) {
+                console.log("error", html);
+                gameWord_helperInput_button.attr("disabled", false);
+                gameWord_helperInput_input.attr("disabled", false);
+                gameWord_helperInput_button.removeClass("is-disabled");
+                gameWord_helperInput_input.removeClass("is-disabled");
+                gameWord_helperInput_button.text("Send the word");
+            }
+        });
+    }
 });
 
 gameWord_chooserInput_buttonPass.click(function () {
-    gameWord_chooserInput_button.attr("disabled", true);
-    gameWord_chooserInput_buttonPass.attr("disabled", true);
-    gameWord_chooserInput_input.attr("disabled", true);
-    gameWord_chooserInput_button.addClass("is-disabled");
-    gameWord_chooserInput_buttonPass.addClass("is-disabled").removeClass("is-error");
-    gameWord_chooserInput_input.addClass("is-disabled");
-    gameWord_chooserInput_buttonPass.text("Passing...");
-    $.ajax({
-        type: 'POST',
-        url: window.location.pathname + '/passChooser',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {
-            word: gameWord_chooserInput_input.val()
-        },
-        dataType: 'json',
-        success: function (data) {
-            gameWord_chooserInput_input.hide();
-            gameWord_chooserInput_button.attr("disabled", false);
-            gameWord_chooserInput_buttonPass.attr("disabled", false);
-            gameWord_chooserInput_input.attr("disabled", false);
-            gameWord_chooserInput_button.removeClass("is-disabled");
-            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
-            gameWord_chooserInput_input.removeClass("is-disabled");
-            gameWord_chooserInput_buttonPass.text("Don't guess the word");
-        },
-        error: function (html, status) {
-            console.log("error",html);
-            gameWord_chooserInput_button.attr("disabled", false);
-            gameWord_chooserInput_buttonPass.attr("disabled", false);
-            gameWord_chooserInput_input.attr("disabled", false);
-            gameWord_chooserInput_button.removeClass("is-disabled");
-            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
-            gameWord_chooserInput_input.removeClass("is-disabled");
-            gameWord_chooserInput_buttonPass.text("Don't guess the word");
-        }
-    });
+    if(gameWord_chooserInput_input.val() != "") {
+        gameWord_chooserInput_button.attr("disabled", true);
+        gameWord_chooserInput_buttonPass.attr("disabled", true);
+        gameWord_chooserInput_input.attr("disabled", true);
+        gameWord_chooserInput_button.addClass("is-disabled");
+        gameWord_chooserInput_buttonPass.addClass("is-disabled").removeClass("is-error");
+        gameWord_chooserInput_input.addClass("is-disabled");
+        gameWord_chooserInput_buttonPass.text("Passing...");
+        $.ajax({
+            type: 'POST',
+            url: window.location.pathname + '/passChooser',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                word: gameWord_chooserInput_input.val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                gameWord_chooserInput_input.hide();
+                gameWord_chooserInput_input.val("");
+                gameWord_chooserInput_button.attr("disabled", false);
+                gameWord_chooserInput_buttonPass.attr("disabled", false);
+                gameWord_chooserInput_input.attr("disabled", false);
+                gameWord_chooserInput_button.removeClass("is-disabled");
+                gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+                gameWord_chooserInput_input.removeClass("is-disabled");
+                gameWord_chooserInput_buttonPass.text("Don't guess the word");
+            },
+            error: function (html, status) {
+                console.log("error", html);
+                gameWord_chooserInput_button.attr("disabled", false);
+                gameWord_chooserInput_buttonPass.attr("disabled", false);
+                gameWord_chooserInput_input.attr("disabled", false);
+                gameWord_chooserInput_button.removeClass("is-disabled");
+                gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+                gameWord_chooserInput_input.removeClass("is-disabled");
+                gameWord_chooserInput_buttonPass.text("Don't guess the word");
+            }
+        });
+    }
 });
 
 gameWord_chooserInput_button.click(function () {
-    gameWord_chooserInput_button.attr("disabled", true);
-    gameWord_chooserInput_buttonPass.attr("disabled", true);
-    gameWord_chooserInput_input.attr("disabled", true);
-    gameWord_chooserInput_button.addClass("is-disabled");
-    gameWord_chooserInput_buttonPass.addClass("is-disabled").removeClass("is-error");
-    gameWord_chooserInput_input.addClass("is-disabled");
-    gameWord_chooserInput_button.text("Sending...");
-    $.ajax({
-        type: 'POST',
-        url: window.location.pathname + '/wordChooser',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {
-            word: gameWord_chooserInput_input.val()
-        },
-        dataType: 'json',
-        success: function (data) {
-            gameWord_chooserInput_input.hide();
-            gameWord_chooserInput_button.attr("disabled", false);
-            gameWord_chooserInput_buttonPass.attr("disabled", false);
-            gameWord_chooserInput_input.attr("disabled", false);
-            gameWord_chooserInput_button.removeClass("is-disabled");
-            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
-            gameWord_chooserInput_input.removeClass("is-disabled");
-            gameWord_chooserInput_button.text("Guess the word");
-        },
-        error: function (html, status) {
-            console.log("error",html);
-            gameWord_chooserInput_button.attr("disabled", false);
-            gameWord_chooserInput_buttonPass.attr("disabled", false);
-            gameWord_chooserInput_input.attr("disabled", false);
-            gameWord_chooserInput_button.removeClass("is-disabled");
-            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
-            gameWord_chooserInput_input.removeClass("is-disabled");
-            gameWord_chooserInput_button.text("Guess the word");
-        }
-    });
+    if(gameWord_chooserInput_input.val() != "") {
+        gameWord_chooserInput_button.attr("disabled", true);
+        gameWord_chooserInput_buttonPass.attr("disabled", true);
+        gameWord_chooserInput_input.attr("disabled", true);
+        gameWord_chooserInput_button.addClass("is-disabled");
+        gameWord_chooserInput_buttonPass.addClass("is-disabled").removeClass("is-error");
+        gameWord_chooserInput_input.addClass("is-disabled");
+        gameWord_chooserInput_button.text("Sending...");
+        $.ajax({
+            type: 'POST',
+            url: window.location.pathname + '/wordChooser',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                word: gameWord_chooserInput_input.val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                gameWord_chooserInput.hide();
+                gameWord_chooserInput_input.val("");
+                gameWord_chooserInput_button.attr("disabled", false);
+                gameWord_chooserInput_buttonPass.attr("disabled", false);
+                gameWord_chooserInput_input.attr("disabled", false);
+                gameWord_chooserInput_button.removeClass("is-disabled");
+                gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+                gameWord_chooserInput_input.removeClass("is-disabled");
+                gameWord_chooserInput_button.text("Guess the word");
+            },
+            error: function (html, status) {
+                console.log("error", html);
+                gameWord_chooserInput_button.attr("disabled", false);
+                gameWord_chooserInput_buttonPass.attr("disabled", false);
+                gameWord_chooserInput_input.attr("disabled", false);
+                gameWord_chooserInput_button.removeClass("is-disabled");
+                gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+                gameWord_chooserInput_input.removeClass("is-disabled");
+                gameWord_chooserInput_button.text("Guess the word");
+            }
+        });
+    }
 });
 
 // Only use for displaying 3 dots (loading)
@@ -306,6 +317,40 @@ function stopTimer(){
     clearInterval(gameWord_timer_interval);
 }
 
+let getDefinition = function(){
+    console.log($(this).parent().find("span.wordValue").text());
+    let btn = $(this).attr("disabled", true);
+    $.ajax({
+        type: 'GET',
+        url: '/definition/'+btn.parent().find("span.wordValue").text(),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'json',
+        success: function (data) {
+            let modal = $("#definitionModal");
+            //console.log(data);
+            modal.find("p.title span").text(data.word);
+            let content = modal.find("p.content");
+            content.text("").children().remove();
+            if(data.definitions.length == 0){
+                content.html("<span class='nes-text is-disabled'>Definition can't be found</span>");
+            }else {
+                let ul = $("<ul>").addClass("nes-list is-disc");
+                data.definitions.forEach(function (definition) {
+                    ul.append($("<li>").text(definition.definition.substring(0,1).toUpperCase()+definition.definition.substring(1)));
+                });
+                content.append(ul);
+            }
+            modal.modal();
+            btn.attr("disabled", false);
+        },
+        error: function (html, status) {
+            btn.attr("disabled", false);
+        }
+    });
+};
+
 let updateCurrentWords = function(round, wordsPlayers){
     if(wordsPlayers != null || round.step == 1 || round.step == 3) {
         gameWord_currentWords.children().remove();
@@ -331,7 +376,9 @@ let updateCurrentWords = function(round, wordsPlayers){
                             $("<section>").addClass("nes-container with-title")
                                 .attr("userId", round.words[k].id)
                                 .append($("<h3>").addClass("title").text(round.words[k].name))
-                                .append($("<p>").append($("<span>").addClass("nes-text " + textClass).text(textValue)))
+                                .append($("<p>")
+                                    .append($("<span>").addClass("wordValue nes-text " + textClass).text(textValue))
+                                    .append(textClass == 'is-disabled' ? null : $("<button>").attr("data-toggle","modal").attr("data-target","#definitionModal").addClass("nes-btn btn-getDefinition").click(getDefinition).append($("<span>").text("?"))))
                                 .append($("<div>").addClass("row text-center choiceButton")
                                     .append($("<div>").addClass("col-xs-4").append($("<button>").addClass("nes-btn is-success").html("&#x2714;").click(sendSelectWord)))
                                     .append($("<div>").addClass("col-xs-4").append($("<button>").addClass("nes-btn is-warning").html("?").click(sendSelectWord)))
@@ -351,10 +398,9 @@ let updateCurrentWords = function(round, wordsPlayers){
     if(round.step == 2 && !isChooser()){
         for (var k in round.words) {
             if (round.words.hasOwnProperty(k)) {
-                if(round.words[k].select[currentUserId+""] !== undefined){
-                    console.log(JSON.stringify(round.words[k].select[currentUserId+""]));
+                if (round.words[k].select[currentUserId + ""] !== undefined) {
                     let spanClass;
-                    switch (round.words[k].select[currentUserId+""]) {
+                    switch (round.words[k].select[currentUserId + ""]) {
                         case null:
                             spanClass = 'is-warning';
                             break;
@@ -365,15 +411,22 @@ let updateCurrentWords = function(round, wordsPlayers){
                             spanClass = 'is-error';
                             break;
                     }
-                    gameWord_currentWords.find('section[userId="'+k+'"] span').addClass(spanClass);
-                    gameWord_currentWords.find('section[userId="'+k+'"] .choiceButton').hide();
-                }else{
-                    gameWord_currentWords.find('section[userId="'+k+'"] .choiceButton').show();
+                    gameWord_currentWords.find('section[userId="' + k + '"] span').addClass(spanClass);
+                    gameWord_currentWords.find('section[userId="' + k + '"] .choiceButton').hide();
+                } else {
+                    gameWord_currentWords.find('section[userId="' + k + '"] .choiceButton').show();
                 }
             }
         }
     }else{
         $(".choiceButton").hide();
+    }
+    if(round.step == 2 && isChooser()) {
+        for (var k in round.words) {
+            if (round.words.hasOwnProperty(k)) {
+                gameWord_currentWords.find('section[userId="' + k + '"] span').text("Selecting");
+            }
+        }
     }
 };
 
@@ -405,7 +458,9 @@ let sendSelectWord = function (){
         data: {userId : userId, choice: choice},
         dataType: 'json',
         success: function(data) {
-            gameWord_currentWords.find('section[userId="'+userId+'"] span').addClass(spanClass);
+            if(playersGame.attr("round-step") == 2) {
+                gameWord_currentWords.find('section[userId="' + userId + '"] span').addClass(spanClass);
+            }
             gameWord_currentWords.find('section[userId="'+userId+'"] .choiceButton').hide();
         },
         error: function(html, status) {
@@ -428,13 +483,37 @@ let isUserOnline = function(userId){
     return response;
 };
 
+let printRounds = function(game){
+    let score = 0;
+    game.rounds.forEach(function (gameRound) {
+        let scoreToAdd = 0;
+        let roundText = 'current';
+        switch (gameRound.win) {
+            case -1:
+                scoreToAdd = -1;
+                roundText = 'failed';
+                break;
+            case 0:
+                scoreToAdd = 0;
+                roundText = 'passed';
+                break;
+            case 1:
+                scoreToAdd = 1;
+                roundText = 'win';
+                break;
+        }
+        playersRounds.find('div.round[roundId="'+gameRound.id+'"] span').text(roundText);
+        score += scoreToAdd;
+    });
+    playersRounds.find('div.score span').removeClass("is-error is-success").addClass(score == 0 ? '' : (score > 0 ? 'is-success' : 'is-error')).text(score);
+};
+
 let printGame = function(game, words){
     console.log("game",game);
 
     // {"currentRound":0,"nbRounds":5,"gameStatus":"begin","rounds":[]}
     gameSection.children().hide();
-    $("#players-game").text(game.currentRound+" / "+game.nbRounds);
-    $(".onlineUsers").find("section.member-card .avatar span").text("");
+    $(".onlineUsers").find("section.member-card .users span").text("");
     $(".onlineUsers").find("section.member-card").each(function (index, element) {
         let userId = $(element).attr('profile-userId');
         let text = '';
@@ -447,11 +526,9 @@ let printGame = function(game, words){
         if(userId == game.hostId){
             text = 'host';
         }
-        $(element).find('.avatar span').text(text);
-        // TODO Afk ?
+        $(element).find('.users span').text(text);
     });
-    //$(".onlineUsers").find("section.member-card[profile-userId='"+game.hostId+"'] .avatar span").text("Host");
-    playersGame.attr("host-userId", game.hostId).attr("game-status", game.gameStatus);
+    playersGame.attr("host-userId", game.hostId).attr("game-status", game.gameStatus).attr("round-step", 0);
     playersChooser.attr("host-userId", null).text(">_");
 
     switch(game.gameStatus){
@@ -463,13 +540,14 @@ let printGame = function(game, words){
         case "running":
             stopIndicator();
             let round = game.rounds[game.currentRound-1];
+            playersGame.attr("round-step", round.step);
             playersChooser.attr("chooser-userId", round.chooserId).text(round.chooserName);
             updateCurrentWords(round, words);
             gameWord_current.show();
-            gameWord_timer.find("progress").attr("value",Math.floor(round.nextStepTimer - Date.now()/1000)).attr("max",round.timer);
+            gameWord_timer.find("progress").attr("value",Math.trunc(round.nextStepTimer - Date.now()/1000)).attr("max",round.timer);
             gameWord_timer.show();
             startTimer();
-
+            printRounds(game);
             switch (round.step) {
                 case 1:
                     if(isChooser()){
@@ -495,7 +573,109 @@ let printGame = function(game, words){
                         gameWord_display.show();
                     }
                     break;
+                case 4:
+                    gameWord_wordGuest_display.find("span").remove();
+                    gameWord_status.find("span").remove();
+                    gameWord_display.find("span").remove();
+                    let spanClass;
+                    let spanText;
+                    let statusText;
+                    let statusClass;
+                    switch (round.win) {
+                        case -1:
+                            spanText = round.guessWord;
+                            statusText = 'Failed';
+                            statusClass = 'is-error';
+                            break;
+                        case 0:
+                            spanText = 'Passed';
+                            statusText = 'Not guessed';
+                            statusClass = '';
+                            break;
+                        case 1:
+                            spanText = round.guessWord;
+                            statusText = '<i class="nes-icon trophy"></i><span class="win">Win</span>';
+                            statusClass = 'is-warning';
+                            break;
+                    }
+                    gameWord_status.show().append($("<span>").addClass("nes-text "+statusClass).html(statusText));
+                    gameWord_wordGuest_display.show().append($("<span>").text(spanText));
+                    gameWord_display.show().append($("<span>").text(round.word));
+                    for (var k in round.words) {
+                        if (round.words.hasOwnProperty(k)) {
+                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] span').text(round.words[k].word);
+                        }
+                    }
+                    break;
+            }
+            break;
+        case "finished":
+            if(game.nextGame){
+                window.location.href = '/play/'+game.nextGame;
+            }
+            printRounds(game);
+            let score = 0;
+            game.rounds.forEach(function (gameRound) {
+                let scoreToAdd = 0;
+                let roundText = '';
+                let roundColor = '';
+                let guessWord = null;
+                switch (gameRound.win) {
+                    case -1:
+                        roundText = 'failed';
+                        roundColor = 'is-error';
+                        guessWord = $("<div>").text("Word guessed : "+gameRound.guessWord);
+                        scoreToAdd = -1;
+                        break;
+                    case 0:
+                        roundText = 'passed';
+                        roundColor = 'is-disabled';
+                        scoreToAdd = 0;
+                        break;
+                    case 1:
+                        roundText = 'win';
+                        roundColor = 'is-success';
+                        guessWord = $("<div>").text("Word guessed : "+gameRound.guessWord);
+                        scoreToAdd = 1;
+                        break;
+                }
+                score += scoreToAdd;
+                let parentSpan = game_allRounds.find('span[round="'+gameRound.id+'"]');
+                parentSpan.children().remove();
+                let ul = $("<ul>").addClass("nes-list is-disc");
+                for(var k in gameRound.words){
+                    if(gameRound.words.hasOwnProperty(k)){
+                        ul.append(
+                            $("<li>").html(gameRound.words[k].name+" : <span class='nes-text "+(gameRound.words[k].isSelected ? '' : 'is-disabled')+"'>"+gameRound.words[k].word+"</span>")
+                        );
 
+                    }
+                }
+                parentSpan
+                    .append($("<div>").html("Status : <span class='nes-text "+roundColor+"'>"+roundText+"</span>"))
+                    .append($("<div>").text("Guesser : "+gameRound.chooserName))
+                    .append($("<div>").text("Word to guess : "+gameRound.word))
+                    .append(guessWord)
+                    .append($("<div>").text("Words of helpers : "))
+                    .append($("<div>").addClass("lists").append(ul));
+            });
+            let statusText = '';
+            let statusClass = '';
+            if(score > 0){ // win
+                statusText = '<i class="nes-icon trophy"></i><span class="win">Victory !</span>';
+                statusClass = "is-success";
+            }else{ // loose
+                statusText = '<span class="defeat">Defeat</span>';
+                statusClass = "is-error";
+            }
+            gameWord_status.find("span").remove();
+            gameWord_status.show().append($("<span>").addClass("nes-text "+statusClass).html(statusText));
+            game_allRounds.show();
+
+            let lastRound = game.rounds[game.currentRound-1];
+            gameWord_timer.find("progress").attr("value",Math.trunc(lastRound.nextStepTimer - Date.now()/1000)).attr("max",lastRound.timer);
+            if(Math.trunc(lastRound.nextStepTimer - Date.now()/1000) > 0) {
+                gameWord_timer.show();
             }
             break;
         default:
@@ -505,24 +685,6 @@ let printGame = function(game, words){
 
 if(currentWord) {
     gameWord_display.find("span").text(currentWord);
-}
-
-if(isHost()){
-    $.ajax({
-        type: 'GET',
-        url: window.location.pathname+'/host',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        dataType: 'json',
-        success: function(data) {
-            //console.log(data);
-        },
-        error: function(html, status) {
-            console.log(html);
-            // TODO error !
-        }
-    });
 }
 
 e.private('player-'+currentUserId)
@@ -541,6 +703,23 @@ e.private('player-'+currentUserId)
 
 e.join('game-'+gameId)
     .here((users) => {
+        if(users.length == 1 && !isHost()){
+            $.ajax({
+                type: 'GET',
+                url: window.location.pathname+'/host',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: 'json',
+                success: function(data) {
+                    //console.log(data);
+                },
+                error: function(html, status) {
+                    console.log(html);
+                    // TODO error !
+                }
+            });
+        }
         let jsonGame = JSON.parse(game);
         usersOnline = users;
 
@@ -561,7 +740,7 @@ e.join('game-'+gameId)
         if($(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"']").length == 0) {
             addUser('players', user);
         }else{
-            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .avatar span").text('');
+            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .users span").text('');
         }
         usersOnline[user.id] = user;
     })
@@ -570,7 +749,7 @@ e.join('game-'+gameId)
         if(playersGame.attr("game-status") == 'begin'){
             $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"']").remove();
         }else{
-            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .avatar span").text("away");
+            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .users span").text("away");
         }
         if(playersGame.attr("host-userId") == user.id){
             $.ajax({

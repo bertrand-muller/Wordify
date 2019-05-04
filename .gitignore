@@ -1,5 +1,5 @@
 .idea
-
+src/public/uploads/users
 db/data
 
 composer\.phar

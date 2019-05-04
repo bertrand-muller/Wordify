@@ -6,9 +6,8 @@
 <div class="container body">
     <!-- API TO USE: https://www.wordsapi.com/ -->
     <!--
-    SCREEN:
-        - win
-        - end + begin new game
+    DEBUG :
+    REDO :
     ADMIN:
         - add word
         - remove word
@@ -19,10 +18,9 @@
         - pourcentage réussite deviner
         - pourcentage réussite faire deviner
         - parties jouées
+        - display profile
      HELP:
         - get word definition
-     PROFILE:
-        - upload d'avatar
      BOTS:
         - get synonym / submit word = API
         - select words
@@ -58,6 +56,19 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="definitionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body nes-dialog">
+                        <p class="title">Definition : <span></span></p>
+                        <p class="content"></p>
+                        <menu class="dialog-menu">
+                            <button type="button" class="nes-btn" data-dismiss="modal">Ok</button>
+                        </menu>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="menu">
             <div class="row">
                 <div class="col-md-3 text-center">
@@ -85,11 +96,17 @@
                         >_
                     </div>
                 </section>
-                <section class="nes-container with-title is-dark">
-                    <h3 class="title">Round</h3>
-                    <div class="item" id="players-game">
-                        >_
+                <section class="nes-container with-title is-dark" id="players-game">
+                    <h3 class="title">Game</h3>
+                    <div class="score">
+                        Score : <span class="nes-text">0</span>
                     </div>
+                    <label></label>
+                    @for($i = 1; $i <= json_decode($game)->nbRounds; $i++)
+                        <div class="round" roundId="{{$i}}">
+                            Round {{$i}} : <span>-</span>
+                        </div>
+                    @endfor
                 </section>
                 <section class="nes-container with-title is-dark">
                     <h3 class="title">Players</h3>
@@ -114,8 +131,16 @@
                         <h3 class="title">Remaining time</h3>
                         <progress class="nes-progress" value="100" max="100"></progress>
                     </section>
+                    <section class="nes-container with-title" id="game-word_status">
+                        <h3 class="title">Status</h3>
+                        <span class="nes-text"></span>
+                    </section>
+                    <section class="nes-container with-title" id="game-wordGuesser_display">
+                        <h3 class="title">Word of the guesser</h3>
+                        <span class="nes-text"></span>
+                    </section>
                     <section class="nes-container with-title" id="game-word_display">
-                        <h3 class="title">Word</h3>
+                        <h3 class="title">Word to be guessed</h3>
                         <span class="nes-text"></span>
                     </section>
                     <section class="nes-container with-title" id="game-word_chooserInput">
@@ -138,6 +163,15 @@
                         <h3 class="title">Word of other players</h3>
                         <div id="game-word_current_words">
                         </div>
+                    </section>
+                    <section class="nes-container with-title" id="game-allRounds">
+                        <h3 class="title">All rounds</h3>
+                        @for($i = 1; $i <= json_decode($game)->nbRounds; $i++)
+                            <section class="nes-container with-title">
+                                <h3 class="title">Round {{$i}}</h3>
+                                <span round="{{$i}}"></span>
+                            </section>
+                        @endfor
                     </section>
                 </div>
             </div>

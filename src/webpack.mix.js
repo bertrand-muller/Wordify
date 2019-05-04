@@ -187,6 +187,9 @@ mix.scripts([
     'resources/assets/dashboards/js/index.js',
 ], 'public/assets/dashboards/js/index.js').version();
 
+mix.scripts([
+    'resources/assets/dashboards/js/admin.js',
+], 'public/assets/dashboards/js/admin.js').version();
 
 mix.scripts([
     'node_modules/bootstrap/js/modal.js',

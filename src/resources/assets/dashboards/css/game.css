@@ -20,7 +20,7 @@
 }
 
 .modal-content:not(.is-dark){
-    border: solid 4px black;
+    border: solid 4px #212529;
     border-radius: 0;
 }
 
@@ -52,8 +52,8 @@ img.pixelated{
     .chat{
         margin: 1em 1em 0 1em;
         position: fixed;
-        bottom: 0px;
-        border-bottom: solid 0px black;
+        bottom: 0;
+        border-bottom: none;
         max-height: 95%;
     }
 
@@ -100,6 +100,23 @@ img.pixelated{
     min-width: 50px;
 }
 
+#definitionModal p.content{
+    font-size: 10px;
+}
+
+#definitionModal p.content li{
+    margin-top: 10px;
+}
+
+.btn-getDefinition{
+    font-weight: normal;
+    position: relative;
+    top: -21px;
+    right: -17px;
+    float: right;
+    border-image-source:url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(0,0,0)" /></svg>');
+}
+
 .nes-balloon p{
     max-width: 200px;
     word-wrap: break-word;
@@ -131,8 +148,13 @@ img.pixelated{
 }
 
 .split{
+    display: block;
     border-top: solid 3px #333;
-    margin: 1em 0 0.5em 0.8em;
+    margin: 1em 0.8em 0.5em 0.8em;
+}
+
+.wordsToValidate .split:last-of-type{
+    display: none;
 }
 
 .profile section button{
@@ -175,7 +197,7 @@ img.pixelated{
 }
 
 .onlineUsers section, .onlineUsers section.is-dark, .gamePannel section,
-.profile section, .rules section.is-dark{
+.profile section, .rules section.is-dark, .wordsToValidate section{
     margin-top: 1em;
     padding: 5px;
 }
@@ -253,9 +275,69 @@ img.pixelated{
     background-color: darkgray;
 }
 
-.member-card > .avatar{
-    font-size: 7px;
-    text-align: center;
+span.win{
+    padding-left: 5px;
+    font-size: 24px;
+    color: #e8cf14;
+}
+
+span.defeat{
+    padding-left: 5px;
+    font-size: 24px;
+    color: darkred;
+}
+
+.avatar-sectionInput{
+    display: inline-block;
+    width: calc(100% - 50px);
+}
+.avatar-sectionDisplay{
+    display: inline-block;
+    width: 40px;
+}
+
+.avatar-sectionDisplay div.nes-input{
+    position: relative;
+    top: 3px;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+}
+
+.avatar-sectionDisplay img{
+    image-rendering: pixelated;
+    position: relative;
+    top: -4px;
+    left: -4px;
+    padding: 0;
+    margin: 0;
+    width: 32px;
+    height: 32px;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.inputfile + label {
+    display: block;
+    color: #898b8d;
+    font-weight: normal;
+}
+.inputfile + label span.is-ok {
+    color: #212529;
+}
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: white;
+}
+
+.member-card > .users{
+    font-size: 8px;
     font-style: italic;
 }
 
@@ -333,8 +415,12 @@ a.btnInInput {
 }
 
 #players-list > section.isHost{
-    color: black;
+    color: #212529;
     background-color: #d3d3d3;
+}
+
+#players-game, #game-allRounds{
+    font-size: 12px;
 }
 
 .join button.btnInInput {
@@ -348,7 +434,7 @@ a.btnInInput {
 }
 
 .join button.btnInInput.is-disabled{
-    color: black;
+    color: #212529;
 }
 
 .largeText{

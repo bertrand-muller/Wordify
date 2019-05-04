@@ -22,6 +22,7 @@ class NesCssController extends Controller {
     private static $TIMER_WORD_SELECT = 30;
     private static $TIMER_WORD_CHOOSE = 30;
     private static $TIMER_NEXT_ROUND = 10;
+    private static $TIMER_NEXT_GAME = 10;
 
     /**
      * Create a new controller instance.
@@ -76,9 +77,40 @@ class NesCssController extends Controller {
             'id' => $user->id,
             'name' => $user->name,
             'image' => $user->image,
-            'desc' => $user->desc,
             'here' => $game ? $this->isInGame($game, $user->id) : true
         ];
+    }
+
+    public function definition($word){
+        // TODO call API
+        return <<<WORD
+{
+  "word": "$word",
+  "definitions": [
+    {
+      "definition": "a motor vehicle with four wheels; usually propelled by an internal combustion engine",
+      "partOfSpeech": "noun"
+    },
+    {
+      "definition": "the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant",
+      "partOfSpeech": "noun"
+    },
+    {
+      "definition": "where passengers ride up and down",
+      "partOfSpeech": "noun"
+    },
+    {
+      "definition": "a wheeled vehicle adapted to the rails of railroad",
+      "partOfSpeech": "noun"
+    },
+    {
+      "definition": "a conveyance for passengers or freight on a cable railway",
+      "partOfSpeech": "noun"
+    }
+  ]
+}
+WORD;
+        ;
     }
 
     public function join($gameId) {
@@ -207,7 +239,7 @@ class NesCssController extends Controller {
         if ($content === false) {
             throw new Exception(curl_error($ch), curl_errno($ch));
         }
-        return count(json_decode($content)->users) < 3; // TODO -> 7
+        return count(json_decode($content)->users) < 7; // TODO -> 7
     }
 
     public function isInGame($game, $userId){
@@ -287,14 +319,13 @@ class NesCssController extends Controller {
 
         $percent = null;
         similar_text($game->currentWord, $word, $percent);
-        if($percent > 90){
-
+        $round->win = $percent > 90 ? 1 : -1;
+        $playerWords = json_decode($game->playersWord);
+        foreach ($round->words as $roundWord){
+            $roundWord->word = $playerWords->{$roundWord->id};
         }
-
         $round->word = $game->currentWord;
         $round->guessWord = $word;
-        $round->win = $percent > 90 ? 1 : -1;
-        //dd($round);
         $this->goToFinalStep($game, $round, $gameData);
         return json_encode("ok");
     }
@@ -319,6 +350,10 @@ class NesCssController extends Controller {
         $round->word = $game->currentWord;
         $round->guessWord = null;
         $round->win = 0;
+        $playerWords = json_decode($game->playersWord);
+        foreach ($round->words as $word){
+            $word->word = $playerWords->{$word->id};
+        }
         $this->goToFinalStep($game, $round, $gameData);
         return json_encode("ok");
     }
@@ -448,6 +483,21 @@ class NesCssController extends Controller {
         $game->save();
         $this->broacastWord($game, json_encode(['words' => $game->playersWord]));
         $this->dispatch((new UpdateGameQueue($game->id, 3, $gameData->currentRound))->delay(self::$TIMER_WORD_SELECT));
+    }
+
+    public function end($game){
+        $gameData = json_decode($game->data);
+        $round = $gameData->rounds[$gameData->currentRound-1];
+        $gameData->gameStatus = 'finished';
+        $game->status = 'finished';
+        $round->step = 5;
+        $round->nextStepTimer = date('U')+self::$TIMER_NEXT_GAME;
+        $round->timer = self::$TIMER_NEXT_GAME;
+        $game->data = json_encode($gameData);
+        $game->save();
+        $event = new GameEvent($game->id, $game->data, 'game');
+        event($event);
+        $this->dispatch((new UpdateGameQueue($game->id, 6, $gameData->currentRound))->delay(self::$TIMER_NEXT_GAME));
     }
 
     public function goToFinalStep($game, $round, $gameData){
@@ -597,7 +647,19 @@ class NesCssController extends Controller {
     }
 
     public function createAuto(){
-        return $this->createGame();
+        $game = $this->createGame();
+        return redirect()->route('game.play', ['gameId' => $game->key]);
+    }
+
+    public function createWithGame($game, $gameData){
+        $newGame = $this->createGame($gameData->nbRounds, $game->isPrivate);
+        $gameData = json_decode($game->data);
+        $gameData->nextGame = $newGame->key;
+        $game->data = json_encode($gameData);
+        $game->save();
+        $event = new GameEvent($game->id, $game->data, 'game');
+        event($event);
+        return json_encode("ok");
     }
 
     private function createGame($nbRounds = 5, $private = false){
@@ -610,8 +672,8 @@ class NesCssController extends Controller {
             'currentRound' => 0,
             'nbRounds' => $nbRounds,
             'gameStatus' => 'begin',
-            'hostName' => auth()->user()->name,
-            'hostId' => auth()->user()->id,
+            'hostName' => null,
+            'hostId' => null,
             'rounds' => []
         ];
         $game->isPrivate = $private;
@@ -619,7 +681,7 @@ class NesCssController extends Controller {
         $game->data = json_encode($data);
         $game->save();
 
-        return redirect()->route('game.play', ['gameId' => $game->key]);
+        return $game;
     }
 
     public function createWithParams(Request $request){
@@ -628,7 +690,8 @@ class NesCssController extends Controller {
             $nbRounds = 5;
         }
         $isPrivate = $request->input('isPrivate') === 'yes' ? true : false;
-        return $this->createGame($nbRounds, $isPrivate);
+        $game = $this->createGame($nbRounds, $isPrivate);
+        return redirect()->route('game.play', ['gameId' => $game->key]);
     }
 
     /*public function test(){
@@ -700,5 +763,18 @@ class NesCssController extends Controller {
         return view('dashboards.index', [
             'user' => $user
         ]);
+    }
+
+    public function admin(){
+        $user = $this->getAuthUser();
+        if($user->roles()->where('name', 'administrator')->exists()) {
+            return view('dashboards.admin', [
+                'user' => $user,
+                'words' => Word::where('valid', true)->get(),
+                'wordsToValidate' => Word::where('valid', false)->get(),
+            ]);
+        }else{
+            return response("Not admin",401);
+        }
     }
 }

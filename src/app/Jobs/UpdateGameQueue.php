@@ -62,11 +62,18 @@ class UpdateGameQueue implements ShouldQueue
                     $controller->passChooser($game->key, true);
                     break;
                 case 5:
-                    if($game->currentRound == $game->nbRounds){
-                        $event = new NewChatEvent($game->id,'TODO end',1,'Admin','');
-                        event($event);
+                    if($gameData->currentRound == $gameData->nbRounds){
+                        $controller->end($game);
                     }else{
                         $controller->start($game->key, true);
+                    }
+                    break;
+                case 6:
+                    try {
+                        $controller->createWithGame($game, $gameData);
+                    }catch (\Exception $e){
+                        $event = new NewChatEvent($game->id,$e->getTraceAsString(),1,'Admin','');
+                        event($event);
                     }
                     break;
                 default:
