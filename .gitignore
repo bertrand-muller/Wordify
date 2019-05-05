@@ -1,7 +1,19 @@
 !.gitkeep
 
+# Code
 .idea
 src/public/uploads/users
 db/data
-
 composer\.phar
+
+# LateX
+*.aux
+*.toc
+*.log
+*.lot
+*.lof
+*.out
+*.gz
+*.synctex(busy)
+/report/*.pdf
+french.txt
