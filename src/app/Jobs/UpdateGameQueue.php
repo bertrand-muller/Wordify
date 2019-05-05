@@ -15,9 +15,12 @@ class UpdateGameQueue implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 3;
+
     private $gameId;
     private $nextStep;
     private $currentRound;
+
     /**
      * Create a new job instance.
      *

@@ -15,7 +15,7 @@ class CreateWordCounterTable extends Migration
     {
         Schema::create('word_counter', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('day');
+            $table->date('day')->unique();
             $table->integer('counter');
             $table->timestamps();
         });

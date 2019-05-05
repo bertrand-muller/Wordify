@@ -20,6 +20,7 @@ let gameWord_helperInput = $("#game-word_helperInput");
 let gameWord_chooserInput = $("#game-word_chooserInput");
 let gameWord_timer = $("#game-timer");
 let gameWord_status = $("#game-word_status");
+let popup_profile = $("#profilModal");
 let gameWord_helperInput_button = gameWord_helperInput.find("button");
 let gameWord_helperInput_input = gameWord_helperInput.find("input");
 let gameWord_chooserInput_button = gameWord_chooserInput.find("button:not(.is-error)");
@@ -42,7 +43,26 @@ let isChooser = function(){
 };
 
 let addUser = function(section, user){
-    let sectionToAdd = $("<section>")
+    let sectionToAdd = $("<a>")
+        .click(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/user/' + user.id,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: 'json',
+                success: function (data) {
+                    popup_profile.find("div.title div.name").text(user.id == currentUserId ? 'Your profile' : 'Profile of '+data.name);
+                    popup_profile.find("div.title div.avatar img").attr("src","/uploads/users/"+data.image);
+                    popup_profile.find("p.content").html(data.badges);
+                    popup_profile.modal();
+                },
+                error: function (html, status) {
+                    console.log(html);
+                }
+            });
+        })
         .attr("profile-userId", user.id)
         .addClass("nes-container is-dark member-card"+(user.id == currentUserId ? ' isCurrentUser':''))
         .append(
@@ -115,7 +135,7 @@ chat_input.keypress(function(event){
 });
 
 let update_nbPlayers = function(){
-    let nbPlayers = $("#players-list").find("section").length;
+    let nbPlayers = $("#players-list").find("a").length;
     gameBegin_progress.attr("value", nbPlayers);
     gameBegin_button.text(nbPlayers+"/7 players");
     if(nbPlayers < 2 || !isHost()){ // TODO -> 3 players min
@@ -190,47 +210,42 @@ gameWord_helperInput_button.click(function () {
 });
 
 gameWord_chooserInput_buttonPass.click(function () {
-    if(gameWord_chooserInput_input.val() != "") {
-        gameWord_chooserInput_button.attr("disabled", true);
-        gameWord_chooserInput_buttonPass.attr("disabled", true);
-        gameWord_chooserInput_input.attr("disabled", true);
-        gameWord_chooserInput_button.addClass("is-disabled");
-        gameWord_chooserInput_buttonPass.addClass("is-disabled").removeClass("is-error");
-        gameWord_chooserInput_input.addClass("is-disabled");
-        gameWord_chooserInput_buttonPass.text("Passing...");
-        $.ajax({
-            type: 'POST',
-            url: window.location.pathname + '/passChooser',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                word: gameWord_chooserInput_input.val()
-            },
-            dataType: 'json',
-            success: function (data) {
-                gameWord_chooserInput_input.hide();
-                gameWord_chooserInput_input.val("");
-                gameWord_chooserInput_button.attr("disabled", false);
-                gameWord_chooserInput_buttonPass.attr("disabled", false);
-                gameWord_chooserInput_input.attr("disabled", false);
-                gameWord_chooserInput_button.removeClass("is-disabled");
-                gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
-                gameWord_chooserInput_input.removeClass("is-disabled");
-                gameWord_chooserInput_buttonPass.text("Don't guess the word");
-            },
-            error: function (html, status) {
-                console.log("error", html);
-                gameWord_chooserInput_button.attr("disabled", false);
-                gameWord_chooserInput_buttonPass.attr("disabled", false);
-                gameWord_chooserInput_input.attr("disabled", false);
-                gameWord_chooserInput_button.removeClass("is-disabled");
-                gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
-                gameWord_chooserInput_input.removeClass("is-disabled");
-                gameWord_chooserInput_buttonPass.text("Don't guess the word");
-            }
-        });
-    }
+    gameWord_chooserInput_button.attr("disabled", true);
+    gameWord_chooserInput_buttonPass.attr("disabled", true);
+    gameWord_chooserInput_input.attr("disabled", true);
+    gameWord_chooserInput_button.addClass("is-disabled");
+    gameWord_chooserInput_buttonPass.addClass("is-disabled").removeClass("is-error");
+    gameWord_chooserInput_input.addClass("is-disabled");
+    gameWord_chooserInput_buttonPass.text("Passing...");
+    $.ajax({
+        type: 'POST',
+        url: window.location.pathname + '/passChooser',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'json',
+        success: function (data) {
+            gameWord_chooserInput_input.hide();
+            gameWord_chooserInput_input.val("");
+            gameWord_chooserInput_button.attr("disabled", false);
+            gameWord_chooserInput_buttonPass.attr("disabled", false);
+            gameWord_chooserInput_input.attr("disabled", false);
+            gameWord_chooserInput_button.removeClass("is-disabled");
+            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+            gameWord_chooserInput_input.removeClass("is-disabled");
+            gameWord_chooserInput_buttonPass.text("Don't guess the word");
+        },
+        error: function (html, status) {
+            console.log("error", html);
+            gameWord_chooserInput_button.attr("disabled", false);
+            gameWord_chooserInput_buttonPass.attr("disabled", false);
+            gameWord_chooserInput_input.attr("disabled", false);
+            gameWord_chooserInput_button.removeClass("is-disabled");
+            gameWord_chooserInput_buttonPass.removeClass("is-disabled").addClass("is-error");
+            gameWord_chooserInput_input.removeClass("is-disabled");
+            gameWord_chooserInput_buttonPass.text("Don't guess the word");
+        }
+    });
 });
 
 gameWord_chooserInput_button.click(function () {
@@ -513,8 +528,8 @@ let printGame = function(game, words){
 
     // {"currentRound":0,"nbRounds":5,"gameStatus":"begin","rounds":[]}
     gameSection.children().hide();
-    $(".onlineUsers").find("section.member-card .users span").text("");
-    $(".onlineUsers").find("section.member-card").each(function (index, element) {
+    $(".onlineUsers").find("a.member-card .users span").text("");
+    $(".onlineUsers").find("a.member-card").each(function (index, element) {
         let userId = $(element).attr('profile-userId');
         let text = '';
         if(!game.players[userId] && game.gameStatus != 'begin'){
@@ -737,19 +752,19 @@ e.join('game-'+gameId)
         printGame(jsonGame, (words == null ? [] : JSON.parse(words)));
     })
     .joining((user) => {
-        if($(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"']").length == 0) {
+        if($(".onlineUsers").find("a.member-card[profile-userId='"+user.id+"']").length == 0) {
             addUser('players', user);
         }else{
-            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .users span").text('');
+            $(".onlineUsers").find("a.member-card[profile-userId='"+user.id+"'] .users span").text('');
         }
         usersOnline[user.id] = user;
     })
     .leaving((user) => {
         delete usersOnline[user.id];
         if(playersGame.attr("game-status") == 'begin'){
-            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"']").remove();
+            $(".onlineUsers").find("a.member-card[profile-userId='"+user.id+"']").remove();
         }else{
-            $(".onlineUsers").find("section.member-card[profile-userId='"+user.id+"'] .users span").text("away");
+            $(".onlineUsers").find("a.member-card[profile-userId='"+user.id+"'] .users span").text("away");
         }
         if(playersGame.attr("host-userId") == user.id){
             $.ajax({

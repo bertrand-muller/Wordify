@@ -8,6 +8,7 @@ let wordValidate_profile = $(".btn-profile");
 let wordValidate_question = $(".btn-question");
 let wordValidate_validate = $(".btn-check");
 let wordValidate_delete = $(".btn-cross");
+let popup_profile = $("#profilModal");
 
 let addWordInList = function(word){
     let added = false;
@@ -148,7 +149,6 @@ wordValidate_validate.click(function () {
             btn.parent().parent().next().remove();
             btn.parent().parent().remove();
             addWordInList(data);
-            console.log("TODO remove");
         },
         error: function (jqrXhr) {
             console.log(jqrXhr);
@@ -167,7 +167,7 @@ let questionWord = function(btn){
         },
         dataType: 'json',
         success: function (data) {
-            // TODO profile
+            // TODO question
             updateButtons(btn, false);
             console.log("TODO question ",data);
         },
@@ -226,15 +226,18 @@ wordValidate_profile.click(function () {
     updateButtons(btn, true);
     $.ajax({
         type: 'GET',
-        url: '/users/'+btn.attr("userId"),
+        url: '/user/'+btn.attr("userId"),
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'json',
         success: function (data) {
-            // TODO profile
+            popup_profile.find("div.title div.name").text('Profile of '+data.name);
+            popup_profile.find("div.email").text(data.email);
+            popup_profile.find("div.title div.avatar img").attr("src","/uploads/users/"+data.image);
+            popup_profile.find("p.content").html(data.badges);
+            popup_profile.modal();
             updateButtons(btn, false);
-            console.log(data, "TODO profile");
         },
         error: function (jqrXhr) {
             console.log(jqrXhr);

@@ -4,23 +4,7 @@
 
 @section('page')
 <div class="container body">
-    <!-- API TO USE: https://www.wordsapi.com/ -->
     <div class="main_container">
-        <!-- Modal -->
-        <div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content is-dark">
-                    <div class="modal-body nes-dialog is-dark">
-                        <p class="title">Exit game</p>
-                        <p>Are you sure to want to exit this game ?</p>
-                        <menu class="dialog-menu">
-                            <button type="button" class="nes-btn" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="nes-btn is-error" id="btn-exitGame">Exit</button>
-                        </menu>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row title">
             <div class="col-md-4 col-md-offset-4">
                 <section class="nes-container gameName">
@@ -30,7 +14,7 @@
 
             @if(!$user->isGuest)
                 <div class="col-md-4 logOut">
-                    @if($user->roles()->where('name', 'administrator')->exists())
+                    @if($user->id == 1)
                         <button id="profile_adminPannel_button" type="button" class="nes-btn is-warning">Admin pannel</button>
                     @endif
                     <button id="profile_logOut_button" type="button" class="nes-btn is-error">Log out</button>
@@ -153,8 +137,8 @@
                     <div class="row">
                         <section class="nes-container with-title">
                             <h3 class="title">Profile</h3>
-                            <span class="nes-text">Hello {{ $user->name }} !</span>
-                            <br/>TODO : badges
+                            <div class="text-center"><span class="nes-text">Hello {{ $user->name }} !</span></div>
+                            {!! $profile !!}
                         </section>
                     </div>
                     <div class="row">

@@ -54,6 +54,7 @@ Route::post('play/{gameId}/wordHelper', 'NesCssController@wordHelper')->name('ga
 Route::post('play/{gameId}/selectWord', 'NesCssController@selectWord')->name('game.wordHelper');
 Route::post('play/{gameId}/wordChooser', 'NesCssController@wordChooser')->name('game.wordChooser');
 Route::post('play/{gameId}/passChooser', 'NesCssController@passChooser')->name('game.wordChooser');
+Route::get('end','NesCssController@endgame');
 //Route::post('play/{gameId}/player/add', 'NesCssController@addPlayer')->name('game.player.add');
 //Route::get('play/{gameId}/player/isPlaceInRoom', 'NesCssController@isPlaceInRoom')->name('game.player.add');
 Route::get('play/{gameId}/host', 'NesCssController@getHost')->name('game.host');

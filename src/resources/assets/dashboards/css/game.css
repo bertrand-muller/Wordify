@@ -161,6 +161,33 @@ img.pixelated{
     display: none;
 }
 
+.badges{
+    text-align: center;
+}
+
+.badges span.nes-badge{
+    font-size: 12px;
+    width: 160px;
+}
+
+.badges span.nes-badge:not(.is-splited) span{
+    display: block;
+    position: relative !important;
+}
+
+.badges label{
+    margin-top: 5px;
+    font-size: 10px;
+    display: block;
+}
+
+.nes-badge.is-splited span:first-child{
+    width: 55% !important;
+}
+.nes-badge.is-splited span:last-child{
+    width: 45% !important;
+}
+
 .manageWords section button{
     width: 100%;
 }
@@ -263,6 +290,10 @@ img.pixelated{
     margin: 0px;
 }
 
+.nes-container.is-dark.member-card:hover{
+    opacity: 0.8;
+}
+
 .member-card .avatar > img {
     margin-left: 2px;
     width: 32px;
@@ -285,6 +316,20 @@ img.pixelated{
 
 .member-card.isCurrentUser{
     background-color: darkgray;
+}
+
+#profilModal div.email{
+    text-align: center;
+    font-size: 10px;
+}
+
+#profilModal div.title div{
+    display: inline-block;
+    vertical-align: middle;
+}
+#profilModal div.title div.avatar img{
+    width: 32px;
+    height: 32px;
 }
 
 span.win{
