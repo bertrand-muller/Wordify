@@ -358,14 +358,13 @@ class NesCssController extends Controller {
 
     private function getNewWord($gameData){
         $wordsAlreadyTaked = [];
-        // set number of games
         foreach ($gameData->rounds as $round){
             $wordsAlreadyTaked[] = ['word','!=',$round->word];
         }
 
         $words = Word::where($wordsAlreadyTaked)->get();
 
-        return $words->get(count($words)-1)->word;
+        return $words->get(rand(0,count($words)-1))->word;
     }
 
     public function wordChooser($gameId, Request $request){

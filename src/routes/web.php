@@ -61,7 +61,7 @@ Route::get('play/{gameId}/host', 'NesCssController@getHost')->name('game.host');
 Route::get('play', 'NesCssController@createAuto')->name('game.create');
 Route::post('play', 'NesCssController@createWithParams');
 Route::get('join', 'NesCssController@randomJoin')->name('game.randomJoin');
-Route::get('test', 'NesCssController@test')->name('test');
+Route::get('test/{id}', 'NesCssController@test')->name('test');
 Route::get('/', 'NesCssController@index')->name('index');
 
 

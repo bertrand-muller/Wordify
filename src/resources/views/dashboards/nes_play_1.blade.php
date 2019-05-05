@@ -8,9 +8,6 @@
     <!--
      DEBUG :
      REDO :
-        - choose word
-     HELP:
-        - get word definition
      BOTS:
         - get synonym / submit word = API
         - select words
