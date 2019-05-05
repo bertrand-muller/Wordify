@@ -8,17 +8,10 @@
     <!--
     DEBUG :
     REDO :
-    ADMIN:
-        - add word
-        - remove word
-        - validate word
      BADGES:
-        - débutant ... experts
-        - pourcentage réussite global
-        - pourcentage réussite deviner
-        - pourcentage réussite faire deviner
-        - parties jouées
         - display profile
+            - admin
+            - in game
      HELP:
         - get word definition
      BOTS:
@@ -47,8 +40,11 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-body nes-dialog">
-                        <p class="title">Your profile</p>
-                        <p>TODO</p>
+                        <div class="title">
+                            <div class="name"></div>
+                            <div class="avatar"><img src=""/></div>
+                        </div>
+                        <p class="content"></p>
                         <menu class="dialog-menu">
                             <button type="button" class="nes-btn" data-dismiss="modal">Ok</button>
                         </menu>
@@ -71,9 +67,8 @@
         </div>
         <div class="menu">
             <div class="row">
-                <div class="col-md-3 text-center">
+                <div class="col-md-3">
                     <button type="button" class="nes-btn is-error exit" data-toggle="modal" data-target="#exitModal">Exit</button>
-                    <button type="button" class="nes-btn player" data-toggle="modal" data-target="#profilModal">{{ $currentUserName }}</button>
                 </div>
                 <div class="col-md-5">
                     <section class="nes-container noMargin gameName">

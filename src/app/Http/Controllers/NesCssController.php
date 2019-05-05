@@ -82,6 +82,7 @@ class NesCssController extends Controller {
     }
 
     public function definition($word){
+        $this->updateUserStat(auth()->user()->id, 'words_definition');
         // TODO call API
         return <<<WORD
 {
@@ -300,6 +301,18 @@ WORD;
         return $playersToBeChooser[$playersIds[rand(0,sizeof($playersIds)-1)]];
     }
 
+    private function getNewWord($gameData){
+        $wordsAlreadyTaked = [];
+        // set number of games
+        foreach ($gameData->rounds as $round){
+            $wordsAlreadyTaked[] = ['word','!=',$round->word];
+        }
+
+        $words = Word::where($wordsAlreadyTaked)->get();
+
+        return $words->get(count($words)-1)->word;
+    }
+
     public function wordChooser($gameId, Request $request){
         $game = $this->getGame($gameId);
         $user = auth()->user();
@@ -485,6 +498,10 @@ WORD;
         $this->dispatch((new UpdateGameQueue($game->id, 3, $gameData->currentRound))->delay(self::$TIMER_WORD_SELECT));
     }
 
+    public function endgame(){
+        $this->end(Game::find(4));
+    }
+
     public function end($game){
         $gameData = json_decode($game->data);
         $round = $gameData->rounds[$gameData->currentRound-1];
@@ -495,13 +512,135 @@ WORD;
         $round->timer = self::$TIMER_NEXT_GAME;
         $game->data = json_encode($gameData);
         $game->save();
+
+        foreach ($gameData->players as $player){
+            $players[$player->id] = $player;
+        }
+        $score = 0;
+        foreach ($gameData->rounds as $round){
+            $score += $round->win;
+            foreach ($players as $player){
+                if(!isset($round->words->{$player->id}) && $round->chooserId != $player->id){
+                    unset($players[$player->id]);
+                }
+            }
+        }
+        foreach ($players as $player){
+            if($score > 0){
+                $this->updateUserStat($player->id, 'games_win');
+            }
+            $this->updateUserStat($player->id, 'games_played');
+        }
+        $this->updateUserStat($gameData->hostId, 'games_host');
         $event = new GameEvent($game->id, $game->data, 'game');
         event($event);
         $this->dispatch((new UpdateGameQueue($game->id, 6, $gameData->currentRound))->delay(self::$TIMER_NEXT_GAME));
     }
 
+    public function getProfile($userId){
+        $user = User::find($userId);
+        $stats = json_decode($user->stats);
+
+        if($stats->rounds_played < 10){
+            $rank = 'Newbie';
+            $rankColor = 'is-dark';
+        }else if($stats->rounds_played < 50){
+            $rank = 'Novice';
+            $rankColor = 'is-primary';
+        }else if($stats->rounds_played < 100){
+            $rank = 'Beginner';
+            $rankColor = 'is-success';
+        }else if($stats->rounds_played < 250){
+            $rank = 'Proficient';
+            $rankColor = 'is-success';
+        }else if($stats->rounds_played < 500){
+            $rank = 'Intermediate';
+            $rankColor = 'is-warning';
+        }else if($stats->rounds_played < 1000){
+            $rank = 'Senior';
+            $rankColor = 'is-warning';
+        }else{
+            $rank = 'Expert';
+            $rankColor = 'is-error';
+        }
+
+        $roundsWinGuesser = $roundsWinHelper = $gamesWin = '-';
+        if($stats->rounds_played != 0) {
+            $roundsWinGuesser = round($stats->rounds_win_guesser / $stats->rounds_played * 100,1).'%';
+            $roundsWinHelper = round($stats->rounds_win_helper / $stats->rounds_played * 100,1).'%';
+        }
+        if($stats->games_win != 0){
+            $gamesWin = round($stats->games_win / $stats->games_played * 100,1).'%';
+        }
+        $badges = <<<BADGES
+<label class="split"></label>
+<div class="badges">
+    <label>Rank</label>
+    <span class="nes-badge">
+      <span class="is-dark $rankColor">$rank</span>
+    </span>
+    <label>Games</label>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Win</span>
+      <span class="is-success">$gamesWin</span>
+    </span>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Host</span>
+      <span class="is-success">$stats->games_host</span>
+    </span>
+    <label>Rounds played</label>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Rounds</span>
+      <span class="is-warning">$stats->rounds_played</span>
+    </span>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Guesser</span>
+      <span class="is-warning">$stats->rounds_guesser</span>
+    </span>
+    <label>Rounds win</label>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Guesser</span>
+      <span class="is-success">$roundsWinGuesser</span>
+    </span>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Helper</span>
+      <span class="is-success">$roundsWinHelper</span>
+    </span>
+    <label>Words</label>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Asked</span>
+      <span class="is-primary">$stats->words_definition</span>
+    </span>
+    <span class="nes-badge is-splited">
+      <span class="is-dark">Submit</span>
+      <span class="is-primary">$stats->words_submitted</span>
+    </span>
+</>
+BADGES;
+        return json_encode(['badges' => $badges, 'name' => $user->name, 'image' => $user->image, 'email' => $this->isAdmin() ? $user->email : null]);
+    }
+
     public function goToFinalStep($game, $round, $gameData){
         $round->step = 4;
+        // Update stats
+        foreach ($gameData->players as $player){
+            $this->updateUserStat($player->id,'rounds_played');
+        }
+        $this->updateUserStat($round->chooserId, 'rounds_guesser');
+        switch($round->win) {
+            case 1:
+                $this->updateUserStat($round->chooserId, 'rounds_win_guesser');
+                foreach ($round->words as $word){
+                    $this->updateUserStat($word->id,'rounds_win_helper');
+                }
+                break;
+            case 0:
+                $this->updateUserStat($round->chooserId, 'rounds_passed_guesser');
+                break;
+            case -1:
+                break;
+        }
+
         $round->nextStepTimer = date('U')+self::$TIMER_NEXT_ROUND;
         $round->timer = self::$TIMER_NEXT_ROUND;
         $game->data = json_encode($gameData);
@@ -592,6 +731,8 @@ WORD;
         $gameData->gameStatus = 'running';
         $game->status = 'running';
 
+        $word = $this->getNewWord($gameData);
+
         $gameData->rounds[] = [
             'id' => $gameData->currentRound,
             'step' => 1,
@@ -606,7 +747,6 @@ WORD;
         ];
 
         $game->playersWord = json_encode($playerWords);
-        $word = $this->generateRandomString(10);
 
         $game->data = json_encode($gameData);
         $game->currentWord = $word;
@@ -789,6 +929,7 @@ WORD;
         $wordId = filter_var($request->input('wordId'), FILTER_SANITIZE_NUMBER_INT);
         $word = Word::find($wordId);
         if($word) {
+            $this->updateUserStat($word->userId, 'words_submitted');
             $word->valid = true;
             $word->save();
             return json_encode($word);
@@ -797,10 +938,21 @@ WORD;
         }
     }
 
+    private function updateUserStat($userId, $statName, $add = 1){
+        $user = User::find($userId);
+        if($user){
+            $stats = json_decode($user->stats);
+            $stats->{$statName} += $add;
+            $user->stats = json_encode($stats);
+            $user->save();
+        }
+    }
+
     public function index(){
         $user = $this->getAuthUser();
         return view('dashboards.index', [
-            'user' => $user
+            'user' => $user,
+            'profile' => json_decode($this->getProfile($user->id))->badges
         ]);
     }
 
@@ -811,7 +963,8 @@ WORD;
     }
 
     private function isAdmin(){
-        return auth()->user()->roles()->where('name', 'administrator')->exists();
+        return auth()->user()->id == 1;
+//        return auth()->user()->roles()->where('name', 'administrator')->exists();
     }
 
     public function admin(){

@@ -4,18 +4,20 @@
 
 @section('page')
 <div class="container body">
-    <!-- API TO USE: https://www.wordsapi.com/ -->
     <div class="main_container">
         <!-- Modal -->
-        <div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="profilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content is-dark">
-                    <div class="modal-body nes-dialog is-dark">
-                        <p class="title">Exit game</p>
-                        <p>Are you sure to want to exit this game ?</p>
+                <div class="modal-content">
+                    <div class="modal-body nes-dialog">
+                        <div class="title">
+                            <div class="name"></div>
+                            <div class="avatar"><img src=""/></div>
+                        </div>
+                        <div class="email"></div>
+                        <p class="content"></p>
                         <menu class="dialog-menu">
-                            <button type="button" class="nes-btn" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="nes-btn is-error" id="btn-exitGame">Exit</button>
+                            <button type="button" class="nes-btn" data-dismiss="modal">Ok</button>
                         </menu>
                     </div>
                 </div>
