@@ -34,19 +34,19 @@
 
 \maketitle
 
-\clearpage
+\cleardoublepage
 
 \renewcommand{\baselinestretch}{0.5}\normalsize
 \tableofcontents
 \renewcommand{\baselinestretch}{1.0}\normalsize
 
-\clearpage
+\cleardoublepage
 
 \chapter{Introduction}
 
 In this report, we will introduce a new tool to improve our English skills while playing a game. The purpose of the project is to promote a new digital tool in order to learn English. Thus, our team worked on an innovative tool to enrich our vocabulary. For this project, the idea is to focus on the interactive side of the solution and to provide a non-existent tool. 
 
-Why is this project relevant at the present time ? At present, learning a language is a major challenge in an globalized society. One of the most commonly used language is English. It is an important mean for dialoguing and to be informed. However, the average English language level is uneven across different regions of the world and Europe. Our project is part of the desire to fill these gaps and to allow people to easily talk or to develop professionally. In addition, learning a new language can be tedious and time consuming. Our wish is to reduce this learning time for people having some knowledge in English. 
+Why is this project relevant at the present time ? At present, learning a language is a major challenge in an globalized society. English is one of the most widely spoken language in the world. It is an important mean for dialoguing and to be informed. However, the average English language level is uneven across different regions of the world and Europe. Our project is part of the desire to fill these gaps and to allow people to easily talk or to develop professionally. In addition, learning a new language can be tedious and time consuming. Our wish is to reduce this learning time for people having some knowledge in English. 
 
 In order to present our game, we decided to structure this report according to three different parts. The first one presents the game itself and its rules. Through this first part, we want to provide a user documentation to know how to play and how the interface has to be used. The second is centered on a technical description of the game by presenting its architecture, the tools used, the difficulties encountered and the solutions found. The last part of this report describes a typical scenario as to the proposed game. After these three parts, we conclude on the result obtained and on the possible game evolutions. 
 
@@ -55,6 +55,8 @@ This report aims to present our new way of learning English and to highlight the
 \begin{center}
 	\includegraphics{figures/lets_play}
 \end{center} 
+
+\cleardoublepage
 
 \chapter{Game}
 
@@ -66,14 +68,19 @@ In order to be in adequacy with this concept of interactivity, we made the choic
 
 As previously mentioned, players will have to connect to a common online platform to collaborate and to guess as many words a possible. It is accessible from the following website address : \textbf{\textit{wordify.online}}. Once this page has been accessed from a browser (figure \ref{fig:wordify_home_page}), it is possible for a player to join a party or to create a new one. Then, he can invite his friends, his family members... The interface is intended to be original (retro effect) but simple to allow people to quickly understand how to start a new game. Once the player has joined a game, the rules, described in the next section, are applied. 
 
+%\bigskip
+
+// TODO : MODIFY IMAGE FIGURE
+
 \begin{figure}[ht]
 	\centering
 	\fboxsep=1.2pt
-	----------------- TO DO -----------------
-	% \includegraphics{figures/}
+	\includegraphics[scale=0.24]{figures/wordify_home_page}
 	\label{fig:wordify_home_page}
 	\caption{Wordify home page}
 \end{figure} 
+
+\clearpage
 
 \section{Rules}
 
@@ -83,13 +90,19 @@ The mystery word is then displayed to non-active players. Then, they have to wri
 
 When the words have been entered by the other players, they are displayed to the active player so that he can guess the initial word. Be careful, identical or similar words are removed from the list of words displayed to the active player. That is why it is wise to find words from the semantic field referring to the word to be guessed. 
 
-In the next round, a new player is designated as active. The same rules are applied for this new round. 
+In the next round, a new player is designated as active. The same rules are applied for this new round. The game ends when the number of rounds, indicated at the game creation, have been completed. The goal is to get the maximum number of points, knowing that, in case of bad answer from the active player, the team looses 2 points and in case of non-proposal, it will lose 1 point. 
 
-The game ends when the number of rounds, indicated at the game creation, have been completed. The goal is to get the maximum number of points, knowing that, in case of bad answer from the active player, the team looses 2 points and in case of non-proposal, it will lose 1 point. 
+A player can play games as many times as he wants. He can re-share the link of his new game to invite people ha wants to play with. This game is fun and challenging !
 
 \section{Educational aspect}
 
-// Apprentissage de mots similaires
+In order to foster English education, this game has an educational purpose. Indeed, its goal is to learn new words from other players and to expand our vocabulary. Moreover, it combines speed and reflection : this is therefore and effective way to reason quickly in English while having a good time. In this way, this game targets anyone wishing to improve their level English level while avoiding long courses. it makes accessible the practice of English by providing a ludic way to learn it. 
+
+In addition, such a game enables teachers to create contexts where English language is useful and meaningful. Even though games are often associated with entertainment, we do not have to forget their educational value, especially in teaching and learning foreign languages. Games are effective in the way that they create motivation, reduce student stress and enable language learners to communicate. 
+
+// MAYBE A COMPLETER...
+
+\cleardoublepage
 
 \chapter{User documentation}
 
@@ -106,6 +119,8 @@ The game ends when the number of rounds, indicated at the game creation, have be
 \subsection{...}
 
 \section{Other functionalities}
+
+\cleardoublepage
 
 \chapter{Documentation technique}
 
