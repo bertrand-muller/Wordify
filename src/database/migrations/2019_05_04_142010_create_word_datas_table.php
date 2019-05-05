@@ -16,7 +16,7 @@ class CreateWordDatasTable extends Migration
         Schema::create('word_datas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('word');
-            $table->string('datas');
+            $table->json('datas');
             $table->timestamps();
         });
     }

@@ -161,15 +161,42 @@ let questionWord = function(btn){
     updateButtons(btn, true);
     $.ajax({
         type: 'GET',
-        url: '/word/definition/'+btn.parent().parent().find("span"),
+        url: '/word/datas/'+btn.parent().parent().find("span").text(),
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'json',
         success: function (data) {
-            // TODO question
+            let modal = $("#definitionModal");
+            modal.find("p.title span").text(data.word);
+            let definitions = modal.find("p.definitions");
+            definitions.text("").children().remove();
+            let qte = 0;
+            let ul = $("<ul>").addClass("nes-list is-disc");
+            data.definition.forEach(function (definition) {
+                ul.append($("<li>").text(definition.substring(0,1).toUpperCase()+definition.substring(1)));
+                qte++;
+            });
+            if(qte == 0){
+                definitions.html("<span class='nes-text is-disabled'>Definitions can't be found</span>");
+            }else {
+                definitions.append(ul);
+            }
+            let synonyms = modal.find("p.synonyms");
+            synonyms.text("").children().remove();
+            te = 0;
+            ul = $("<ul>").addClass("nes-list is-disc");
+            data.synonyms.forEach(function (synonyms) {
+                ul.append($("<li>").text(synonyms.substring(0,1).toUpperCase()+synonyms.substring(1)));
+                qte++;
+            });
+            if(qte == 0){
+                synonyms.html("<span class='nes-text is-disabled'>Synonyms can't be found</span>");
+            }else {
+                synonyms.append(ul);
+            }
+            modal.modal();
             updateButtons(btn, false);
-            console.log("TODO question ",data);
         },
         error: function (jqrXhr) {
             console.log(jqrXhr);

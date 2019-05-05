@@ -100,15 +100,16 @@ img.pixelated{
     min-width: 50px;
 }
 
-#definitionModal p.content, #join_submitWord, .manageWords section{
+#definitionModal p.content, #definitionModal label, #definitionModal p.definitions, #definitionModal p.synonyms, #join_submitWord, .manageWords section{
     font-size: 10px;
 }
 
-#definitionModal p.content li{
+#definitionModal p.content li, #definitionModal label, #definitionModal p.definitions li, #definitionModal p.synonyms li{
     margin-top: 10px;
 }
 
 .btn-getDefinition{
+    font-size: 10px;
     font-weight: normal;
     position: relative;
     top: -21px;
@@ -330,6 +331,8 @@ img.pixelated{
 #profilModal div.title div.avatar img{
     width: 32px;
     height: 32px;
+    image-rendering: pixelated;
+    border-radius: 16px;
 }
 
 span.win{

@@ -6,12 +6,9 @@
 <div class="container body">
     <!-- API TO USE: https://www.wordsapi.com/ -->
     <!--
-    DEBUG :
-    REDO :
-     BADGES:
-        - display profile
-            - admin
-            - in game
+     DEBUG :
+     REDO :
+        - choose word
      HELP:
         - get word definition
      BOTS:
@@ -136,7 +133,8 @@
                     </section>
                     <section class="nes-container with-title" id="game-word_display">
                         <h3 class="title">Word to be guessed</h3>
-                        <span class="nes-text"></span>
+                        <span class="nes-text wordValue"></span>
+                        <button class="nes-btn btn-getDefinition smallPadding"><span>?</span></button>
                     </section>
                     <section class="nes-container with-title" id="game-word_chooserInput">
                         <h3 class="title">Word to guess</h3>

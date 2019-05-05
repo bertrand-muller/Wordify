@@ -332,29 +332,37 @@ function stopTimer(){
     clearInterval(gameWord_timer_interval);
 }
 
-let getDefinition = function(){
-    console.log($(this).parent().find("span.wordValue").text());
-    let btn = $(this).attr("disabled", true);
+let clickDefinition = function(){
+    getDefinition($(this));
+};
+
+gameWord_display.find("button").click(function () {
+    getDefinition($(this));
+});
+
+let getDefinition = function(btn){
+    btn.attr("disabled", true);
     $.ajax({
         type: 'GET',
-        url: '/definition/'+btn.parent().find("span.wordValue").text(),
+        url: '/word/definition/'+btn.parent().find("span.wordValue").text(),
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'json',
         success: function (data) {
             let modal = $("#definitionModal");
-            //console.log(data);
             modal.find("p.title span").text(data.word);
             let content = modal.find("p.content");
             content.text("").children().remove();
-            if(data.definitions.length == 0){
-                content.html("<span class='nes-text is-disabled'>Definition can't be found</span>");
+            let qte = 0;
+            let ul = $("<ul>").addClass("nes-list is-disc");
+            data.definition.forEach(function (definition) {
+                ul.append($("<li>").text(definition.substring(0,1).toUpperCase()+definition.substring(1)));
+                qte++;
+            });
+            if(qte == 0){
+                content.html("<span class='nes-text is-disabled'>Definitions can't be found</span>");
             }else {
-                let ul = $("<ul>").addClass("nes-list is-disc");
-                data.definitions.forEach(function (definition) {
-                    ul.append($("<li>").text(definition.definition.substring(0,1).toUpperCase()+definition.definition.substring(1)));
-                });
                 content.append(ul);
             }
             modal.modal();
@@ -385,6 +393,7 @@ let updateCurrentWords = function(round, wordsPlayers){
                     textClass = wordToDisplay == null ? 'is-disabled' : '';
                     textValue = wordToDisplay == null ? (round.words[k].done ? 'Word sent' : 'Thinking') : wordToDisplay;
                 }
+                let button = $("<button>").addClass("nes-btn btn-getDefinition").click(clickDefinition).append($("<span>").text("?"));
                 words.push(
                     $("<div>").addClass("col-sm-6")
                         .append(
@@ -393,7 +402,7 @@ let updateCurrentWords = function(round, wordsPlayers){
                                 .append($("<h3>").addClass("title").text(round.words[k].name))
                                 .append($("<p>")
                                     .append($("<span>").addClass("wordValue nes-text " + textClass).text(textValue))
-                                    .append(textClass == 'is-disabled' ? null : $("<button>").attr("data-toggle","modal").attr("data-target","#definitionModal").addClass("nes-btn btn-getDefinition").click(getDefinition).append($("<span>").text("?"))))
+                                    .append($("<button>").addClass("nes-btn btn-getDefinition"+(textClass == 'is-disabled' && round.step != 4 ? ' hidden' : '')).click(clickDefinition).append($("<span>").text("?"))))
                                 .append($("<div>").addClass("row text-center choiceButton")
                                     .append($("<div>").addClass("col-xs-4").append($("<button>").addClass("nes-btn is-success").html("&#x2714;").click(sendSelectWord)))
                                     .append($("<div>").addClass("col-xs-4").append($("<button>").addClass("nes-btn is-warning").html("?").click(sendSelectWord)))
@@ -591,7 +600,6 @@ let printGame = function(game, words){
                 case 4:
                     gameWord_wordGuest_display.find("span").remove();
                     gameWord_status.find("span").remove();
-                    gameWord_display.find("span").remove();
                     let spanClass;
                     let spanText;
                     let statusText;
@@ -615,10 +623,11 @@ let printGame = function(game, words){
                     }
                     gameWord_status.show().append($("<span>").addClass("nes-text "+statusClass).html(statusText));
                     gameWord_wordGuest_display.show().append($("<span>").text(spanText));
-                    gameWord_display.show().append($("<span>").text(round.word));
+                    gameWord_display.show().find("span.wordValue").text(round.word);
                     for (var k in round.words) {
                         if (round.words.hasOwnProperty(k)) {
-                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] span').text(round.words[k].word);
+                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] span.wordValue').text(round.words[k].word);
+                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] button').removeClass('hidden');
                         }
                     }
                     break;
@@ -699,7 +708,7 @@ let printGame = function(game, words){
 };
 
 if(currentWord) {
-    gameWord_display.find("span").text(currentWord);
+    gameWord_display.find("span.wordValue").text(currentWord);
 }
 
 e.private('player-'+currentUserId)
@@ -708,7 +717,7 @@ e.private('player-'+currentUserId)
         let words = null;
         if(word){
             if(word.word){
-                gameWord_display.find("span").text(word.word);
+                gameWord_display.find("span.wordValue").text(word.word);
             }else if(word.words){
                 words = JSON.parse(word.words);
             }

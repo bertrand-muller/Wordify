@@ -71,7 +71,7 @@ Route::post('/word/submit', 'NesCssController@submitWord')->name('word.submit');
 Route::post('/word/delete', 'NesCssController@deleteWord')->name('word.delete');
 Route::post('/word/validate', 'NesCssController@validateWord')->name('word.validate');
 Route::get('/word/definition/{word}', 'NesCssController@definition')->name('definition');
-Route::get('/word/datas/{word}', 'NesCssController@datas')->name('datas');
+Route::get('/word/datas/{word}', 'NesCssController@wordDatas')->name('datas');
 
 // clear queue
 Route::get('/pop', function() {

@@ -9,7 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Jobs\UpdateGameQueue;
 use App\Models\Auth\User\User;
 use App\Models\Game\Game;
+use App\Models\Words\Counter;
 use App\Models\Words\Word;
+use App\Models\Words\WordDatas;
 use \Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,6 +25,7 @@ class NesCssController extends Controller {
     private static $TIMER_WORD_CHOOSE = 30;
     private static $TIMER_NEXT_ROUND = 10;
     private static $TIMER_NEXT_GAME = 10;
+    private static $WORD_REQUEST_LIMIT = 2400;
 
     /**
      * Create a new controller instance.
@@ -81,37 +84,89 @@ class NesCssController extends Controller {
         ];
     }
 
+    private function getWordDatas($word, $types = ['definition']){
+        $word = strtolower($word);
+        $datas = WordDatas::where('word', $word)->first();
+        if(count($datas) == 0){
+            $counter = Counter::where('day', date('Y-m-d'))->first();
+            if(!$counter) {
+                $counter = new Counter();
+                $counter->day = date('Y-m-d');
+                $counter->counter = 0;
+            }
+
+            if($counter->counter >= self::$WORD_REQUEST_LIMIT){
+                abort(400,'Can\'t perform more request');
+            }
+            $counter->counter++;
+            $counter->save();
+
+            $datas = new WordDatas();
+            $datas->word = $word;
+
+            $ch = curl_init();
+            // Check if initialization had gone wrong*
+            if ($ch === false) {
+                throw new Exception('failed to initialize');
+            }
+            curl_setopt($ch, CURLOPT_URL, 'https://wordsapiv1.p.rapidapi.com/words/'.$word);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'X-RapidAPI-Host: wordsapiv1.p.rapidapi.com',
+                'X-RapidAPI-Key: 94c73cd02dmshca063c7b7964d30p10506cjsne7a775282985'
+            ));
+            $content = curl_exec($ch);
+            // Check the return value of curl_exec(), too
+            if ($content === false) {
+                throw new Exception(curl_error($ch), curl_errno($ch));
+            }
+            $datas->datas = $content;
+            $datas->save();
+        }
+        $datas_json = json_decode($datas->datas);
+        $extract = new \stdClass();
+        if(isset($datas_json->word)) {
+            $extract->word = ucfirst(strtolower($datas_json->word));
+            foreach ($types as $type) {
+                $extract->{$type} = [];
+                foreach ($datas_json->results as $property => $datas_json_res) {
+                    if (isset($datas_json_res->{$type})) {
+                        $extract->{$type}[] = $datas_json_res->{$type};
+                    }
+                }
+                $extract->{$type} = $this->flattenArray($extract->{$type});
+            }
+        }else{
+            $extract->word = $word;
+            foreach ($types as $type) {
+                $extract->{$type} = [];
+            }
+        }
+        return json_encode($extract);
+    }
+
+    private function flattenArray($arrayToFlatten) {
+        $flatArray = array();
+        foreach($arrayToFlatten as $element) {
+            if (is_array($element)) {
+                $flatArray = array_merge($flatArray, $this->flattenArray($element));
+            } else {
+                $flatArray[] = $element;
+            }
+        }
+        return $flatArray;
+    }
+
     public function definition($word){
         $this->updateUserStat(auth()->user()->id, 'words_definition');
-        // TODO call API
-        return <<<WORD
-{
-  "word": "$word",
-  "definitions": [
-    {
-      "definition": "a motor vehicle with four wheels; usually propelled by an internal combustion engine",
-      "partOfSpeech": "noun"
-    },
-    {
-      "definition": "the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant",
-      "partOfSpeech": "noun"
-    },
-    {
-      "definition": "where passengers ride up and down",
-      "partOfSpeech": "noun"
-    },
-    {
-      "definition": "a wheeled vehicle adapted to the rails of railroad",
-      "partOfSpeech": "noun"
-    },
-    {
-      "definition": "a conveyance for passengers or freight on a cable railway",
-      "partOfSpeech": "noun"
+        $datas = $this->getWordDatas($word);
+        return $datas;
     }
-  ]
-}
-WORD;
-        ;
+
+    public function wordDatas($word){
+        $this->updateUserStat(auth()->user()->id, 'words_definition');
+        $datas = $this->getWordDatas($word, ['definition','synonyms']);
+        return $datas;
     }
 
     public function join($gameId) {

@@ -6,6 +6,22 @@
 <div class="container body">
     <div class="main_container">
         <!-- Modal -->
+        <div class="modal fade" id="definitionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body nes-dialog">
+                        <p class="title">Definition : <span></span></p>
+                        <label>Definitions :</label>
+                        <p class="definitions"></p>
+                        <label>Synonyms :</label>
+                        <p class="synonyms"></p>
+                        <menu class="dialog-menu">
+                            <button type="button" class="nes-btn" data-dismiss="modal">Ok</button>
+                        </menu>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="profilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

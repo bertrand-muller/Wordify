@@ -38,7 +38,7 @@ class WordSeeder extends Seeder
         $wordsToInsert = [];
         foreach ($words as $word){
             $wordsToInsert[] = [
-                'word' => $word,
+                'word' => ucfirst(strtolower($word)),
                 'valid' => true,
                 'userId' => 0
             ];
