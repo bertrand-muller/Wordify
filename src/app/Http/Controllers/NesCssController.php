@@ -36,6 +36,7 @@ class NesCssController extends Controller {
         //$this->middleware('auth');
     }
 
+    // TODO remove
     public function addWord(){
         $words = Word::all();
         $i = 0;
@@ -103,7 +104,7 @@ class NesCssController extends Controller {
         $gameId = filter_var($gameId, FILTER_SANITIZE_SPECIAL_CHARS);
         $game = Game::where('key',$gameId)->first();
         if(!$game){
-            abort(404,'Game not found');
+            abort(404, 'Game not found');
         }
         return $game;
     }
@@ -171,7 +172,7 @@ class NesCssController extends Controller {
             $datas_json = json_decode($datas->datas);
         }
         $extract = new \stdClass();
-        if(isset($datas_json->word)) {
+        if(isset($datas_json->results)) {
             $extract->word = ucfirst(strtolower($datas_json->word));
             foreach ($types as $type) {
                 $extract->{$type} = [];
@@ -216,7 +217,11 @@ class NesCssController extends Controller {
     }
 
     public function join($gameId) {
-        $game = $this->getGame($gameId);
+        try {
+            $game = $this->getGame($gameId);
+        }catch (Exception $e){
+            return redirect(route('index'))->withErrors([auth()->user()->getAuthIdentifierName() => 'Game not found']);
+        }
         $user = $this->getAuthUser();
 
         if(!$this->isPlaceInRoom($game) && !$this->isInGame($game, $user->id)){
@@ -643,10 +648,6 @@ class NesCssController extends Controller {
         $this->dispatch((new UpdateGameQueue($game->id, 3, $gameData->currentRound))->delay($timer));
     }
 
-    public function endgame(){
-        $this->end(Game::find(4));
-    }
-
     public function end($game){
         $gameData = json_decode($game->data);
         $round = $gameData->rounds[$gameData->currentRound-1];
@@ -950,7 +951,7 @@ BADGES;
             ['isPrivate', '=', false],
         ])->get();
         foreach ($games as $key => $game){
-            if(!$this->isPlaceInRoom($game)){
+            if(!$this->isPlaceInRoom($game) || count($this->getUsersInRoom($game)) == 0){
                 $games->forget($key);
             }
         }
@@ -961,7 +962,7 @@ BADGES;
                 ['isPrivate', '=', false],
             ])->get();
             foreach ($games as $key => $game){
-                if(!$this->isPlaceInRoom($game)){
+                if(!$this->isPlaceInRoom($game) || count($this->getUsersInRoom($game)) == 0){
                     $games->forget($key);
                 }
             }
