@@ -63,6 +63,7 @@ Route::post('play', 'NesCssController@createWithParams');
 Route::get('join', 'NesCssController@randomJoin')->name('game.randomJoin');
 Route::get('test/{id}', 'NesCssController@test')->name('test');
 Route::get('/', 'NesCssController@index')->name('index');
+Route::get('/addWord', 'NesCssController@addWord')->name('addWord');
 
 
 Route::get('/user/{userId}', 'NesCssController@getProfile')->name('user.profile');

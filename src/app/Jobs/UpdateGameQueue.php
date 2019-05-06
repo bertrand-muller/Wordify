@@ -48,17 +48,16 @@ class UpdateGameQueue implements ShouldQueue
         if($round->step < $this->nextStep && $gameData->currentRound == $this->currentRound){ // if action not already performed
             switch ($this->nextStep){
                 case 2:
-                    $playersWord = json_decode($game->playersWord);
+                    /*$playersWord = json_decode($game->playersWord);
                     foreach ($round->words as $words){
                         if(!$words->done){
-                            $playersWord->{$words->id} = "XXXXXX"; // TODO intelligence
+                            $playersWord->{$words->id} = null;
                         }
                     }
-                    $game->playersWord = json_encode($playersWord);
+                    $game->playersWord = json_encode($playersWord);*/
                     $controller->goToSelectStep($game, $round, $gameData);
                     break;
                 case 3:
-                    // TODO select intelligence
                     $controller->goToGuessStep($game, $round, $gameData);
                     break;
                 case 4:
@@ -80,8 +79,6 @@ class UpdateGameQueue implements ShouldQueue
                     }
                     break;
                 default:
-                    $event = new NewChatEvent($game->id,'TODO '.$this->nextStep,1,'Admin','');
-                    event($event);
             }
         }
     }

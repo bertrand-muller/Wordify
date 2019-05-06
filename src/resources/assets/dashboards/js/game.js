@@ -42,6 +42,10 @@ let isChooser = function(){
     return playersChooser.attr("chooser-userId") == currentUserId;
 };
 
+let isWatcher = function(){
+    return $(".onlineUsers").find("a.member-card[profile-userId='"+currentUserId+"'] div span").text() == "watch";
+};
+
 let addUser = function(section, user){
     let sectionToAdd = $("<a>")
         .click(function () {
@@ -82,7 +86,7 @@ let addUser = function(section, user){
                         .text(user.name)
                 )
                 .append(
-                    $("<span>").text(playersGame.attr("host-userId") == user.id ? 'host' : isUserOnline(user.id) || playersGame.attr("game-status") == "begin" ? '' : 'watch')
+                    $("<span>").text(playersGame.attr("host-userId") == user.id ? 'host' : isUserOnline(user.id) || playersGame.attr("game-status") == "begin" ? '' : (user.id < 0 ? 'bot' : 'watch'))
                 )
     );
     if(user.id == currentUserId){
@@ -137,11 +141,11 @@ chat_input.keypress(function(event){
 let update_nbPlayers = function(){
     let nbPlayers = $("#players-list").find("a").length;
     gameBegin_progress.attr("value", nbPlayers);
-    gameBegin_button.text(nbPlayers+"/7 players");
-    if(nbPlayers < 2 || !isHost()){ // TODO -> 3 players min
-        gameBegin_button.addClass("is-disabled").removeClass("is-primary");
-    }else{
-        gameBegin_button.removeClass("is-disabled").addClass("is-primary");
+    gameBegin_button.text(nbPlayers+"/"+playersGame.attr('nbPlayers')+" players");
+    if(!isHost()){
+        gameBegin_button.addClass("is-disabled").removeClass("is-primary").attr("disabled",true);
+    }else {
+        gameBegin_button.removeClass("is-disabled").addClass("is-primary").attr("disabled",false);
     }
 };
 
@@ -361,7 +365,7 @@ let getDefinition = function(btn){
                 qte++;
             });
             if(qte == 0){
-                content.html("<span class='nes-text is-disabled'>Definitions can't be found</span>");
+                content.html("<span class='nes-text'>Definitions can't be found</span>");
             }else {
                 content.append(ul);
             }
@@ -390,8 +394,8 @@ let updateCurrentWords = function(round, wordsPlayers){
                     if(wordsPlayers != null) {
                         wordToDisplay = round.words[k].word != null ? round.words[k].word : (wordsPlayers[round.words[k].id] == null ? null : wordsPlayers[round.words[k].id]);
                     }
-                    textClass = wordToDisplay == null ? 'is-disabled' : '';
-                    textValue = wordToDisplay == null ? (round.words[k].done ? 'Word sent' : 'Thinking') : wordToDisplay;
+                    textClass = wordToDisplay == null || wordToDisplay =='' ? 'is-disabled' : '';
+                    textValue = wordToDisplay == null ? (round.words[k].done ? 'Word sent' : 'Thinking') : (wordToDisplay == '' ? 'Not played' : wordToDisplay);
                 }
                 let button = $("<button>").addClass("nes-btn btn-getDefinition").click(clickDefinition).append($("<span>").text("?"));
                 words.push(
@@ -419,7 +423,7 @@ let updateCurrentWords = function(round, wordsPlayers){
             );
         }
     }
-    if(round.step == 2 && !isChooser()){
+    if(round.step == 2 && !isChooser() && !isWatcher()){
         for (var k in round.words) {
             if (round.words.hasOwnProperty(k)) {
                 if (round.words[k].select[currentUserId + ""] !== undefined) {
@@ -445,7 +449,7 @@ let updateCurrentWords = function(round, wordsPlayers){
     }else{
         $(".choiceButton").hide();
     }
-    if(round.step == 2 && isChooser()) {
+    if(round.step == 2 && (isChooser() || isWatcher())) {
         for (var k in round.words) {
             if (round.words.hasOwnProperty(k)) {
                 gameWord_currentWords.find('section[userId="' + k + '"] span').text("Selecting");
@@ -532,7 +536,7 @@ let printRounds = function(game){
     playersRounds.find('div.score span').removeClass("is-error is-success").addClass(score == 0 ? '' : (score > 0 ? 'is-success' : 'is-error')).text(score);
 };
 
-let printGame = function(game, words){
+let printGame = function(game, words, updatePlayers){
     console.log("game",game);
 
     // {"currentRound":0,"nbRounds":5,"gameStatus":"begin","rounds":[]}
@@ -549,6 +553,9 @@ let printGame = function(game, words){
         }
         if(userId == game.hostId){
             text = 'host';
+        }
+        if(userId < 0){
+            text = 'bot';
         }
         $(element).find('.users span').text(text);
     });
@@ -572,19 +579,31 @@ let printGame = function(game, words){
             gameWord_timer.show();
             startTimer();
             printRounds(game);
+
+            if(updatePlayers){
+                $("#players-list").find('a.member-card').remove();
+                for(var k in game.players){
+                    if(game.players.hasOwnProperty(k)){
+                        addUser('players', game.players[k]);
+                    }
+                }
+            }
+
             switch (round.step) {
                 case 1:
-                    if(isChooser()){
+                    if(isChooser() || isWatcher()){
 
                     }else{
                         gameWord_display.show();
-                        if(!round.words[currentUserId].done) {
-                            gameWord_helperInput.show();
+                        if(round.words[currentUserId]){
+                            if (!round.words[currentUserId].done) {
+                                gameWord_helperInput.show();
+                            }
                         }
                     }
                     break;
                 case 2:
-                    if(isChooser()){
+                    if(isChooser()|| isWatcher()){
 
                     }else{
                         gameWord_display.show();
@@ -593,7 +612,7 @@ let printGame = function(game, words){
                 case 3:
                     if(isChooser()){
                         gameWord_chooserInput.show();
-                    }else{
+                    }else if(!isWatcher()) {
                         gameWord_display.show();
                     }
                     break;
@@ -626,8 +645,10 @@ let printGame = function(game, words){
                     gameWord_display.show().find("span.wordValue").text(round.word);
                     for (var k in round.words) {
                         if (round.words.hasOwnProperty(k)) {
-                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] span.wordValue').text(round.words[k].word);
-                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] button').removeClass('hidden');
+                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] span.wordValue')
+                                .text(round.words[k].word == '' ? 'Not played' : round.words[k].word)
+                                .addClass(round.words[k].word == '' ? 'is-disabled' : '');
+                            gameWord_currentWords.find('section.nes-container[userid="'+round.words[k].id+'"] button').removeClass(round.words[k].word == '' ? '' : 'hidden');
                         }
                     }
                     break;
@@ -703,7 +724,6 @@ let printGame = function(game, words){
             }
             break;
         default:
-            alert("TODO : game status '"+game.gameStatus+"' !");
     }
 };
 
@@ -722,7 +742,7 @@ e.private('player-'+currentUserId)
                 words = JSON.parse(word.words);
             }
         }
-        printGame(JSON.parse(game.content), words);
+        printGame(JSON.parse(game.content), words, game.updatePlayers);
     });
 
 e.join('game-'+gameId)
@@ -758,7 +778,7 @@ e.join('game-'+gameId)
                 addUser('players', element);
             }
         });
-        printGame(jsonGame, (words == null ? [] : JSON.parse(words)));
+        printGame(jsonGame, (words == null ? [] : JSON.parse(words)), false);
     })
     .joining((user) => {
         if($(".onlineUsers").find("a.member-card[profile-userId='"+user.id+"']").length == 0) {
@@ -795,7 +815,7 @@ e.join('game-'+gameId)
     })
     .listen('GameEvent', function (game) {
         console.log("game",JSON.parse(game.content));
-        printGame(JSON.parse(game.content), null);
+        printGame(JSON.parse(game.content), null, false);
     })
     .listen('NewChatEvent', function (e) {
         let isCurrentUser = e.userId == currentUserId;

@@ -1,18 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Play 1')
+@section('title', 'Wordify')
 
 @section('page')
 <div class="container body">
-    <!-- API TO USE: https://www.wordsapi.com/ -->
     <!--
      DEBUG :
      REDO :
-     BOTS:
-        - get synonym / submit word = API
-        - select words
-        - choose word / pass => API + union
-        - choose bot quantity + bots replace players which leaved if players < 5
+        - information to display
     -->
     <div class="main_container">
         <!-- Modal -->
@@ -21,7 +16,7 @@
                 <div class="modal-content is-dark">
                     <div class="modal-body nes-dialog is-dark">
                         <p class="title">Exit game</p>
-                        <p>Are you sure to want to exit this game ?</p>
+                        <p>Are you sure you want to exit this game ?</p>
                         <menu class="dialog-menu">
                             <button type="button" class="nes-btn" data-dismiss="modal">Cancel</button>
                             <button type="button" class="nes-btn is-error" id="btn-exitGame">Exit</button>
@@ -66,7 +61,7 @@
                 </div>
                 <div class="col-md-5">
                     <section class="nes-container noMargin gameName">
-                        Guess the word
+                        Wordify
                     </section>
                 </div>
             </div>
@@ -75,7 +70,7 @@
             <div class="col-md-3 onlineUsers">
                 <section class="nes-container with-title is-dark">
                     <h3 class="title">Game ID</h3>
-                    <div class="item" id="players-gameInfo">
+                    <div class="item" id="players-gameInfo" nbPlayers="{{$gameNbPlayers}}">
                         {{$gameKey}}
                     </div>
                 </section>
@@ -106,8 +101,8 @@
             <div class="col-md-5 gamePannel">
                 <div class="row" id="informations">
                     <section class="nes-container with-title informations">
-                        <h3 class="title">Informations</h3>
-                        <span class="nes-text" id="noInformations">No informations to display</span>
+                        <h3 class="title">Information</h3>
+                        <span class="nes-text" id="noInformations">No information to display</span>
                     </section>
                 </div>
                 <div class="row" id="game">
@@ -176,7 +171,7 @@
                                     <br>Root
                                 </i>
                                 <div class="nes-balloon smallPadding from-left">
-                                    <p>Welcome on this game !<br/>
+                                    <p>Welcome in this game !<br/>
                                         You can chat with other players by typping a text below !<br/>
                                         Have fun !
                                     </p>

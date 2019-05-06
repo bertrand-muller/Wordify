@@ -50,8 +50,6 @@ join_gameWithId_button.click(function () {
     let val = join_gameWithId_input.val();
     if(val != ""){
         window.location.href = "/play/"+join_gameWithId.find("input").val();
-    }else{
-        alert("TODO : error message for empty value");
     }
 });
 

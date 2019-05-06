@@ -30,6 +30,6 @@ class MetaTitle
 
         $title = (config('meta.title_suffix')) ? $this->content . ' ' . config('meta.title_suffix') : $this->content;
 
-        return new HtmlString('<title' . Html::attributes($this->attributes) . '>' . $title . '</title>' . PHP_EOL);
+        return new HtmlString('<title' . Html::attributes($this->attributes) . '>' . 'Wordify' . '</title>' . PHP_EOL);
     }
 }

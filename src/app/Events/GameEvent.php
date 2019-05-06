@@ -17,18 +17,20 @@ class GameEvent implements ShouldBroadcastNow
     private $type;
     public $content;
     public $word;
+    public $updatePlayers;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($id, $content, $type, $word = null)
+    public function __construct($id, $content, $type, $word = null, $updatePlayers = false)
     {
         $this->id = $id;
         $this->content = $content;
         $this->type = $type;
         $this->word = $word;
+        $this->updatePlayers = $updatePlayers;
     }
 
     /**

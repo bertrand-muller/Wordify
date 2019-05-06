@@ -13,6 +13,7 @@ use App\Models\Words\Counter;
 use App\Models\Words\Word;
 use App\Models\Words\WordDatas;
 use \Exception;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -35,16 +36,57 @@ class NesCssController extends Controller {
         //$this->middleware('auth');
     }
 
-    private function broacastWord($game, $word){
+    public function addWord(){
+        $words = Word::all();
+        $i = 0;
+        $errors = [];
+        $treated = [];
+        $string = '$words = [';
+        foreach ($words as $word){
+            if($i < 50) {
+                $wordDatas = WordDatas::where('word', strtolower($word->word))->first();
+                if (!$wordDatas) {
+                    try {
+                        $this->getWordDatas($word->word);
+                    }catch (Exception $e){}
+                    $i++;
+                }else{
+                    if(!isset(json_decode($wordDatas->datas)->results)){
+                        $errors[] = $word->word;
+                    }else{
+                        $treated[] = $word->word;
+                        $string .= '["'.$wordDatas->word.'", '.json_encode($wordDatas->datas).'],'."\n";
+                    }
+                }
+            }
+        }
+        $string .= '];';
+        print $string;
+        //dd($errors, $treated);
+    }
+
+    private function broacastWord($game, $word, $updatePlayer = false){
         $gameData = json_decode($game->data);
         $round = $gameData->rounds[$gameData->currentRound-1];
+        $notWatchers = [];
+
         foreach ($round->words as $playerWord){ // for all helpers
-            $event = new GameEvent($playerWord->id, $game->data, 'player', $word);
+            $event = new GameEvent($playerWord->id, $game->data, 'player', $word, $updatePlayer);
             event($event);
+            $notWatchers[$playerWord->id] = $playerWord->id;
         }
 
-        $event = new GameEvent($round->chooserId, $game->data, 'player');
+        $notWatchers[$round->chooserId] = $round->chooserId;
+        $event = new GameEvent($round->chooserId, $game->data, 'player', null, $updatePlayer);
         event($event);
+
+        $watchers = $this->getUsersInRoom($game);
+        foreach ($watchers as $watcher){
+            if(!isset($notWatchers[$watcher->id])){
+                $event = new GameEvent($watcher->id, $game->data, 'player', null, $updatePlayer);
+                event($event);
+            }
+        }
     }
 
     private function generateRandomString($length = 10) {
@@ -109,7 +151,7 @@ class NesCssController extends Controller {
             if ($ch === false) {
                 throw new Exception('failed to initialize');
             }
-            curl_setopt($ch, CURLOPT_URL, 'https://wordsapiv1.p.rapidapi.com/words/'.$word);
+            curl_setopt($ch, CURLOPT_URL, 'https://wordsapiv1.p.rapidapi.com/words/'.str_replace(' ','%20', $word));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'X-RapidAPI-Host: wordsapiv1.p.rapidapi.com',
@@ -181,6 +223,7 @@ class NesCssController extends Controller {
             'gameId' => $game->id,
             'gameKey' => $game->key,
             'game' => $game->data,
+            'gameNbPlayers' => $game->nbPlayers,
             'words' => $this->getCurrentPlayersWord($game),
             'currentUserId' => $user->id,
             'currentUserName' => $user->name,
@@ -295,7 +338,7 @@ class NesCssController extends Controller {
         if ($content === false) {
             throw new Exception(curl_error($ch), curl_errno($ch));
         }
-        return count(json_decode($content)->users) < 7; // TODO -> 7
+        return count(json_decode($content)->users) < $game->nbPlayers;
     }
 
     public function isInGame($game, $userId){
@@ -367,25 +410,32 @@ class NesCssController extends Controller {
         return $words->get(rand(0,count($words)-1))->word;
     }
 
-    public function wordChooser($gameId, Request $request){
+    public function wordChooser($gameId, Request $request, $forcePass = null){
         $game = $this->getGame($gameId);
         $user = auth()->user();
 
-        $word = $request->input('word');
+        if($forcePass){
+            $word = $forcePass;
+        }else {
+            $word = filter_var($request->input('word'), FILTER_SANITIZE_STRING);
+        }
+        $word = ucfirst(strtolower($word));
 
         $gameData = json_decode($game->data);
 
         $round = $gameData->rounds[$gameData->currentRound-1];
 
-        if($user->id != $round->chooserId) {
-            return (new Response)->setStatusCode(401);
+        if(!$forcePass) {
+            if ($user->id != $round->chooserId) {
+                return (new Response)->setStatusCode(401);
+            }
         }
         if($round->step != 3){
             return (new Response)->setStatusCode(400);
         }
 
         $percent = null;
-        similar_text($game->currentWord, $word, $percent);
+        similar_text(strtolower($game->currentWord), strtolower($word), $percent);
         $round->win = $percent > 90 ? 1 : -1;
         $playerWords = json_decode($game->playersWord);
         foreach ($round->words as $roundWord){
@@ -519,7 +569,7 @@ class NesCssController extends Controller {
         }
 
         $playersWord = json_decode($game->playersWord);
-        $playersWord->{$user->id} = filter_var($request->input('word'), FILTER_SANITIZE_SPECIAL_CHARS);
+        $playersWord->{$user->id} = ucfirst(strtolower(filter_var($request->input('word'), FILTER_SANITIZE_SPECIAL_CHARS)));
         $round->words->{$user->id}->done = true;
 
         // check if all players have play
@@ -546,10 +596,47 @@ class NesCssController extends Controller {
         $round->step = 2;
         $round->nextStepTimer = date('U')+self::$TIMER_WORD_SELECT;
         $round->timer = self::$TIMER_WORD_SELECT;
+        $words = [];
+        $playersWord = json_decode($game->playersWord);
+        foreach ($round->words as $word){
+            $words[$word->id] = ['id' => $word->id, 'word' => $playersWord->{$word->id}, 'select' => null];
+        }
+        foreach ($words as $key => $currentWord){
+            $select = true;
+            $percent = null;
+            similar_text(strtolower($game->currentWord), strtolower($currentWord['word']), $percent);
+            if($percent > 90){
+                $select = false;
+            }else{
+                foreach ($round->words as $word){
+                    if($currentWord['id'] != $word->id && $select){
+                        $percent = null;
+                        similar_text(strtolower($playersWord->{$word->id}), strtolower($currentWord['word']), $percent);
+                        $select = $percent < 90;
+                    }
+                }
+            }
+            $words[$key]['select'] = $select;
+        }
+        $onlyBots = true;
+        foreach ($gameData->players as $player) {
+            if($player->id != $round->chooserId){
+                $onlyBots = $onlyBots && $player->id < 0;
+            }
+            foreach ($round->words as $word) {
+                if($player->id < 0 && $player->id != $round->chooserId) {
+                    $round->words->{$word->id}->select->{$player->id} = $words[$word->id]['select'];
+                }
+                if($word->done == null && $player->id != $round->chooserId){
+                    $round->words->{$word->id}->select->{$player->id} = false;
+                }
+            }
+        }
         $game->data = json_encode($gameData);
         $game->save();
         $this->broacastWord($game, json_encode(['words' => $game->playersWord]));
-        $this->dispatch((new UpdateGameQueue($game->id, 3, $gameData->currentRound))->delay(self::$TIMER_WORD_SELECT));
+        $timer = $onlyBots ? 2 : self::$TIMER_WORD_SELECT;
+        $this->dispatch((new UpdateGameQueue($game->id, 3, $gameData->currentRound))->delay($timer));
     }
 
     public function endgame(){
@@ -592,41 +679,45 @@ class NesCssController extends Controller {
     }
 
     public function getProfile($userId){
-        $user = User::find($userId);
-        $stats = json_decode($user->stats);
+        if(intval($userId) > 0) {
+            $user = User::find($userId);
+            if($user->isGuest){
+                return json_encode(['badges' => '<label class="split"></label><div class="badges">Guests don\'t have a profile...</div>', 'name' => $user->name, 'image' => $user->image, 'email' => $this->isAdmin() ? $user->email : null]);
+            }
+            $stats = json_decode($user->stats);
 
-        if($stats->rounds_played < 10){
-            $rank = 'Newbie';
-            $rankColor = 'is-dark';
-        }else if($stats->rounds_played < 50){
-            $rank = 'Novice';
-            $rankColor = 'is-primary';
-        }else if($stats->rounds_played < 100){
-            $rank = 'Beginner';
-            $rankColor = 'is-success';
-        }else if($stats->rounds_played < 250){
-            $rank = 'Proficient';
-            $rankColor = 'is-success';
-        }else if($stats->rounds_played < 500){
-            $rank = 'Intermediate';
-            $rankColor = 'is-warning';
-        }else if($stats->rounds_played < 1000){
-            $rank = 'Senior';
-            $rankColor = 'is-warning';
-        }else{
-            $rank = 'Expert';
-            $rankColor = 'is-error';
-        }
+            if ($stats->rounds_played < 10) {
+                $rank = 'Newbie';
+                $rankColor = 'is-dark';
+            } else if ($stats->rounds_played < 50) {
+                $rank = 'Novice';
+                $rankColor = 'is-primary';
+            } else if ($stats->rounds_played < 100) {
+                $rank = 'Beginner';
+                $rankColor = 'is-success';
+            } else if ($stats->rounds_played < 250) {
+                $rank = 'Proficient';
+                $rankColor = 'is-success';
+            } else if ($stats->rounds_played < 500) {
+                $rank = 'Intermediate';
+                $rankColor = 'is-warning';
+            } else if ($stats->rounds_played < 1000) {
+                $rank = 'Senior';
+                $rankColor = 'is-warning';
+            } else {
+                $rank = 'Expert';
+                $rankColor = 'is-error';
+            }
 
-        $roundsWinGuesser = $roundsWinHelper = $gamesWin = '-';
-        if($stats->rounds_played != 0) {
-            $roundsWinGuesser = round($stats->rounds_win_guesser / $stats->rounds_played * 100,1).'%';
-            $roundsWinHelper = round($stats->rounds_win_helper / $stats->rounds_played * 100,1).'%';
-        }
-        if($stats->games_win != 0){
-            $gamesWin = round($stats->games_win / $stats->games_played * 100,1).'%';
-        }
-        $badges = <<<BADGES
+            $roundsWinGuesser = $roundsWinHelper = $gamesWin = '-';
+            if ($stats->rounds_played != 0) {
+                $roundsWinGuesser = round($stats->rounds_win_guesser / $stats->rounds_played * 100, 1) . '%';
+                $roundsWinHelper = round($stats->rounds_win_helper / $stats->rounds_played * 100, 1) . '%';
+            }
+            if ($stats->games_played != 0) {
+                $gamesWin = round($stats->games_win / $stats->games_played * 100, 1) . '%';
+            }
+            $badges = <<<BADGES
 <label class="split"></label>
 <div class="badges">
     <label>Rank</label>
@@ -671,7 +762,10 @@ class NesCssController extends Controller {
     </span>
 </>
 BADGES;
-        return json_encode(['badges' => $badges, 'name' => $user->name, 'image' => $user->image, 'email' => $this->isAdmin() ? $user->email : null]);
+            return json_encode(['badges' => $badges, 'name' => $user->name, 'image' => $user->image, 'email' => $this->isAdmin() ? $user->email : null]);
+        }else{
+            return json_encode(['badges' => '<label class="split"></label><div class="badges">Bots don\'t have a profile...</div>', 'name' => 'Bot '.$userId, 'image' => 'bot.png', 'email' => null]);
+        }
     }
 
     public function goToFinalStep($game, $round, $gameData){
@@ -704,13 +798,14 @@ BADGES;
         $this->dispatch((new UpdateGameQueue($game->id, 5, $gameData->currentRound))->delay(self::$TIMER_NEXT_ROUND));
     }
 
-    public function goToGuessStep($game, $round, $gameData){
+    public function goToGuessStep($game, $round, $gameData)
+    {
         $round->step = 3;
         $playersWord = json_decode($game->playersWord);
-        foreach ($round->words as $words){
+        foreach ($round->words as $words) {
             $weight = 0;
-            foreach ($words->select as $select){
-                switch (json_encode($select)){
+            foreach ($words->select as $select) {
+                switch (json_encode($select)) {
                     case 'true':
                         $weight += 1;
                         break;
@@ -721,21 +816,34 @@ BADGES;
                         break;
                 }
             }
-            if($weight > 0){
+            if ($weight > 0) {
                 $words->word = $playersWord->{$words->id};
                 $words->isSelected = true;
-            }else{
+            } else {
                 $words->isSelected = false;
             }
         }
-
-        $round->nextStepTimer = date('U')+self::$TIMER_WORD_CHOOSE;
-        $round->timer = self::$TIMER_WORD_CHOOSE;
+        if ($round->chooserId < 0) {
+            $timer = 2;
+        }else{
+            $timer = self::$TIMER_WORD_CHOOSE;
+        }
+        $round->nextStepTimer = date('U') + $timer;
+        $round->timer = $timer;
         $game->data = json_encode($gameData);
         $game->save();
         $event = new GameEvent($game->id, $game->data, 'game');
         event($event);
-        $this->dispatch((new UpdateGameQueue($game->id, 4, $gameData->currentRound))->delay(self::$TIMER_WORD_CHOOSE));
+        if ($round->chooserId < 0) {
+            $synonyms = [];
+            foreach ($round->words as $word){
+                $synonyms = array_merge($synonyms, json_decode($this->getWordDatas($word->word, ['typeOf']))->typeOf);
+            }
+            $countValues = array_count_values($synonyms);
+            $wordGuessed = array_search(max($countValues), $countValues);
+            $this->wordChooser($game->key,new Request(),$wordGuessed);
+        }
+        $this->dispatch((new UpdateGameQueue($game->id, 4, $gameData->currentRound))->delay($timer));
     }
 
     public function start($gameId, $autoQueue = false){
@@ -750,9 +858,6 @@ BADGES;
                 return response('Not host', 400);
             }
         }
-        if(count($users) < 2){return response('Not enought players', 400);} // todo -> 3
-        if(count($users) > 7){return response('Too much players', 400);}
-
         unset($gameData->players);
         $gameData->players = new \stdClass();
 
@@ -760,32 +865,52 @@ BADGES;
             $user = User::find($userId->id);
             $gameData->players->{$user->id} = $this->getUserDatas($user, $game);
         }
+        $nbBots = $game->nbPlayers - count($users);
+        for($i=1; $i<=$nbBots; $i++){
+            $gameData->players->{-$i} = [
+                'id' => -$i,
+                'name' => 'Bot '.$i,
+                'image' => 'bot.png',
+                'here' => true
+            ];
+        }
+
         $game->data = json_encode($gameData);
 
         $gameData = json_decode($game->data);
         $chooser = $this->getChooser($gameData);
 
+        $word = $this->getNewWord($gameData);
+        $synonymsFromDB = json_decode($this->getWordDatas($word,['hasTypes']))->hasTypes;
+
+        $synonyms = [];
+        foreach ($synonymsFromDB as $synonym){
+            if (strpos($synonym, strtolower($word)) === false) {
+                $synonyms[] = $synonym;
+            }
+        }
+
         $words = [];
         $playerWords = [];
+        $onlyBots = true;
         foreach ($gameData->players as $user) {
             if($user->id != $chooser->id) {
                 $words[$user->id] = [
                     'id' => $user->id,
                     'name' => $user->name,
-                    'done' => false,
+                    'done' => $user->id < 0,
                     'word' => null,
                     'isSelected' => null,
                     'select' => new \stdClass()
                 ];
-                $playerWords[$user->id] = "";
+                $onlyBots = $onlyBots && $user->id < 0;
+                $playerWords[$user->id] = $user->id < 0 ? ucfirst(strtolower($synonyms[rand(0, count($synonyms)-1)])) : '';
             }
         }
 
         $gameData->currentRound++;
         $gameData->gameStatus = 'running';
         $game->status = 'running';
-
-        $word = $this->getNewWord($gameData);
 
         $gameData->rounds[] = [
             'id' => $gameData->currentRound,
@@ -805,8 +930,9 @@ BADGES;
         $game->data = json_encode($gameData);
         $game->currentWord = $word;
         $game->save();
-        $this->broacastWord($game, json_encode(['word' => $word]));
-        $this->dispatch((new UpdateGameQueue($game->id, 2, $gameData->currentRound))->delay(self::$TIMER_WORD_HELPER));
+        $timer = $onlyBots ? 2 : self::$TIMER_WORD_HELPER;
+        $this->broacastWord($game, json_encode(['word' => $word]), true);
+        $this->dispatch((new UpdateGameQueue($game->id, 2, $gameData->currentRound))->delay($timer));
         return json_encode("ok");
     }
 
@@ -846,7 +972,7 @@ BADGES;
     }
 
     public function createWithGame($game, $gameData){
-        $newGame = $this->createGame($gameData->nbRounds, $game->isPrivate);
+        $newGame = $this->createGame($gameData->nbRounds, $game->isPrivate, $game->nbPlayers);
         $gameData = json_decode($game->data);
         $gameData->nextGame = $newGame->key;
         $game->data = json_encode($gameData);
@@ -856,7 +982,7 @@ BADGES;
         return json_encode("ok");
     }
 
-    private function createGame($nbRounds = 5, $private = false){
+    private function createGame($nbRounds = 5, $private = false, $nbPlayers = 5){
         $game = new Game();
         do {
             $game->key = $this->generateRandomString(6);
@@ -871,6 +997,7 @@ BADGES;
             'rounds' => []
         ];
         $game->isPrivate = $private;
+        $game->nbPlayers = $nbPlayers;
         $game->status = 'begin';
         $game->data = json_encode($data);
         $game->save();
@@ -883,8 +1010,12 @@ BADGES;
         if($nbRounds < 1 || $nbRounds > 10){
             $nbRounds = 5;
         }
+        $nbPlayers = intval(filter_var($request->input('nbRounds'), FILTER_SANITIZE_NUMBER_INT));
+        if($nbPlayers < 3 || $nbPlayers > 7){
+            $nbRounds = 5;
+        }
         $isPrivate = $request->input('isPrivate') === 'yes' ? true : false;
-        $game = $this->createGame($nbRounds, $isPrivate);
+        $game = $this->createGame($nbRounds, $isPrivate, $nbPlayers);
         return redirect()->route('game.play', ['gameId' => $game->key]);
     }
 
@@ -953,7 +1084,7 @@ BADGES;
     }
 
     public function submitWord(Request $request){
-        $wordInput = filter_var($request->input('word'), FILTER_SANITIZE_SPECIAL_CHARS);
+        $wordInput = ucfirst(strtolower(filter_var($request->input('word'), FILTER_SANITIZE_SPECIAL_CHARS)));
         if(Word::where("word",$wordInput)->get()->isEmpty()) {
             $word = new Word();
             $word->word = ucfirst(strtolower($wordInput));

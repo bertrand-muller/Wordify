@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Guess the word')
+@section('title', 'Wordify')
 
 @section('page')
 <div class="container body">
@@ -42,7 +42,7 @@
         <div class="row title">
             <div class="col-md-4 col-md-offset-4">
                 <section class="nes-container gameName">
-                    Guess the word
+                    Wordify
                 </section>
             </div>
             @if(!$user->isGuest)
@@ -108,7 +108,7 @@
             </div>
             <div class="col-md-4 wordsToValidate">
                 <section class="nes-container with-title" id="word-list">
-                    <h3 class="title">Words validated words</h3>
+                    <h3 class="title">Validated words</h3>
                     @foreach($words as $word)
                         <div class="row" wordId="{{$word->id}}">
                             <div class="col-xs-2">

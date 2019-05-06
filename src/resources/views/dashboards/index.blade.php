@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Guess the word')
+@section('title', 'Wordify')
 
 @section('page')
 <div class="container body">
@@ -8,7 +8,7 @@
         <div class="row title">
             <div class="col-md-4 col-md-offset-4">
                 <section class="nes-container gameName">
-                    Guess the word
+                    Wordify
                 </section>
             </div>
 
@@ -202,6 +202,10 @@
                     <section class="nes-container with-title" id="join_createGame">
                         <h3 class="title">Create a game</h3>
                         {{ Form::open(['route' => 'game.create']) }}
+                            <div class="nes-field">
+                                <label>Number of players</label>
+                                <input type="number" name="nbPlayers" class="nes-input" placeholder="Players" value="5" min="3" max="7" />
+                            </div>
                             <div class="nes-field">
                                 <label>Number of rounds</label>
                                 <input type="number" name="nbRounds" class="nes-input" placeholder="Rounds" value="5" min="1" max="10" />
