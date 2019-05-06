@@ -88,7 +88,7 @@ Once the players are connected to a game, the first round will automatically be 
 
 The mystery word is then displayed to non-active players. Then, they have to write a word related to the word to be divined by the active player, by respecting the time limit. In parallel, they must be careful not to put obvious words that other players could write. For the game to be interesting, it is important that players do not agree on the word they choose. If if it is the case, the interest of the game is lost. 
 
-When the words have been entered by the other players, they are displayed to the active player so that he can guess the initial word. Be careful, identical or similar words are removed from the list of words displayed to the active player. That is why it is wise to find words from the semantic field referring to the word to be guessed. 
+When the words have been entered by the other players, they are displayed to the active player so that he can guess the initial word. Be careful, identical or similar words will be removed from the list of words displayed to the active player. That is why it is wise to find words from the semantic field referring to the word to be guessed. 
 
 In the next round, a new player is designated as active. The same rules are applied for this new round. The game ends when the number of rounds, indicated at the game creation, have been completed. The goal is to get the maximum number of points, knowing that, in case of bad answer from the active player, the team looses 2 points and in case of non-proposal, it will lose 1 point. 
 
@@ -98,9 +98,7 @@ A player can play games as many times as he wants. He can re-share the link of h
 
 In order to foster English education, this game has an educational purpose. Indeed, its goal is to learn new words from other players and to expand our vocabulary. Moreover, it combines speed and reflection : this is therefore and effective way to reason quickly in English while having a good time. In this way, this game targets anyone wishing to improve their level English level while avoiding long courses. it makes accessible the practice of English by providing a ludic way to learn it. 
 
-In addition, such a game enables teachers to create contexts where English language is useful and meaningful. Even though games are often associated with entertainment, we do not have to forget their educational value, especially in teaching and learning foreign languages. Games are effective in the way that they create motivation, reduce student stress and enable language learners to communicate. 
-
-// MAYBE A COMPLETER...
+In addition, such a game enables teachers to create contexts where English language is useful and meaningful. Even though games are often associated with entertainment, we do not have to forget their educational value, especially in teaching and learning foreign languages. Games are effective in the way that they create motivation, reduce student stress and enable language learners to communicate.
 
 \cleardoublepage
 
@@ -124,8 +122,63 @@ In addition, such a game enables teachers to create contexts where English langu
 
 \chapter{Documentation technique}
 
+Dans cette quatrième partie, on souhaite présenter la mise en oeuvre informatique suivie quant à notre jeu en ligne. Pour cela, on a décidé de diviser ce chapitre selon les technologies utilisées pour la partie non-visible par l'utilisateur (Back-End), la partie visible (Front-End) et la stratégie de déploiement adoptée pour que la solution soit accessible en ligne. Ces trois sous-parties sont ensuite compétées par la présentation de problèmes rencontrés et les solutions trouvées pour les résoudre. 
+
+\section{Back-end}
+
+\subsection{Laravel}
+
+On souhaite donc débuter par la description de la partie serveur, qui correspond donc à l'ensemble non-visible par l'utilisateur. Ainsi, pour structurer notre projet de la manière la plus efficace qui soit, nous avons fait le choix d'utiliser le framework Laravel qui permet de suivre le patron de conception appelé \textit{Modèle-Vue-Contrôleur} (MVC). En utilisant cet outil actuellement très employé pour la création d'applications Web, nous avons pu utiliser des fonctionnalités déjà présentes nous permettant de nous concentrer principalement sur le développement de la solution en tant que telle.
+
+// Langage PHP
+
+\subsection{Sockets}
+
+Pour éviter des rechargements inopinés de la page de jeu, nous avons fait en sorte d'utiliser des sockets. Cette technologie permet de communiquer avec le serveur sans avoir à recharger la page sur laquelle on se trouve pour voir des potentiels changements s'afficher. Ceci garantit donc une navigation plus agréable à l'utilisateur final lorsque celui effectue des actions dont le serveur est à l'écoute. 
+
+Nous avons donc dû utiliser des outils complémentaires et veiller à les associer au sein du framework Laravel. Cette phase a constitué une partie importante de notre travail. En effet, nous avons dû utiliser un outil supplémentaire côté serveur. Cet outil est appelé \textit{Redis}. Il permet de sauvegarder les événements déclenchés par le serveur en réaction aux interactions faites par un ou plusieurs joueurs.
+
+\subsection{API externe}
+
+\section{Front-End}
+
+\subsection{Langages de programmation}
+
+\subsection{Design}
+
+// NES CSS \\
+// COULEURS UTILISEES
+
+\subsection{Sockets}
+
+// EVITER REFRESH DE PAGE
+
+\section{Déploiement}
+
+// DOCKER \\
+// DEPLOIEMENT SUR SERVEUR (ACCESSIBLE EN LIGNE) \\
+// NOM DE DOMAINE \\
+
+\section{Architecture globale}
+!
+// COMMENT TOUT COMMUNIQUE ? => DIAGRAMME D'ARCHITECTURE SYNTHETIQUE
+
+\section{Problèmes rencontrés}
+
+\subsection{Solutions adoptées}
+
+\cleardoublepage
+
+\chapter{Scénario}
+
+\cleardoublepage
+
 \appendix
 \part*{Annexes}
 \addcontentsline{toc}{part}{Annexes}
+
+// METTRE DES SCREENSHOTS DES DIFFERENTES INTERFACES \\
+// METTRE UN EXEMPLE DE JSON UTILISE POUR UNE PARTIE \\
+// LIENS VERS LES TECHNOS UTILISEES
 
 \end{document}
