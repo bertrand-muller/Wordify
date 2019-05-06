@@ -130,13 +130,17 @@ Dans cette quatrième partie, on souhaite présenter la mise en oeuvre informati
 
 On souhaite donc débuter par la description de la partie serveur, qui correspond donc à l'ensemble non-visible par l'utilisateur. Ainsi, pour structurer notre projet de la manière la plus efficace qui soit, nous avons fait le choix d'utiliser le framework Laravel qui permet de suivre le patron de conception appelé \textit{Modèle-Vue-Contrôleur} (MVC). En utilisant cet outil actuellement très employé pour la création d'applications Web, nous avons pu utiliser des fonctionnalités déjà présentes nous permettant de nous concentrer principalement sur le développement de la solution en tant que telle.
 
-// Langage PHP
+Ce framework repose sur le langage \textit{PHP} et offre notamment la possibilité de gérer les comptes utilisateurs. Il est alors possible de créer un compte et de se connecter. Cependant, nous avons dû l'adapter pour intégrer ce type de système à notre jeu. Cela a demandé un travail assez important d'intégration même si nous n'avons pas dû nous préoccuper de la corrélation entre l'adresse email et le mot de passe. 
+
+// A FINIR et A RETRAVAILLER !
 
 \subsection{Sockets}
 
 Pour éviter des rechargements inopinés de la page de jeu, nous avons fait en sorte d'utiliser des sockets. Cette technologie permet de communiquer avec le serveur sans avoir à recharger la page sur laquelle on se trouve pour voir des potentiels changements s'afficher. Ceci garantit donc une navigation plus agréable à l'utilisateur final lorsque celui effectue des actions dont le serveur est à l'écoute. 
 
 Nous avons donc dû utiliser des outils complémentaires et veiller à les associer au sein du framework Laravel. Cette phase a constitué une partie importante de notre travail. En effet, nous avons dû utiliser un outil supplémentaire côté serveur. Cet outil est appelé \textit{Redis}. Il permet de sauvegarder les événements déclenchés par le serveur en réaction aux interactions faites par un ou plusieurs joueurs.
+
+// A FINIR
 
 \subsection{API externe}
 
@@ -155,6 +159,8 @@ Nous avons donc dû utiliser des outils complémentaires et veiller à les assoc
 
 \section{Déploiement}
 
+Cette sous-partie s'attache à décrire la stratégie de déploiement adoptée. 
+
 // DOCKER \\
 // DEPLOIEMENT SUR SERVEUR (ACCESSIBLE EN LIGNE) \\
 // NOM DE DOMAINE \\
@@ -170,6 +176,13 @@ Nous avons donc dû utiliser des outils complémentaires et veiller à les assoc
 \cleardoublepage
 
 \chapter{Scénario}
+
+\cleardoublepage
+
+\chapter{Conclusion}
+
+// INDIQUER LES EVOLUTIONS FUTURES \\
+ - Demande de mot de passe oublié
 
 \cleardoublepage
 
