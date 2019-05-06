@@ -30,6 +30,8 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{positioning}
 
+\include{docker}
+
 \begin{document}
 
 \maketitle
@@ -70,12 +72,10 @@ As previously mentioned, players will have to connect to a common online platfor
 
 %\bigskip
 
-// TODO : MODIFY IMAGE FIGURE
-
 \begin{figure}[ht]
 	\centering
 	\fboxsep=1.2pt
-	\includegraphics[scale=0.24]{figures/wordify_home_page}
+	\includegraphics[scale=0.35]{figures/wordify_home_page}
 	\label{fig:wordify_home_page}
 	\caption{Wordify home page}
 \end{figure} 
@@ -159,7 +159,15 @@ Nous avons donc dû utiliser des outils complémentaires et veiller à les assoc
 
 \section{Déploiement}
 
-Cette sous-partie s'attache à décrire la stratégie de déploiement adoptée. 
+Cette sous-partie s'attache à décrire la stratégie de déploiement adoptée. Afin de garantir un déploiement efficace et de partager un environnement de travail commun, nous avons décidé d'utiliser la technologie \textit{Docker} : outil basé sur la conteneurisation permettant le déploiement automatique de services selon une configuration définie par les développeurs. Nous avons donc dû réaliser cette configuration en nous basant sur nos connaissances quant à cet outil et à la documentation fournie pour le framework Laravel. L'annexe \ref{annexe:docker_compose} montre le fichier \textit{docker-compose.yml} utilisé pour créer nos conteneurs, c'est-à-dire nos services utiles au bon déroulement d'une partie.
+
+Pourquoi avons-nous décidé de réaliser cette configuration ? En réalité, l'utilisation de Docker est une force puisqu'il permet de déployer l'application sur n'importe quel serveur où docker est installé. Nous avons donc voulu rendre l'application durable ...
+
+// TO BE FINISHED !
+
+\begin{itemize}
+	\item 
+\end{itemize}
 
 // DOCKER \\
 // DEPLOIEMENT SUR SERVEUR (ACCESSIBLE EN LIGNE) \\
@@ -190,8 +198,32 @@ Cette sous-partie s'attache à décrire la stratégie de déploiement adoptée.
 \part*{Annexes}
 \addcontentsline{toc}{part}{Annexes}
 
-// METTRE DES SCREENSHOTS DES DIFFERENTES INTERFACES \\
-// METTRE UN EXEMPLE DE JSON UTILISE POUR UNE PARTIE \\
+\cleardoublepage
+
+\chapter{Technologies}
+
 // LIENS VERS LES TECHNOS UTILISEES
+
+\cleardoublepage
+
+\chapter{Screenshots}
+
+// METTRE DES SCREENSHOTS DES DIFFERENTES INTERFACES (PRINCIPALES) \\
+
+\cleardoublepage
+
+\chapter{Back-End - Docker - Configuration}
+\label{annexe:docker_compose}
+\vspace{0.5cm}
+\begin{center}
+	\vspace*{-0.8in}
+	\lstinputlisting[language=docker-compose-2,basicstyle=\footnotesize]{../docker-compose.yml}
+\end{center}
+
+\cleardoublepage
+
+\chapter{Front-End - JSON file}
+
+// METTRE UN EXEMPLE DE JSON UTILISE POUR UNE PARTIE \\
 
 \end{document}
