@@ -7,7 +7,7 @@
     <!--
      DEBUG :
      REDO :
-        - information to display
+        - color bar
     -->
     <div class="main_container">
         <!-- Modal -->
@@ -102,7 +102,7 @@
                 <div class="row" id="informations">
                     <section class="nes-container with-title informations">
                         <h3 class="title">Information</h3>
-                        <span class="nes-text" id="noInformations">No information to display</span>
+                        <span class="nes-text" id="informationsToDisplay">No information to display</span>
                     </section>
                 </div>
                 <div class="row" id="game">

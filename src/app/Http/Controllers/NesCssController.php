@@ -157,15 +157,19 @@ class NesCssController extends Controller {
                 'X-RapidAPI-Host: wordsapiv1.p.rapidapi.com',
                 'X-RapidAPI-Key: 94c73cd02dmshca063c7b7964d30p10506cjsne7a775282985'
             ));
+
             $content = curl_exec($ch);
             // Check the return value of curl_exec(), too
             if ($content === false) {
-                throw new Exception(curl_error($ch), curl_errno($ch));
+                $datas_json = "";
+            }else {
+                $datas->datas = $content;
+                $datas->save();
+                $datas_json = json_decode($datas->datas);
             }
-            $datas->datas = $content;
-            $datas->save();
+        }else{
+            $datas_json = json_decode($datas->datas);
         }
-        $datas_json = json_decode($datas->datas);
         $extract = new \stdClass();
         if(isset($datas_json->word)) {
             $extract->word = ucfirst(strtolower($datas_json->word));
@@ -635,7 +639,7 @@ class NesCssController extends Controller {
         $game->data = json_encode($gameData);
         $game->save();
         $this->broacastWord($game, json_encode(['words' => $game->playersWord]));
-        $timer = $onlyBots ? 2 : self::$TIMER_WORD_SELECT;
+        $timer = $onlyBots ? 3 : self::$TIMER_WORD_SELECT;
         $this->dispatch((new UpdateGameQueue($game->id, 3, $gameData->currentRound))->delay($timer));
     }
 
@@ -764,7 +768,7 @@ class NesCssController extends Controller {
 BADGES;
             return json_encode(['badges' => $badges, 'name' => $user->name, 'image' => $user->image, 'email' => $this->isAdmin() ? $user->email : null]);
         }else{
-            return json_encode(['badges' => '<label class="split"></label><div class="badges">Bots don\'t have a profile...</div>', 'name' => 'Bot '.$userId, 'image' => 'bot.png', 'email' => null]);
+            return json_encode(['badges' => '<label class="split"></label><div class="badges">Bots don\'t have a profile...</div>', 'name' => 'Bot '.(-$userId), 'image' => 'bot.png', 'email' => null]);
         }
     }
 
@@ -824,7 +828,7 @@ BADGES;
             }
         }
         if ($round->chooserId < 0) {
-            $timer = 2;
+            $timer = 3;
         }else{
             $timer = self::$TIMER_WORD_CHOOSE;
         }
@@ -838,6 +842,8 @@ BADGES;
             $synonyms = [];
             foreach ($round->words as $word){
                 $synonyms = array_merge($synonyms, json_decode($this->getWordDatas($word->word, ['typeOf']))->typeOf);
+                $synonyms = array_merge($synonyms, json_decode($this->getWordDatas($word->word, ['hasCategories']))->hasCategories);
+                $synonyms = array_merge($synonyms, json_decode($this->getWordDatas($word->word, ['synonyms']))->synonyms);
             }
             $countValues = array_count_values($synonyms);
             $wordGuessed = array_search(max($countValues), $countValues);
@@ -882,6 +888,8 @@ BADGES;
 
         $word = $this->getNewWord($gameData);
         $synonymsFromDB = json_decode($this->getWordDatas($word,['hasTypes']))->hasTypes;
+        $synonymsFromDB = array_merge($synonymsFromDB, json_decode($this->getWordDatas($word,['inCategory']))->inCategory);
+        $synonymsFromDB = array_merge($synonymsFromDB, json_decode($this->getWordDatas($word,['synonyms']))->synonyms);
 
         $synonyms = [];
         foreach ($synonymsFromDB as $synonym){
@@ -930,7 +938,7 @@ BADGES;
         $game->data = json_encode($gameData);
         $game->currentWord = $word;
         $game->save();
-        $timer = $onlyBots ? 2 : self::$TIMER_WORD_HELPER;
+        $timer = $onlyBots ? 3 : self::$TIMER_WORD_HELPER;
         $this->broacastWord($game, json_encode(['word' => $word]), true);
         $this->dispatch((new UpdateGameQueue($game->id, 2, $gameData->currentRound))->delay($timer));
         return json_encode("ok");
@@ -1010,47 +1018,14 @@ BADGES;
         if($nbRounds < 1 || $nbRounds > 10){
             $nbRounds = 5;
         }
-        $nbPlayers = intval(filter_var($request->input('nbRounds'), FILTER_SANITIZE_NUMBER_INT));
+        $nbPlayers = intval(filter_var($request->input('nbPlayers'), FILTER_SANITIZE_NUMBER_INT));
         if($nbPlayers < 3 || $nbPlayers > 7){
-            $nbRounds = 5;
+            $nbPlayers = 5;
         }
         $isPrivate = $request->input('isPrivate') === 'yes' ? true : false;
         $game = $this->createGame($nbRounds, $isPrivate, $nbPlayers);
         return redirect()->route('game.play', ['gameId' => $game->key]);
     }
-
-    /*public function test(){
-        try {
-            $ch = curl_init();
-
-            // Check if initialization had gone wrong*
-            if ($ch === false) {
-                throw new Exception('failed to initialize');
-            }
-
-            curl_setopt($ch, CURLOPT_URL, 'http://echo:6001/apps/bf3ca786357a179b/channels?auth_key=e9f35bc4827c0917763c91553f7d151f');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-            $content = curl_exec($ch);
-
-            // Check the return value of curl_exec(), too
-            if ($content === false) {
-                throw new Exception(curl_error($ch), curl_errno($ch));
-            }
-            dd($content);
-
-
-            // Close curl handle
-            curl_close($ch);
-        } catch(Exception $e) {
-
-            trigger_error(sprintf(
-                'Curl failed with error #%d: %s',
-                $e->getCode(), $e->getMessage()),
-                E_USER_ERROR);
-
-        }
-    }*/
 
     private function getCurrentPlayersWord($game){
         $gameData = json_decode($game->data);

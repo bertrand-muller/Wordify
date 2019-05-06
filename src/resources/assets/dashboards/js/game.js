@@ -19,8 +19,10 @@ let gameWord_currentWords = $("#game-word_current_words");
 let gameWord_helperInput = $("#game-word_helperInput");
 let gameWord_chooserInput = $("#game-word_chooserInput");
 let gameWord_timer = $("#game-timer");
+let gameWord_timer_progress = gameWord_timer.find("progress");
 let gameWord_status = $("#game-word_status");
 let popup_profile = $("#profilModal");
+let informationsToDisplay = $("#informationsToDisplay");
 let gameWord_helperInput_button = gameWord_helperInput.find("button");
 let gameWord_helperInput_input = gameWord_helperInput.find("input");
 let gameWord_chooserInput_button = gameWord_chooserInput.find("button:not(.is-error)");
@@ -326,9 +328,29 @@ let timerIsRunning = false;
 function startTimer(){
     if(!timerIsRunning) {
         timerIsRunning = true;
+        let remainingTime;
+        let percentage;
+        let timerClass;
         gameWord_timer_interval = setInterval(function () {
-            gameWord_timer.find("progress").attr("value", parseInt(gameWord_timer.find("progress").attr("value")-1));
-        }, 1000);
+            remainingTime = Math.round((parseInt(gameWord_timer_progress.attr("endTimer")) - Date.now()/1000)*100);
+            percentage = remainingTime / gameWord_timer_progress.attr("max")*100;
+            timerClass = '';
+
+            if(gameWord_timer_progress.attr("hasActionToDo") == "true") {
+                if (percentage > 40) { // success
+                    timerClass = 'is-success';
+                } else if (percentage > 20) { // warning
+                    timerClass = 'is-warning';
+                } else { // error
+                    timerClass = 'is-error';
+                }
+            }
+
+            gameWord_timer_progress
+                .removeClass("is-error is-warning is-success")
+                .addClass(timerClass)
+                .attr("value", remainingTime);
+        }, 50);
     }
 }
 function stopTimer(){
@@ -537,7 +559,7 @@ let printRounds = function(game){
 };
 
 let printGame = function(game, words, updatePlayers){
-    console.log("game",game);
+    //console.log("game",game);
 
     // {"currentRound":0,"nbRounds":5,"gameStatus":"begin","rounds":[]}
     gameSection.children().hide();
@@ -564,6 +586,11 @@ let printGame = function(game, words, updatePlayers){
 
     switch(game.gameStatus){
         case "begin":
+            if(isHost()){
+                informationsToDisplay.text("You have to start the game");
+            }else{
+                informationsToDisplay.text(game.hostName+" has to start the game");
+            }
             update_nbPlayers();
             startIndicator();
             gameBegin.show();
@@ -575,9 +602,7 @@ let printGame = function(game, words, updatePlayers){
             playersChooser.attr("chooser-userId", round.chooserId).text(round.chooserName);
             updateCurrentWords(round, words);
             gameWord_current.show();
-            gameWord_timer.find("progress").attr("value",Math.trunc(round.nextStepTimer - Date.now()/1000)).attr("max",round.timer);
-            gameWord_timer.show();
-            startTimer();
+
             printRounds(game);
 
             if(updatePlayers){
@@ -588,35 +613,51 @@ let printGame = function(game, words, updatePlayers){
                     }
                 }
             }
+            let hasActionToDo = false;
 
             switch (round.step) {
                 case 1:
-                    if(isChooser() || isWatcher()){
-
-                    }else{
+                    if(isChooser()){
+                        informationsToDisplay.text("The others players are choosing their words.");
+                    }else if(isWatcher()) {
+                        informationsToDisplay.text("You will join the game next round.");
+                    }else{ // helper
                         gameWord_display.show();
-                        if(round.words[currentUserId]){
-                            if (!round.words[currentUserId].done) {
-                                gameWord_helperInput.show();
-                            }
+                        if (!round.words[currentUserId].done) {
+                            informationsToDisplay.text("You have to choose a word to help "+round.chooserName+".");
+                            hasActionToDo = true;
+                            gameWord_helperInput.show();
+                        }else{
+                            informationsToDisplay.text("The others players are choosing their words.");
                         }
                     }
                     break;
                 case 2:
-                    if(isChooser()|| isWatcher()){
-
+                    if(isChooser()){
+                        informationsToDisplay.text("The others players are removing duplicate words.");
+                    }else if(isWatcher()) {
+                        informationsToDisplay.text("You will join the game next round.");
                     }else{
+                        informationsToDisplay.text("You have to remove similar words.");
+                        // TODO
+                        hasActionToDo = true;
                         gameWord_display.show();
                     }
                     break;
                 case 3:
                     if(isChooser()){
+                        informationsToDisplay.text(" You have to guess the word.");
+                        hasActionToDo = true;
                         gameWord_chooserInput.show();
-                    }else if(!isWatcher()) {
+                    }else if(isWatcher()) {
+                        informationsToDisplay.text("You will join the game next round.");
+                    }else{
+                        informationsToDisplay.text(round.chooserName+" is trying to guess the word.");
                         gameWord_display.show();
                     }
                     break;
                 case 4:
+                    informationsToDisplay.text("Next round will start soon !");
                     gameWord_wordGuest_display.find("span").remove();
                     gameWord_status.find("span").remove();
                     let spanClass;
@@ -653,8 +694,17 @@ let printGame = function(game, words, updatePlayers){
                     }
                     break;
             }
+
+            gameWord_timer_progress
+                .attr("value", Math.round((round.nextStepTimer - Date.now()/1000)*100))
+                .attr("max",round.timer*100)
+                .attr("hasActionToDo", hasActionToDo)
+                .attr('endTimer', round.nextStepTimer);
+            gameWord_timer.show();
+            startTimer();
             break;
         case "finished":
+            informationsToDisplay.text("Next game will start soon !");
             if(game.nextGame){
                 window.location.href = '/play/'+game.nextGame;
             }
@@ -718,8 +768,12 @@ let printGame = function(game, words, updatePlayers){
             game_allRounds.show();
 
             let lastRound = game.rounds[game.currentRound-1];
-            gameWord_timer.find("progress").attr("value",Math.trunc(lastRound.nextStepTimer - Date.now()/1000)).attr("max",lastRound.timer);
-            if(Math.trunc(lastRound.nextStepTimer - Date.now()/1000) > 0) {
+            gameWord_timer_progress
+                .attr("value", Math.round((lastRound.nextStepTimer - Date.now()/1000)*100))
+                .attr("hasActionToDo", false)
+                .attr("max",lastRound.timer*100)
+                .attr('endTimer', lastRound.nextStepTimer);
+            if(parseInt(gameWord_timer_progress.attr("value")) > 0) {
                 gameWord_timer.show();
             }
             break;
