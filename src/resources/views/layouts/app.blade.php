@@ -8,6 +8,8 @@
         {{--CSRF Token--}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+        <link rel="shortcut icon" sizes="196x196" href="/images/favicon.png">
         {{--Title and Meta--}}
         @meta
 
