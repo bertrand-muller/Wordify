@@ -119,6 +119,7 @@
                             <span class="nes-text is-disabled">You are logged as {{ $user->name }}</span>
                         </section>
                     </div>
+                    <br>
                     <div class="row">
                         <section class="nes-container with-title loginForm">
                             <h3 class="title">Log in</h3>
@@ -137,6 +138,7 @@
                             {{ Form::close() }}
                         </section>
                     </div>
+                    <br>
                     <div class="row">
                         <section class="nes-container with-title signupForm">
                             <h3 class="title">Sign up</h3>
@@ -216,12 +218,12 @@
             </div>
             <div class="col-md-4 join">
                 <div class="row">
-                    <section class="nes-container with-title">
+                    <section class="nes-container with-title joinGameSection">
                         <h3 class="title">Join a game</h3>
                         <div class="nes-field" id="join_randomGame">
-                            <button type="button" class="nes-btn is-primary">Random game</button>
+                            <button type="button" class="nes-btn is-primary randomGameButton">Random game</button>
                         </div>
-                        <label>Join a game with ID</label>
+                        <label>Join a game with an ID</label>
                         <div class="nes-field" id="join_gameWithId">
                             <input type="text" class="nes-input btnInInput" placeholder="Game ID" value="" maxlength="6">
                             <button class="nes-btn is-primary btnInInput">Join</button>
