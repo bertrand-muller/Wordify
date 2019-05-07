@@ -27,33 +27,63 @@
                     <h3 class="title">Rules</h3>
                     <div id="rules_content" max-page="4">
                         <div page="1">
-                            TODO
-                            <br/>PAGE 1 isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus, et Serenianus dignus exsecratione cunctorum, innoxius, modo non reclamante publico vigore, discessit.
+                            <h2>What is Wordify ?</h2>
+                            <p>
+                                Wordify is a retro cooperative party game where all players play together to discover a mystery words.
+                                Find the best clue to help your teammate and be original, because all identical clues will be canceled !
+                            </p>
                             <br/>
-                            <br/>Utque aegrum corpus quassari etiam levibus solet offensis, ita animus eius angustus et tener, quicquid increpuisset, ad salutis suae dispendium existimans factum aut cogitatum, insontium caedibus fecit victoriam luctuosam.
                             <br/>
-                            <br/>Hae duae provinciae bello quondam piratico catervis mixtae praedonum a Servilio pro consule missae sub iugum factae sunt vectigales. et hae quidem regiones velut in prominenti terrarum lingua positae ob orbe eoo monte Amano disparantur.
+                            <span><i class="nes-jp-logo"></i></span>
                         </div>
                         <div page="2">
-                            PAGE 2 isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus, et Serenianus dignus exsecratione cunctorum, innoxius, modo non reclamante publico vigore, discessit.
-                            <br/>
-                            <br/>Utque aegrum corpus quassari etiam levibus solet offensis, ita animus eius angustus et tener, quicquid increpuisset, ad salutis suae dispendium existimans factum aut cogitatum, insontium caedibus fecit victoriam luctuosam.
-                            <br/>
-                            <br/>Hae duae provinciae bello quondam piratico catervis mixtae praedonum a Servilio pro consule missae sub iugum factae sunt vectigales. et hae quidem regiones velut in prominenti terrarum lingua positae ob orbe eoo monte Amano disparantur.
+                            <h2>Start a game</h2>
+                            <p>
+                                First player which join the game will be the "host". This one will be able to start the game when he wants.<br/>
+                                If there is not enought player in game, bots will replace missing players.
+                            </p>
+                            <h2>Course of the game</h2>
+                            <p>
+                                A game is splitted in some rounds.<br/>
+                                Course of a round :
+                                <ul class="text-left">
+                                    <li>A player is choose to guess the word, he is called "guesser".</li>
+                                    <li>Others players (named "helpers") will be able to see the word and they will try to find the best clue.</li>
+                                    <li>When all players have submit their words, they will remove indentical clues.</li>
+                                    <li>At the end, the chooser will try to guess the word.</li>
+                                </ul>
+                            </p>
                         </div>
                         <div page="3">
-                            PAGE 3 isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus, et Serenianus dignus exsecratione cunctorum, innoxius, modo non reclamante publico vigore, discessit.
-                            <br/>
-                            <br/>Utque aegrum corpus quassari etiam levibus solet offensis, ita animus eius angustus et tener, quicquid increpuisset, ad salutis suae dispendium existimans factum aut cogitatum, insontium caedibus fecit victoriam luctuosam.
-                            <br/>
-                            <br/>Hae duae provinciae bello quondam piratico catervis mixtae praedonum a Servilio pro consule missae sub iugum factae sunt vectigales. et hae quidem regiones velut in prominenti terrarum lingua positae ob orbe eoo monte Amano disparantur.
+                            <h2>Choose clue word to help</h2>
+                            <p>
+                                Each helper has to input and send a clue which relates to word.
+                            </p>
+                            <h2>Select words</h2>
+                            <p>
+                                Helpers will now see all clues. If some clues are similar to the word or some clues are identical, clues may be removed.<br/>
+                                To remove a word, press on red cross under the clue, to validate it, press on green check. If you don't know if you have to choose it or not, click on the orange question mark.
+                            </p>
+                            <h2>Guess the word</h2>
+                            <p>
+                                Guesser will be able to see all selected clues and he will tries to guess the word.<br/>
+                                To guess a word, input it and send it. If you don't want to try, you can pass by clicking on the pass button.
+                            </p>
                         </div>
                         <div page="4">
-                            PAGE 4 isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus, et Serenianus dignus exsecratione cunctorum, innoxius, modo non reclamante publico vigore, discessit.
-                            <br/>
-                            <br/>Utque aegrum corpus quassari etiam levibus solet offensis, ita animus eius angustus et tener, quicquid increpuisset, ad salutis suae dispendium existimans factum aut cogitatum, insontium caedibus fecit victoriam luctuosam.
-                            <br/>
-                            <br/>Hae duae provinciae bello quondam piratico catervis mixtae praedonum a Servilio pro consule missae sub iugum factae sunt vectigales. et hae quidem regiones velut in prominenti terrarum lingua positae ob orbe eoo monte Amano disparantur.
+                            <h2>End of round</h2>
+                            <p>
+                                The round end when the guesser has done his guessed (or passed).<br/>
+                                The team score :
+                                <p class="nes-text is-success">-> 1 point if the guesser guess the word</p>
+                                <p class="nes-text">-> 0 point if the guesser passed</p>
+                                <p class="nes-text is-error">-> -1 point if the guesser fail to guess the word</p>
+                            </p>
+                            <h2>End of game</h2>
+                            <p>
+                                The game end when all rounds are finished.<br/>
+                                A game is winned if the score is upper than 0. Else, players loose.
+                            </p>
                         </div>
                     </div>
                     <div class="row">

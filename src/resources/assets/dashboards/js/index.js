@@ -85,11 +85,11 @@ join_gameWithId_input.keyup(function (e) {
 
 
 let maxHeight = 0;
-rules_content.find("div").each(function (index, element) {
+rules_content.find("> div").each(function (index, element) {
     maxHeight = $(element).innerHeight() > maxHeight ? $(element).innerHeight() : maxHeight;
 });
 
-rules_content.find("div").each(function (index, element) {
+rules_content.find("> div").each(function (index, element) {
     $(element).innerHeight(maxHeight);
 });
 

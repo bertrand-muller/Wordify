@@ -618,30 +618,42 @@ let printGame = function(game, words, updatePlayers){
             switch (round.step) {
                 case 1:
                     if(isChooser()){
-                        informationsToDisplay.text("The others players are choosing their words.");
+                        informationsToDisplay.text("The others players are choosing their clues.");
                     }else if(isWatcher()) {
                         informationsToDisplay.text("You will join the game next round.");
                     }else{ // helper
                         gameWord_display.show();
                         if (!round.words[currentUserId].done) {
-                            informationsToDisplay.text("You have to choose a word to help "+round.chooserName+".");
+                            informationsToDisplay.text("You have to choose a clue to help "+round.chooserName+".");
                             hasActionToDo = true;
                             gameWord_helperInput.show();
                         }else{
-                            informationsToDisplay.text("The others players are choosing their words.");
+                            informationsToDisplay.text("The others players are choosing their clues.");
                         }
                     }
                     break;
                 case 2:
                     if(isChooser()){
-                        informationsToDisplay.text("The others players are removing duplicate words.");
+                        informationsToDisplay.text("The others players are removing duplicate clues.");
                     }else if(isWatcher()) {
                         informationsToDisplay.text("You will join the game next round.");
                     }else{
-                        informationsToDisplay.text("You have to remove similar words.");
-                        // TODO
-                        hasActionToDo = true;
+                        informationsToDisplay.text("You have to remove similar clues.");
+                        // TODO check if player has action
+                        hasActionToDo = false;
+                        for(var k in round.words){
+                            if(round.words.hasOwnProperty(k)){
+                                if(!round.words[k].select[currentUserId]){
+                                    hasActionToDo = true;
+                                }
+                            }
+                        }
                         gameWord_display.show();
+                        if(hasActionToDo){
+                            informationsToDisplay.text("You have to remove similar clues.");
+                        }else{
+                            informationsToDisplay.text("The others players are selecting clues.");
+                        }
                     }
                     break;
                 case 3:
@@ -673,7 +685,7 @@ let printGame = function(game, words, updatePlayers){
                         case 0:
                             spanText = 'Passed';
                             statusText = 'Not guessed';
-                            statusClass = '';
+                            statusClass = 'is-disabled';
                             break;
                         case 1:
                             spanText = round.guessWord;
@@ -682,7 +694,7 @@ let printGame = function(game, words, updatePlayers){
                             break;
                     }
                     gameWord_status.show().append($("<span>").addClass("nes-text "+statusClass).html(statusText));
-                    gameWord_wordGuest_display.show().append($("<span>").text(spanText));
+                    gameWord_wordGuest_display.show().append($("<span>").text(spanText).addClass("nes-text"+ (round.win == 0? ' is-disabled':'')));
                     gameWord_display.show().find("span.wordValue").text(round.word);
                     for (var k in round.words) {
                         if (round.words.hasOwnProperty(k)) {
@@ -751,7 +763,7 @@ let printGame = function(game, words, updatePlayers){
                     .append($("<div>").text("Guesser : "+gameRound.chooserName))
                     .append($("<div>").text("Word to guess : "+gameRound.word))
                     .append(guessWord)
-                    .append($("<div>").text("Words of helpers : "))
+                    .append($("<div>").text("Clues of helpers : "))
                     .append($("<div>").addClass("lists").append(ul));
             });
             let statusText = '';
@@ -868,7 +880,6 @@ e.join('game-'+gameId)
         }
     })
     .listen('GameEvent', function (game) {
-        console.log("game",JSON.parse(game.content));
         printGame(JSON.parse(game.content), null, false);
     })
     .listen('NewChatEvent', function (e) {

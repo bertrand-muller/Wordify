@@ -28,7 +28,7 @@ class WordSeeder extends Seeder
             'sea', 'ship', 'water', 'river', 'land', 'island', 'moon', 'mountain', 
             'plant', 'star', 'wind', 'fire', 'wood', 'ground', 'boy', 'child',
             'family', 'friend', 'girl', 'group', 'man', 'men', 'mother', 'people',
-            'person', 'king', 'body', 'eye', 'face', 'hand', 'head', 'foot', 'LES',
+            'person', 'king', 'body', 'eye', 'face', 'hand', 'head', 'foot',
             'foot', 'age', 'world', 'year', 'West', 'Earth', 'North', 'East', 'country', 
             'South', 'day', 'morning', 'night', 'thing', 'book', 'box', 'class',
             'color', 'example', 'field', 'form', 'line', 'machine', 'map', 'music', 'noun', 

@@ -87,6 +87,10 @@ img.pixelated{
     overflow-y: scroll;
 }
 
+.nes-text.is-disabled{
+    color: #777;
+}
+
 .message i{
     font-style: normal;
     text-align: center;
@@ -98,6 +102,19 @@ img.pixelated{
 
 .nes-balloon{
     min-width: 50px;
+}
+
+#rules_content span{
+    display: block;
+    text-align: center;
+}
+#rules_content p{
+    text-align: justify;
+}
+#rules_content h2{
+    margin-top: 1em;
+    padding-left: 10px;
+    font-size: 15px;
 }
 
 #definitionModal p.content, #definitionModal label, #definitionModal p.definitions, #definitionModal p.synonyms, #join_submitWord, .manageWords section{
