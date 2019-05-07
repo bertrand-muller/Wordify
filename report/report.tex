@@ -50,9 +50,9 @@ TODO = "Année 2019-2019" => Year //// Academic supervisor
 
 In this report, we will introduce a new tool to improve our English skills while playing a game. The purpose of the project is to promote a new digital tool in order to learn English. Thus, our team worked on an innovative tool to enrich our vocabulary. For this project, the idea is to focus on the interactive side of the solution and to provide a non-existent tool. 
 
-Why is this project relevant at the present time ? At present, learning a language is a major challenge in an globalized society. English is one of the most widely spoken language in the world. It is an important mean for dialoguing and to be informed. However, the average English language level is uneven across different regions of the world and Europe. Our project is part of the desire to fill these gaps and to allow people to easily talk or to develop professionally. In addition, learning a new language can be tedious and time consuming. Our wish is to reduce this learning time for people having some knowledge in English. 
+Why is this project relevant at the present time ? Nowadays, learning a language is a major challenge in an globalized society. English is one of the most widely spoken language in the world. It is an important mean for dialoguing and to be informed. However, the average English language level is uneven across different regions of the world and Europe. Our project is part of the desire to fill these gaps and to allow people to easily talk or to develop professionally. In addition, learning a new language can be tedious and time consuming. Our wish is to reduce this learning time for people having some knowledge in English. 
 
-In order to present our game called \textbf{Wordify}, we decided to structure this report according to three different parts. The first one presents the game itself and its rules. Through this first part, we want to provide a user documentation to know how to play and how the interface has to be used. The second is centered on a technical description of the game by presenting its architecture, the tools used, the difficulties encountered and the solutions found. The last part of this report describes a typical scenario as to the proposed game. After these three parts, we conclude on the result obtained and on the possible game evolutions. 
+In order to present our game called \textbf{Wordify}, we decided to structure this report according to three different parts. The first one presents the game itself and its rules. In this first part, we want to provide a user documentation to know how to play and how the interface has to be used. The second is centered on a technical description of the game by presenting its architecture, the tools used, the difficulties encountered and the solutions found.
 
 This report aims to present our new way of learning English and to highlight the needs in the current education system. 
 
@@ -159,9 +159,43 @@ To start the game, the host will have to click on the blue button where the numb
 
 \subsubsection{Guess a word}
 
+\begin{wrapfigure}{r}{0.4\linewidth}
+	\centering
+	\vspace*{-0.7cm}
+	\includegraphics[scale=0.4]{figures/guessing_word}
+	\caption{Guessing a word}
+	\label{fig:guessing_word}
+\end{wrapfigure} 
+
+Once the game started, a player is designated to be the person to guess the word according to his teammates' clues. The active player must wait for the other players to choose their clue, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the clues have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
+
+Once the player has made his choice, the other players, waiting for his decision, know if their clue allowed him to find the right answer. The number of points earned is displayed in the interface and added to the total already obtained. At the end of the round, a new player is designated as the person to guess the next word.
+
 \subsubsection{Enter a word}
 
+\begin{wrapfigure}{r}{0.4\linewidth}
+	\centering
+	\includegraphics[scale=0.4]{figures/guessing_word}
+	\vspace*{-0.1cm}
+	\caption{Entering a word}
+	\label{fig:entering_word}
+\end{wrapfigure}
+
+When a player is not considered active, he has the responsibility to find a clue related to the word to be guessed by the active player. All non-active players perform the same task at the same time. They have a given time to enter a hint in the dedicated field (figure \ref{fig:entering_word}). If the time is up, no hint is sent and the person lost an additional chance to make the word to be guessed by the active player. 
+
+Once each player has entered a hint, all non-active players see the words entered by the others. At this time, they must decide what words they want to keep by eliminating similar words. Once each player has voted, the scores are used to remove a word or not. The hints left are sent to the guesser. At this stage, we go back to the previously described functionality. 
+
 \subsubsection{Chat}
+
+\begin{wrapfigure}{r}{0.4\linewidth}
+	\centering
+	\vspace*{-2cm}
+	\includegraphics[scale=0.58]{figures/chat}
+	\caption{Chat}
+	\label{fig:chat}
+\end{wrapfigure}
+
+The last feature we want to introduce is the ability to chat with other players sharing the same game. At the bottom right of the screen, it is possible to talk and to share feelings about the current game. The figure \ref{fig:chat} shows how the chat menu looks like.
 
 \subsection{Administrator}
 
@@ -231,10 +265,6 @@ Pourquoi avons-nous décidé de réaliser cette configuration ? En réalité, l'
 \section{Problèmes rencontrés}
 
 \subsection{Solutions adoptées}
-
-\cleardoublepage
-
-\chapter{Scénario}
 
 \cleardoublepage
 
