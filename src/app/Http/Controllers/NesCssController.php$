@@ -223,7 +223,8 @@ class NesCssController extends Controller {
             return redirect(route('index'))->withErrors([auth()->user()->getAuthIdentifierName() => 'Game not found']);
         }
         $user = $this->getAuthUser();
-
+dd($user);
+dd($this->isPlaceInRoom($game));
         if(!$this->isPlaceInRoom($game) && !$this->isInGame($game, $user->id)){
             return redirect(route('index'))->withErrors([$user->getAuthIdentifierName() => 'There is no space anymore']);
         }
@@ -954,7 +955,7 @@ BADGES;
             ['isPrivate', '=', false],
         ])->get();
         foreach ($games as $key => $game){
-		if(!$this->isPlaceInRoom($game) || count($this->getUsersInRoom($game)) == 0){
+            if(!$this->isPlaceInRoom($game) || count($this->getUsersInRoom($game)) == 0){
                 $games->forget($key);
             }
         }
@@ -964,7 +965,6 @@ BADGES;
                 ['status', '=',  'running'],
                 ['isPrivate', '=', false],
             ])->get();
-
             foreach ($games as $key => $game){
                 if(!$this->isPlaceInRoom($game) || count($this->getUsersInRoom($game)) == 0){
                     $games->forget($key);
