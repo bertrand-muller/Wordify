@@ -68,7 +68,7 @@ This first part aims to describe the game principle and the platform used to pla
 
 \section{Principle}
 
-In order to be in adequacy with this concept of interactivity, we made the choice to develop an online multiplayer game. The idea is to make a tool easily accessible by anyone, which allow to learn with friends. Overall, it is a cooperative game where the goal is to discover as many mystery words as possible. Is is therefore necessary to find sufficiently comprehensible indices to help a teammate, while making sure that they are not identical to those of the other players.
+In order to be in adequacy with this concept of interactivity, we made the choice to develop an online multiplayer game. The idea is to make a tool easily accessible by anyone, which allows to learn with friends. Overall, it is a cooperative game where the goal is to discover as many mystery words as possible. Is is therefore necessary to find sufficiently comprehensible hints to help a teammate, while making sure that they are not identical to those of the other players.
 
 As previously mentioned, players will have to connect to a common online platform to collaborate and to guess as many words as possible. It is accessible from the following website address : \textbf{\textit{wordify.online}}. Once this page has been accessed from a browser (figure \ref{fig:wordify_home_page}), it is possible for a player to join a party or to create a new one. Then, he can invite his friends, his family members... The interface is intended to be original (retro effect) but simple to allow people to quickly understand how to start a new game. Once the player has joined a game, the rules, described in the next section, are applied. 
 
@@ -86,19 +86,19 @@ As previously mentioned, players will have to connect to a common online platfor
 
 \section{Rules}
 
-Once the players are connected to a game, the first round will automatically be initialized with the designation of an active player. An active player is the player who will have to guess the word according to the indices proposed by his teammates. Once the player selection is made, the system selects a word among a list stored in the database. This action completes the initialization phase for the first round. 
+Once the players are connected to a game, the first round will automatically be initialized with the designation of an active player. An active player is the player who will have to guess the word according to the hints proposed by his teammates. Once the player selection is made, the system selects a word among a list stored in the database. This action completes the initialization phase for the first round. 
 
-The mystery word is then displayed to non-active players. Then, they have to write a word related to the word to be divined by the active player, by respecting the time limit. In parallel, they must be careful not to put obvious words that other players could write. For the game to be interesting, it is important that players do not agree on the word they choose. If if it is the case, the interest of the game is lost. 
+The mystery word is then displayed to non-active players. Then, they have to write a word related to the word to be divined by the active player, by respecting the time limit. In parallel, they must be careful not to put obvious words that other players could write. So that the game to be interesting, it is important that players do not agree on the word they choose. If it is the case, the interest of the game is lost. 
 
 When the words have been entered by the other players, they are displayed to the active player so that he can guess the initial word. Be careful, identical or similar words will be removed from the list of words displayed to the active player. That is why it is wise to find words from the semantic field referring to the word to be guessed. 
 
-In the next round, a new player is designated as active. The same rules are applied for this new round. The game ends when the number of rounds, indicated at the game creation, have been completed. The goal is to get the maximum number of points, knowing that, if the active player find the word, players win 1 point, but, in case of bad answer, the team looses 1 point and in case of non-proposal, it will not lose or win any point. 
+In the next round, a new player is designated as active. The same rules are applied for this new round. The game ends when the number of rounds, indicated at the game creation, have been completed. The goal is to get the maximum number of points, knowing that, if the active player finds the word, players win 1 point, but, in case of bad answer, the team looses 1 point and in case of non-proposal, it will not lose or win any point. 
 
-A player can play games as many times as he wants. He can re-share the link of his new game to invite people ha wants to play with. This game is fun and challenging !
+A player can play games as many times as he wants. He can re-share the link of his new game to invite people he wants to play with. This game is fun and challenging !
 
 \section{Educational aspect}
 
-In order to foster English education, this game has an educational purpose. Indeed, its goal is to learn new words from other players and to expand our vocabulary. Moreover, it combines speed and reflection : this is therefore and effective way to reason quickly in English while having a good time. In this way, this game targets anyone wishing to improve their level English level while avoiding long courses. It makes accessible the practice of English by providing a ludic way to learn it. 
+In order to foster English education, this game has an educational purpose. Indeed, its goal is to learn new words from other players and to improve our vocabulary. Moreover, it combines speed and reflection : this is therefore and effective way to reason quickly in English while having a good time. In this way, this game targets anyone wishing to improve their English level while avoiding long courses. It makes accessible the practice of English by providing a ludic way to learn it. 
 
 In addition, such a game enables teachers to create contexts where English language is useful and meaningful. Even though games are often associated with entertainment, we do not have to forget their educational value, especially in teaching and learning foreign languages. Games are effective in the way that they create motivation, reduce student stress and enable language learners to communicate.
 
@@ -128,7 +128,7 @@ The game design is identical for all pages and allows players to easily interact
 
 \subsection{Player}
 
-From now, we want to detail the functionalities a player has access to while he is playing. This subpart can be considered as a typical scenario to play a game. 
+From now on, we want to detail the functionalities a player has access to while he is playing. This subpart can be considered as a typical scenario to play a game. 
 
 \subsubsection{Join a game}
 
@@ -143,9 +143,9 @@ Of course, the interface offers a way to join a random game or a game previously
 
 However, if the player does not want to join a random game, he can play with his friends or his family. He will have to copy the game's ID into the \textbf{\textit{Game ID}} field. The ID will be shared beforehand by the game creator. 
 
-If he is logged in, he will be able to play with his account o update his stats. If it is not the case, a guest account will be automatically created to allow him to play. However, this time, game data will not be saved. 
+If he is logged in, he will be able to play with his account to update his stats. If it is not the case, a guest account will be automatically created to allow him to play. However, this time, game data will not be saved. 
 
-Once the player managed to join a game, he is waiting for other players. The figure \ref{fig:waiting_players} show the number of players currently connected, waiting to play the game. It is also possible to visualize the game ID in the upper left corner. It can be shared to anyone while the game is being initialized (waiting for players). 
+Once the player managed to join a game, he is waiting for other players. The figure \ref{fig:waiting_players} shows the number of players currently connected, waiting to play the game. It is also possible to visualize the game ID in the upper left corner. It can be shared to anyone while the game is being initialized (waiting for players). 
 
 \begin{figure}[ht]
 	\centering
@@ -155,7 +155,7 @@ Once the player managed to join a game, he is waiting for other players. The fig
 	\label{fig:waiting_players}
 \end{figure} 
 
-To start the game, the host will have to click on the blue button where the number of players is written. All players present at the game launch will start to play. If not enough players are present, bots will be created. It is possible to identify them by the "robot" icon. 
+To start the game, the host will have to click on the blue button where the number of players is filled. All players present at the game launch will start to play. If not enough players are present, bots will be created. It is possible to identify them by the "robot" icon. 
 
 \subsubsection{Guess a word}
 
