@@ -6,7 +6,7 @@ src/public/uploads/users
 db/data
 composer\.phar
 src/laravel-echo-server.json
-docker-compose.yml
+./docker-compose.yml
 
 # LateX
 *.aux
