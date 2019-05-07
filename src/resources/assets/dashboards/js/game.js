@@ -639,7 +639,6 @@ let printGame = function(game, words, updatePlayers){
                         informationsToDisplay.text("You will join the game next round.");
                     }else{
                         informationsToDisplay.text("You have to remove similar clues.");
-                        // TODO check if player has action
                         hasActionToDo = false;
                         for(var k in round.words){
                             if(round.words.hasOwnProperty(k)){
