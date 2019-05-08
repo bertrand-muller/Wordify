@@ -171,6 +171,8 @@ Once the game started, a player is designated to be the person to guess the word
 
 Once the player has made his choice, the other players, waiting for his decision, know if their clue allowed him to find the right answer. The number of points earned is displayed in the interface and added to the total already obtained. At the end of the round, a new player is designated as the person to guess the next word.
 
+\bigskip
+
 \subsubsection{Enter a word}
 
 \begin{wrapfigure}{r}{0.4\linewidth}
@@ -185,6 +187,8 @@ When a player is not considered active, he has the responsibility to find a clue
 
 Once each player has entered a hint, all non-active players see the words entered by the others. At this time, they must decide what words they want to keep by eliminating similar words. Once each player has voted, the scores are used to remove a word or not. The hints left are sent to the guesser. At this stage, we go back to the previously described functionality. 
 
+\bigskip
+
 \subsubsection{Chat}
 
 \begin{wrapfigure}{r}{0.4\linewidth}
@@ -193,15 +197,99 @@ Once each player has entered a hint, all non-active players see the words entere
 	\includegraphics[scale=0.58]{figures/chat}
 	\caption{Chat}
 	\label{fig:chat}
+	\vspace*{-2cm}
 \end{wrapfigure}
 
 The last feature we want to introduce is the ability to chat with other players sharing the same game. At the bottom right of the screen, it is possible to talk and to share feelings about the current game. The figure \ref{fig:chat} shows how the chat menu looks like.
 
+\clearpage
+
+\subsubsection{Get statistics}
+
+\begin{wrapfigure}{r}{0.4\linewidth}
+	\centering
+	\vspace*{-2cm}
+	\includegraphics[scale=0.5]{figures/statistics}
+	\caption{Statistics}
+	\label{fig:statistics}
+	\vspace*{-2cm}
+\end{wrapfigure}
+
+In addition to game-specific features, user has the possibility to access statistics about the previously played games. The figure \ref{fig:statistics} shows all the statistics a player has access to. They can be accessed from the home page if the player is connected with his own account. 
+
+\bigskip
+\bigskip
+\bigskip
+
+\subsubsection{Profile update}
+
+\begin{wrapfigure}{r}{0.4\linewidth}
+	\centering
+	\vspace*{-2cm}
+	\includegraphics[scale=0.5]{figures/update_profile}
+	\caption{Updating profile}
+	\label{fig:update_profile}
+	\vspace*{-2cm}
+\end{wrapfigure}
+
+Once te player is logged in, he can also update his pseudo, password and avatar. After the avatar has been changed, it is visible to the other players during a game. We wanted to offer the possibility to personalize his account. The figure \ref{fig:update_profile} shows the menu allowing to make these modifications. 
+
+\bigskip
+\bigskip
+
+\subsubsection{Proposal of a new word}
+
+\begin{wrapfigure}{r}{0.4\linewidth}
+	\centering
+	\includegraphics[scale=0.5]{figures/send_word}
+	\caption{Updating profile}
+	\label{fig:send_word}
+\end{wrapfigure}
+
+Finally, the last proposed feature is to propose a word to the game administrators. Once this word has been sent, an administrator will be able to include or not this word in the game. Then, it will be available for all games played after the validation was carried out. The figure \ref{fig:send_word} presents this menu allowing to indicate a word in the corresponding field. 
+
 \subsection{Administrator}
 
-\subsubsection{Add words}
+To present all the proposed features, we have to place ourself from an administrator responsibility point of view. In this part, we want to highlight the decisions that can e taken by this person in order to administer the game and to make it more enjoyable ! Of course, the administrator can be a player who has more important responsibilities. 
 
-\subsubsection{...}
+\subsubsection{Add a new word}
+
+And administrator can add a new word so that it can be used in new games played by users. The figure \ref{fig:admin_add_word} shows the menu associated to this feature. 
+
+\subsubsection{Validate a new word proposed by a player}
+
+As mentioned above, a player may propose a new word to be added to the game. An administrator can access the proposed words and validate those he wants. The menu is shown in the figure \ref{fig:admin_validate_word}. 
+
+\subsubsection{Delete a word}
+
+Finally, he can also see a list of words that have already been validated by administrators. Thanks to this listing, he can decide to look at a word definition or to delete it if he deems it necessary. 
+
+\bigskip
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=1.2in]{figures/admin_add_word}
+		\caption{Adding a word}
+		\label{fig:admin_add_word}
+	\end{subfigure}%
+	~ 
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=1.2in]{figures/admin_validate_word}
+		\caption{Validating a new word}
+		\label{fig:admin_validate_word}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\vspace*{1cm}
+		\includegraphics[scale=0.6]{figures/admin_validated_words}
+		\caption{Validated words listing}
+		\label{fig:admin_validated_words}
+	\end{subfigure}
+	\caption{Administrator functionalities}
+\end{figure} 
 
 \cleardoublepage
 

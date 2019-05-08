@@ -1,3 +1,7 @@
+body {
+    background: linear-gradient(135deg,#171c36,#181b34 0,#112d45 30%,#002d3b);
+}
+
 .message-list{
     font-size: 10px;
 }
@@ -32,6 +36,8 @@
 section.gameName {
     padding: 5px;
     text-align: center;
+    border-color: white;
+    color: white !important;
 }
 .menu button{
     padding: 2px;
@@ -148,6 +154,125 @@ img.pixelated{
 .gamePannel section.informations, .profile section.guestLogin, .profile section.loginForm, .profile section.signupForm{
     font-size: 10px;
 }
+
+.profile section.loginForm {
+    border-color: #a8ce3c;
+}
+
+.profile section.loginForm .title {
+    background-color: #a8ce3c;
+    padding: 4px;
+}
+
+.profile section.loginForm label {
+    color: #a8ce3c;
+}
+
+.profile section.loginForm input,
+.profile section.signupForm input,
+.profile section.guestLogin input,
+.joinGameSection input,
+#join_createGame input {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
+}
+
+.profile section.signupForm {
+     border-color: #5bb1e1;
+ }
+
+.profile section.signupForm .title {
+    background-color: #5bb1e1;
+    padding: 4px;
+}
+
+.profile section.signupForm label {
+    color: #5bb1e1;
+}
+
+.profile section.guestLogin {
+    border-color: #ffce3a;
+}
+
+.profile section.guestLogin .title {
+    background-color: #ffce3a;
+    padding: 4px;
+}
+
+.profile section.guestLogin label {
+    color: #ffce3a;
+}
+
+.profile section.guestLogin span {
+    color: white;
+}
+
+.joinGameSection {
+    border-color: #865788;
+}
+
+.joinGameSection .randomGameButton {
+    background-color: #865788;
+    border-color: #865788;
+}
+
+.joinGameSection .randomGameButton:hover {
+    background-color: #68406a;
+}
+
+.joinGameSection .randomGameButton::after {
+    box-shadow: inset -4px -4px #523354 !important;
+}
+
+.joinGameSection .title {
+    background-color: #865788 !important;
+    padding: 4px;
+    color: white;
+}
+
+.joinGameSection label {
+    color: #865788;
+}
+
+#join_createGame .title {
+    background-color: #ef625a !important;
+    padding: 4px;
+    color:white;
+}
+
+#join_createGame label {
+    color: #ef625a;
+}
+
+#join_createGame label span:before {
+    color: gray;
+}
+
+#join_createGame {
+    border-color: #ef625a;
+}
+
+#join_createGame button {
+    background-color: #ef625a;
+    border-color: #ef625a;
+}
+
+#join_createGame button {
+    background-color: #ef625a;
+}
+
+#join_createGame button:hover {
+    background-color: #c5514a;
+}
+
+#join_createGame button::after {
+    box-shadow: inset -4px -4px #c5514a; !important;
+}
+
+#join_gameWithId .nes-btn {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(134,87,136)" /></svg>') !important;
+}
+
+
 
 .profile .nes-field{
     padding-bottom: 1em;
