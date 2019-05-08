@@ -31,7 +31,10 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{positioning}
 
+
+
 \include{docker}
+\include{json}
 
 \begin{document}
 
@@ -498,7 +501,11 @@ Avec cette solution, lorsque l'hôte quitte la partie, chaque joueur demande au 
 \cleardoublepage
 
 \chapter{Front-End - JSON file}
-
-// METTRE UN EXEMPLE DE JSON UTILISE POUR UNE PARTIE \\
+\label{annexe:game_json}
+\vspace{0.5cm}
+\begin{center}
+	\vspace*{-0.8in}
+	\lstinputlisting[language=json,basicstyle=\footnotesize]{figures/game.json}
+\end{center}
 
 \end{document}
