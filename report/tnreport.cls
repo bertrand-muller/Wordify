@@ -5,7 +5,7 @@
 \LoadClass[a4paper,twoside,12pt]{report}
 
 \RequirePackage{graphicx}
-\RequirePackage[french]{babel}
+\RequirePackage[french,british]{babel}
 \RequirePackage{amsfonts,amssymb,amsmath,mathtools}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
