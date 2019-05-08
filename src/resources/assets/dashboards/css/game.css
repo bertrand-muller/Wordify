@@ -38,7 +38,7 @@ section.gameName {
     padding: 5px;
     text-align: center;
     border-color: white;
-    color: white !important;
+    color: gray !important;
 }
 .menu button{
     padding: 2px;
@@ -160,11 +160,17 @@ input{
     font-size: 10px;
 }
 
+#game-allRounds,
+#game-word_chooserInput,
+#game-word_helperInput,
+#game-word_current,
 .profile section.loginForm,
 .profile section.helloSection {
     border-color: #a8ce3c;
 }
 
+#game-allRounds .nes-text,
+#game-word_chooserInput .nes-text,
 .profile section.helloSection .nes-text {
     color: white;
 }
@@ -178,11 +184,31 @@ input{
     margin-top: 10px;
 }
 
+#game-allRounds > .title,
+#game-word_chooserInput .title,
+#game-word_helperInput .title,
+#game-word_current .title,
 .profile section.loginForm .title,
 .profile section.helloSection .title {
-    background-color: #a8ce3c;
-    padding: 4px;
-    color: white;
+    background-color: #a8ce3c !important;
+    padding: 4px !important;
+    color: white !important;
+}
+
+
+
+#game-word_chooserInput section,
+#game-word_current_words section {
+    border-color: white;
+}
+
+#game-word_current_words section .nes-text {
+    color: white !important;
+}
+
+#game-word_current_words section .btn-getDefinition,
+#game-word_current_words section .nes-btn {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
 }
 
 .profile section.loginForm label {
@@ -252,13 +278,19 @@ input{
     color: #5bb1e1;
 }
 
+#game-timer {
+    margin-top: 0 !important;
+}
+
+#game-timer,
 .profile section.guestLogin {
     border-color: #ffce3a;
 }
 
+#game-timer .title,
 .profile section.guestLogin .title {
-    background-color: #ffce3a;
-    padding: 4px;
+    background-color: #ffce3a !important;
+    padding: 4px !important;
     color: white !important;
 }
 
@@ -331,8 +363,26 @@ input{
     box-shadow: inset -4px -4px #487ca5 !important;
 }
 
+#game-word_display,
+#game-wordGuesser_display,
 .joinGameSection {
     border-color: #865788;
+}
+
+#game-word_display .title,
+#game-wordGuesser_display .title {
+    background-color: #865788;
+    padding: 4px;
+    color: white;
+}
+
+#game-word_display .wordValue,
+#game-wordGuesser_display span {
+    color: white !important;
+}
+
+#game-word_display .btn-getDefinition {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(134,87,136)" /></svg>');
 }
 
 .joinGameSection .randomGameButton {
@@ -358,6 +408,11 @@ input{
     color: #865788;
 }
 
+#game-word_status {
+    border-color: #ef625a;
+}
+
+#game-word_status .title,
 #join_createGame .title {
     background-color: #ef625a !important;
     padding: 4px;
@@ -616,9 +671,10 @@ section.informations {
     top: 0px;
 }
 
-.gameName{
+.gameName {
     border-top: none;
     margin-bottom: 1em;
+    background-color: white;
 }
 
 .nes-container.is-dark.member-card{
@@ -836,4 +892,18 @@ a.btnInInput {
 .largeText{
     font-size: 1em;
     font-weight: bold;
+}
+
+#game-allRounds .nes-container {
+    border-color: white !important;
+    color: white !important;
+}
+
+#game-allRounds .nes-container .title {
+    color: black !important;
+    padding: 4px !important;
+}
+
+#game-allRounds li {
+    color: #a8ce3c !important;
 }

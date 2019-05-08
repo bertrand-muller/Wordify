@@ -102,9 +102,6 @@
                 </section>
             </div>
             <div class="col-md-5 gamePannel">
-                <br>
-                <br>
-                <br>
                 <div class="row" id="informations">
                     <section class="nes-container with-title informations">
                         <h3 class="title">Information</h3>
@@ -122,28 +119,34 @@
                         <h3 class="title">Remaining time</h3>
                         <progress class="nes-progress" value="100" max="100"></progress>
                     </section>
-                    <section class="nes-container with-title" id="game-word_status">
+                    <br>
+                    <section class="nes-container with-title statusSection" id="game-word_status">
                         <h3 class="title">Status</h3>
                         <span class="nes-text"></span>
                     </section>
+                    <br>
                     <section class="nes-container with-title" id="game-wordGuesser_display">
                         <h3 class="title">Word of the guesser</h3>
                         <span class="nes-text"></span>
                     </section>
+                    <br>
                     <section class="nes-container with-title" id="game-word_display">
                         <h3 class="title">Word to be guessed</h3>
                         <span class="nes-text wordValue"></span>
                         <button class="nes-btn btn-getDefinition smallPadding"><span>?</span></button>
                     </section>
+                    <br>
                     <section class="nes-container with-title" id="game-word_chooserInput">
                         <h3 class="title">Word to guess</h3>
                         <div class="nes-field">
                             <input type="text" class="nes-input" placeholder="Type the good word" />
                             <button type="button" class="nes-btn">Guess the word</button>
                         </div>
-                        <span class="nes-text">If you don't know the word, you can pass</span>
+                        <span class="nes-text">If you don't know the word, you can skip it</span>
                         <button type="button" class="nes-btn is-error">Don't guess the word</button>
                     </section>
+                    <br>
+                    <br>
                     <section class="nes-container with-title" id="game-word_helperInput">
                         <h3 class="title">Your hint</h3>
                         <div class="nes-field">
