@@ -31,8 +31,6 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{positioning}
 
-
-
 \include{docker}
 \include{json}
 
@@ -120,8 +118,6 @@ Upon arrival on the platform, a player accesses the game homepage (figure \ref{f
 
 Apart from this design aspect, the player has access to different menus that will allow him to trigger specific actions. The figure \ref{fig:wordify_home_page_menus} shows the menus a player has access to.  The first one (\ref{fig:game_rules}) is used to present game rules. The second one (\ref{fig:login_form}) allows people to connect to their account and to have access to their statistics for the previously played rounds. The third one (\ref{fig:registration_form}) provides an access to a registration form to create a new account. The fourth menu (\ref{fig:random_game_2}) enables the player to join a random game with unknown people. Finally, the last one (\ref{fig:propose_word}) offers a way to propose new words to the game administrators, who can validate them and integrate them to the game. 
 
-\vspace*{0.1cm}
-
 \begin{figure}[ht]
 	\centering
 	\fboxsep=1.2pt
@@ -146,14 +142,14 @@ Apart from this design aspect, the player has access to different menus that wil
 	\begin{subfigure}[t]{0.48\textwidth}
 		\centering
 		\vspace*{0.5cm}
-		\includegraphics[height=1in]{figures/random_game}
+		\includegraphics[height=0.9in]{figures/random_game}
 		\caption{Random game}
 		\label{fig:random_game_2}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.48\textwidth}
 		\centering
 		\vspace*{0.5cm}
-		\includegraphics[height=1in]{figures/propose_word}
+		\includegraphics[height=0.9in]{figures/propose_word}
 		\caption{Random game}
 		\label{fig:propose_word}
 	\end{subfigure}
@@ -442,8 +438,25 @@ Avec cette solution, lorsque l'hôte quitte la partie, chaque joueur demande au 
 
 \chapter{Conclusion}
 
-// INDIQUER LES EVOLUTIONS FUTURES \\
- - Demande de mot de passe oublié
+To finalize this report, wa want to conclude about our project and the developments we did. As for our initial goal, namely the realization of a multiplayer online game, we managed to achieve it while learning new technologies. More specifically, we managed to develop an educational game to facilitate English learning while having a good time. In order to learn new words, it is possible to join a game and to search for synonyms according to the searched word. We are therefore proud to make the English language accessible to anyone, by using a simple computer with a browser. 
+
+However, improvements could be planned for future application versions in order to improve the user experience. We have listed improvements we foresee for the future :
+
+\begin{itemize}
+	\item \underline{Improve usability.} Although the game is rather good from this point of view, we can however consider improving the user experience by repositioning some menus on each page. Moreover, it could make the application more accessible to a younger audience (primary school). 
+	
+	\item \underline{Add difficulty levels.} To make the game more attractive and more challenging, we can imagine to create difficulty levels when playing with robots. Consequently, we would have more or less complicated synonyms to understand. 
+	
+	\item \underline{Forgotten password request.} A minor but important feature is to provide the user a way to change his password by indicating he has forgotten it. It will be necessary to install a system to send automatically emails to change the password, thanks to a link usable via a browser. 
+	
+	\item \underline{Test the application with different socio-professional categories.} To have opinions on the first version of the application, we could organize test sessions. These tests could allow us to know if the user experience is optimal. 
+	
+	\item \underline{Propose the application to primary schools.} After having tested the application with children, it could be interesting to approach primary schools if tests are successful. The game could be an educational tool for learning languages from an early age. Moreover, this fits with governments' desire to develop access to digital tools. 
+	
+	\item \underline{Suggest other languages to play with.} In the same way, if the tests are successful, we can include other languages to facilitate their learning. 
+	
+	\item \underline{Promote the application.} Finally, the application has a real success, we could promote it on various social networks or platforms to make it popular. 
+\end{itemize}
 
 \cleardoublepage
 
@@ -484,13 +497,37 @@ Avec cette solution, lorsque l'hôte quitte la partie, chaque joueur demande au 
 
 \cleardoublepage
 
-\chapter{Screenshots}
-
-// METTRE DES SCREENSHOTS DES DIFFERENTES INTERFACES (PRINCIPALES) \\
+\chapter{Homepage}
+\vspace{-1.5cm}
+\begin{center}
+	\rotatebox{90}{
+		\includegraphics[scale=0.52]{figures/wordify_home_page}
+	}
+\end{center}
 
 \cleardoublepage
 
-\chapter{Back-End - Docker - Configuration}
+\chapter{Waiting players page}
+\vspace{-1.5cm}
+\begin{center}
+	\rotatebox{90}{
+		\includegraphics[scale=0.85]{figures/waiting_players}
+	}
+\end{center}
+
+\cleardoublepage
+
+\chapter{Game page}
+\vspace{-1.5cm}
+\begin{center}
+	\rotatebox{90}{
+		\includegraphics[scale=0.52]{figures/game_page}
+	}
+\end{center}
+
+\cleardoublepage
+
+\chapter{Back-End - Docker Configuration}
 \label{annexe:docker_compose}
 \vspace{0.5cm}
 \begin{center}
