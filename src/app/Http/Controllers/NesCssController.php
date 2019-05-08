@@ -728,8 +728,8 @@ class NesCssController extends Controller {
 <label class="split"></label>
 <div class="badges">
     <label>Rank</label>
-    <span class="nes-badge">
-      <span class="is-dark $rankColor">$rank</span>
+    <span class="nes-badge nes-badge-rank">
+      <span class="rank is-dark $rankColor">$rank</span>
     </span>
     <label>Games</label>
     <span class="nes-badge is-splited">

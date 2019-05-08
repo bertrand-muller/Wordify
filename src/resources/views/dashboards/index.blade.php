@@ -15,7 +15,7 @@
             @if(!$user->isGuest)
                 <div class="col-md-4 logOut">
                     @if($user->id == 1)
-                        <button id="profile_adminPannel_button" type="button" class="nes-btn is-warning">Admin pannel</button>
+                        <button id="profile_adminPannel_button" type="button" class="nes-btn is-warning">Admin panel</button>
                     @endif
                     <button id="profile_logOut_button" type="button" class="nes-btn is-error">Log out</button>
                 </div>
@@ -167,12 +167,13 @@
                     </div>
                 @else
                     <div class="row">
-                        <section class="nes-container with-title">
+                        <section class="nes-container with-title helloSection">
                             <h3 class="title">Profile</h3>
                             <div class="text-center"><span class="nes-text">Hello {{ $user->name }} !</span></div>
                             {!! $profile !!}
                         </section>
                     </div>
+                    <br>
                     <div class="row">
                         <section class="nes-container with-title updateProfile">
                             <h3 class="title">Update profile</h3>
@@ -182,6 +183,7 @@
                                     <input type="text" name="name" class="nes-input" placeholder="Name" value="{{ $user->name  }}">
                                 </div>
                                 <div class="split"></div>
+                                <br>
                                 <div class="nes-field">
                                     <label>New password</label>
                                     <input type="password" name="password" class="nes-input" placeholder="Password" value="">
@@ -191,12 +193,13 @@
                                     <input type="password" name="password_confirmation" class="nes-input" placeholder="Password" value="">
                                 </div>
                                 <div class="split"></div>
+                                <br>
                                 <div class="nes-field">
                                     <label>Avatar</label>
                                     <div class="avatar-sectionInput">
                                         <input class="inputfile nes-input" id="picture-input" name="picture" type="file" accept=".jpeg,.png,.jpg,.JPG,.PNG">
                                         <label for="picture-input">
-                                            <div class="nes-input">
+                                            <div class="nes-input nes-input-avatar">
                                                 <span class="nes-text" id="picture-output">Choose a file...</span>
                                             </div>
                                         </label>
@@ -230,6 +233,7 @@
                         </div>
                     </section>
                 </div>
+                <br>
                 <div class="row">
                     <section class="nes-container with-title" id="join_createGame">
                         <h3 class="title">Create a game</h3>
@@ -261,6 +265,7 @@
                     </section>
                 </div>
                 @if(!$user->isGuest)
+                    <br>
                     <div class="row">
                         <section class="nes-container with-title" id="join_submitWord">
                             <h3 class="title">Submit a new word</h3>

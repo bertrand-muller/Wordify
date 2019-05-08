@@ -155,13 +155,29 @@ img.pixelated{
     font-size: 10px;
 }
 
-.profile section.loginForm {
+.profile section.loginForm,
+.profile section.helloSection {
     border-color: #a8ce3c;
 }
 
-.profile section.loginForm .title {
+.profile section.helloSection .nes-text {
+    color: white;
+}
+
+.profile section.helloSection .split {
+    border-color: white;
+}
+
+.profile section.helloSection label {
+    color: #a8ce3c;
+    margin-top: 10px;
+}
+
+.profile section.loginForm .title,
+.profile section.helloSection .title {
     background-color: #a8ce3c;
     padding: 4px;
+    color: white;
 }
 
 .profile section.loginForm label {
@@ -172,8 +188,17 @@ img.pixelated{
 .profile section.signupForm input,
 .profile section.guestLogin input,
 .joinGameSection input,
-#join_createGame input {
+#join_createGame input,
+.profile section.updateProfile input {
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
+}
+
+.profile section.updateProfile .nes-input-avatar {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
+}
+
+.profile section.updateProfile .avatar-sectionInput label {
+    background-color: unset;
 }
 
 .profile section.signupForm {
@@ -196,14 +221,76 @@ img.pixelated{
 .profile section.guestLogin .title {
     background-color: #ffce3a;
     padding: 4px;
+    color: white !important;
 }
 
 .profile section.guestLogin label {
     color: #ffce3a;
 }
 
-.profile section.guestLogin span {
+#join_submitWord .title {
+    background-color: #ffce3a;
+    padding: 4px;
+    color: white !important;
+}
+
+#join_submitWord label {
+    color: #ffce3a !important;
+}
+
+#join_submitWord {
+    border-color: #ffce3a;
+}
+
+#join_submitWord button {
+    background-color:  #ffce3a;
+    border-color:  #ffce3a;
     color: white;
+}
+
+#join_submitWord button:hover {
+    background-color: #ebbc38;
+}
+
+#join_submitWord button::after {
+    box-shadow: inset -4px -4px #cfa82c !important;
+}
+
+.profile section.updateProfile {
+    border-color: #5bb1e1;
+}
+
+.profile section.updateProfile .title {
+    background-color: #5bb1e1;
+    padding: 4px;
+    color: white !important;
+}
+
+.profile section.updateProfile label {
+    color: #5bb1e1;
+}
+
+.profile section.updateProfile .split {
+    border-color: #5bb1e1;
+}
+
+.profile section.guestLogin span,
+.profile section.updateProfile span {
+    color: white;
+}
+
+.profile section.updateProfile button {
+    background-color: #5bb1e1;
+    border-color: #5bb1e1;
+    color: white;
+}
+
+.profile section.updateProfile button:hover {
+    background-color: #4c9cc8;
+}
+
+.profile section.updateProfile button::after {
+    box-shadow: inset -4px -4px #487ca5 !important;
 }
 
 .joinGameSection {
@@ -256,10 +343,6 @@ img.pixelated{
     border-color: #ef625a;
 }
 
-#join_createGame button {
-    background-color: #ef625a;
-}
-
 #join_createGame button:hover {
     background-color: #c5514a;
 }
@@ -281,6 +364,7 @@ img.pixelated{
 .logOut{
     text-align: right;
 }
+
 .logOut button{
     font-size: 10px;
     padding: 2px;
