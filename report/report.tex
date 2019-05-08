@@ -86,6 +86,8 @@ As previously mentioned, players will have to connect to a common online platfor
 
 \section{Rules}
 
+\textbf{Number of players : 3-7}
+
 Once the players are connected to a game, the first round will automatically be initialized with the designation of an active player. An active player is the player who will have to guess the word according to the hints proposed by his teammates. Once the player selection is made, the system selects a word among a list stored in the database. This action completes the initialization phase for the first round. 
 
 The mystery word is then displayed to non-active players. Then, they have to write a word related to the word to be divined by the active player, by respecting the time limit. In parallel, they must be careful not to put obvious words that other players could write. So that the game to be interesting, it is important that players do not agree on the word they choose. If it is the case, the interest of the game is lost. 
@@ -167,9 +169,9 @@ To start the game, the host will have to click on the blue button where the numb
 	\label{fig:guessing_word}
 \end{wrapfigure} 
 
-Once the game started, a player is designated to be the person to guess the word according to his teammates' clues. The active player must wait for the other players to choose their clue, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the clues have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
+Once the game started, a player is designated to be the person to guess the word according to his teammates' hints. The active player must wait for the other players to choose their hint, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the hints have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
 
-Once the player has made his choice, the other players, waiting for his decision, know if their clue allowed him to find the right answer. The number of points earned is displayed in the interface and added to the total already obtained. At the end of the round, a new player is designated as the person to guess the next word.
+Once the player has made his choice, the other players, waiting for his decision, know if their hint allowed him to find the right answer. The number of points earned is displayed in the interface and added to the total already obtained. At the end of the round, a new player is designated as the person to guess the next word.
 
 \bigskip
 
@@ -183,7 +185,7 @@ Once the player has made his choice, the other players, waiting for his decision
 	\label{fig:entering_word}
 \end{wrapfigure}
 
-When a player is not considered active, he has the responsibility to find a clue related to the word to be guessed by the active player. All non-active players perform the same task at the same time. They have a given time to enter a hint in the dedicated field (figure \ref{fig:entering_word}). If the time is up, no hint is sent and the person lost an additional chance to make the word to be guessed by the active player. 
+When a player is not considered active, he has the responsibility to find a hint related to the word to be guessed by the active player. All non-active players perform the same task at the same time. They have a given time to enter a hint in the dedicated field (figure \ref{fig:entering_word}). If the time is up, no hint is sent and the person lost an additional chance to make the word to be guessed by the active player. 
 
 Once each player has entered a hint, all non-active players see the words entered by the others. At this time, they must decide what words they want to keep by eliminating similar words. Once each player has voted, the scores are used to remove a word or not. The hints left are sent to the guesser. At this stage, we go back to the previously described functionality. 
 
@@ -221,7 +223,7 @@ In addition to game-specific features, user has the possibility to access statis
 \bigskip
 \bigskip
 
-\subsubsection{Profile update}
+\subsubsection{Update profile}
 
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
@@ -295,27 +297,35 @@ Finally, he can also see a list of words that have already been validated by adm
 
 \chapter{Documentation technique}
 
-Dans cette quatrième partie, on souhaite présenter la mise en oeuvre informatique suivie quant à notre jeu en ligne. Pour cela, on a décidé de diviser ce chapitre selon les technologies utilisées pour la partie non-visible par l'utilisateur (Back-End), la partie visible (Front-End) et la stratégie de déploiement adoptée pour que la solution soit accessible en ligne. Ces trois sous-parties sont ensuite compétées par la présentation de problèmes rencontrés et les solutions trouvées pour les résoudre. 
+Dans cette quatrième partie, on souhaite présenter la mise en oeuvre informatique de notre jeu en ligne. Pour cela, on a décidé de diviser ce chapitre en trois sous-parties : la partie non-visible par l'utilisateur (Back-End), la partie visible (Front-End) et la stratégie de déploiement adoptée pour que la solution soit accessible en ligne. Ces trois sous-parties sont ensuite compétées par la présentation de problèmes rencontrés et des solutions trouvées pour les résoudre. 
 
 \section{Back-end}
 
 \subsection{Laravel}
 
-On souhaite donc débuter par la description de la partie serveur, qui correspond donc à l'ensemble non-visible par l'utilisateur. Ainsi, pour structurer notre projet de la manière la plus efficace qui soit, nous avons fait le choix d'utiliser le framework Laravel qui permet de suivre le patron de conception appelé \textit{Modèle-Vue-Contrôleur} (MVC). En utilisant cet outil actuellement très employé pour la création d'applications Web, nous avons pu utiliser des fonctionnalités déjà présentes nous permettant de nous concentrer principalement sur le développement de la solution en tant que telle.
+On souhaite donc débuter par la description de la partie serveur, c'est-à-dire à la partie non-visible par l'utilisateur. Pour structurer notre projet de la manière la plus efficace qui soit, nous avons fait le choix d'utiliser le framework Laravel qui s'appuie sur le patron de conception \textit{Modèle-Vue-Contrôleur} (MVC). En utilisant cet outil, actuellement très employé pour la création d'applications Web, nous avons pu utiliser quelques fonctionnalités déjà présentes pour nous concentrer principalement sur le développement du jeu en tant que tel. 
 
-Ce framework repose sur le langage \textit{PHP} et offre notamment la possibilité de gérer les comptes utilisateurs. Il est alors possible de créer un compte et de se connecter. Cependant, nous avons dû l'adapter pour intégrer ce type de système à notre jeu. Cela a demandé un travail assez important d'intégration même si nous n'avons pas dû nous préoccuper de la corrélation entre l'adresse email et le mot de passe. 
-
-// A FINIR et A RETRAVAILLER !
+Ce framework repose sur le langage \textit{PHP} et offre notamment la possibilité de gérer les comptes utilisateurs. Il est alors possible de créer des comptes et de se connecter sans se préoccuper de la vérification des valeurs entrées (le framework gère efficacement la partie sécurité). Cependant, nous avons dû l'adapter pour intégrer ce type de système à notre jeu. Cela a demandé un travail d'intégration assez important pour être en mesure de lier les parties jouées à un compte utilisateur.
 
 \subsection{Sockets}
 
-Pour éviter des rechargements inopinés de la page de jeu, nous avons fait en sorte d'utiliser des sockets. Cette technologie permet de communiquer avec le serveur sans avoir à recharger la page sur laquelle on se trouve pour voir des potentiels changements s'afficher. Ceci garantit donc une navigation plus agréable à l'utilisateur final lorsque celui effectue des actions dont le serveur est à l'écoute. 
+Pour éviter des rechargements inopinés de page lorsqu'un jeu est en cours, nous avons veillé à utiliser des scokets. Cette technologie permet de communiquer avec le serveur sans avoir à recharger la page sur laquelle on se trouve, en vue de voir de potentiels changements s'afficher. Ceci garantit donc une navigation plus agréable à l'utilisateur final sachant que le serveur est sensible à ses actions. 
 
-Nous avons donc dû utiliser des outils complémentaires et veiller à les associer au sein du framework Laravel. Cette phase a constitué une partie importante de notre travail. En effet, nous avons dû utiliser un outil supplémentaire côté serveur. Cet outil est appelé \textit{Redis}. Il permet de sauvegarder les événements déclenchés par le serveur en réaction aux interactions faites par un ou plusieurs joueurs.
-
-// A FINIR
+Pour cela, nous avons dû utiliser des outils complémentaires et veiller à les associer au framework Laravel. Cette phase a constitué une partie importante de notre travail. En effet, nous avons dû configurer un outil appelé \textit{Redis} qui permet de sauvegarder les événements déclenchés par le serveur en réponse aux interactions faites par un ou plusieurs joueurs.
 
 \subsection{API externe}
+
+Par ailleurs, nous avons le choix d'utiliser une API externe pour récupérer des synonymes, des mots appartenant au même champ lexical ou des définitions de ces mots. Cet outil, appelé \textit{WordsAPI}, nous permet de constituer une base de données importante de mots afin de garantir un nombre important de parties différentes. On évite ainsi aux joueurs de s'ennuyer et de tomber fréquemment sur les mêmes mots. 
+
+Pour l'employer de la manière le plus efficace qui soit, nous avons fait le choix de l'appeler depuis le serveur afin de stocker régulièrement les résultats de ces appels en base de données. Ainsi, après un certain nombre de parties jouées, on limite fortement le nombre d'appels effectués à ce service et on réduit le temps d'attente pour l'utilisateur. De cette manière, plus le nombre de parties jouées est important, plus l'expérience utilisateur est améliorée.
+
+D'un point de vue des interfaces du jeu, un joueur ou un administrateur peut ainsi obtenir une définition d'un mot qu'il ne connaît pas (ceci enrichi donc leur vocabulaire) et les robots, jouant à la place de vrais joueurs, peuvent trouver des mots du même champ lexical que celui du mot à faire deviner. 
+
+\subsection{PostgreSQL}
+
+Enfin, sur le serveur, nous utilisons un dernier outil qui s'appelle \textit{PostgreSQL}. Ce dernier correspond à une base de données permettant de stocker toutes les informations quant au bon déroulement du jeu. Ainsi, on peut retrouver tous les comptes utilisateurs créés, tous les mots déjà enregistrés, les statistiques sur un joueur etc... 
+
+L'idée ici est de persister les données essentielles pour le jeu. Par exemple, on évite ainsi de demander aux utilisateurs de créer un compte à chaque fois qu'il souhaite jouer. De plus, \textit{PostgreSQL} est un outil fiable et s'utilise parfaitement avec le framework \textit{Laravel}. 
 
 \section{Front-End}
 
@@ -332,7 +342,7 @@ Nous avons donc dû utiliser des outils complémentaires et veiller à les assoc
 
 \section{Déploiement}
 
-Cette sous-partie s'attache à décrire la stratégie de déploiement adoptée. Afin de garantir un déploiement efficace et de partager un environnement de travail commun, nous avons décidé d'utiliser la technologie \textit{Docker} : outil basé sur la conteneurisation permettant le déploiement automatique de services selon une configuration définie par les développeurs. Nous avons donc dû réaliser cette configuration en nous basant sur nos connaissances quant à cet outil et à la documentation fournie pour le framework Laravel. L'annexe \ref{annexe:docker_compose} montre le fichier \textit{docker-compose.yml} utilisé pour créer nos conteneurs, c'est-à-dire nos services utiles au bon déroulement d'une partie.
+Cette sous-partie s'attache à décrire la stratégie de déploiement adoptée. Afin de garantir un déploiement efficace et de partager un environnement de travail commun, nous avons décidé d'utiliser la technologie \textit{Docker}. Il s'agit d'un outil basé sur la conteneurisation permettant le déploiement automatique de services selon une configuration définie par les développeurs. Nous avons donc dû réaliser cette configuration en nous basant sur nos connaissances quant à cet outil et à la documentation fournie pour le framework Laravel. L'annexe \ref{annexe:docker_compose} montre le fichier \textit{docker-compose.yml} utilisé pour créer nos conteneurs, c'est-à-dire nos services utiles au bon déroulement du jeu.
 
 Pourquoi avons-nous décidé de réaliser cette configuration ? En réalité, l'utilisation de Docker est une force puisqu'il permet de déployer l'application sur n'importe quel serveur où docker est installé. Nous avons donc voulu rendre l'application durable ...
 
