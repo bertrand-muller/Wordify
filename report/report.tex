@@ -371,7 +371,7 @@ L'idée ici est de persister les données essentielles pour le jeu. Par exemple,
 
 \subsection{Langages de programmation}
 
-Concernant la partie visible par l'utilisateur, nous avons dû utilisé les standards du Web pour que le jeu soit affichable dans un navigateur. Ainsi, le premier d'entre eux est le langage \textit{Hypertext Markup Language} (HTML). Il offre un moyen d'afficher le contenu d'une page Web tel que du texte et des images. Il permet simplement de créer les éléments liés au contenu.
+Concernant la partie visible par l'utilisateur, nous avons dû utiliser les standards du Web pour que le jeu soit affichable dans un navigateur. Ainsi, le premier d'entre eux est le langage \textit{Hypertext Markup Language} (HTML). Il offre un moyen d'afficher le contenu d'une page Web tel que du texte et des images. Il permet simplement de créer les éléments liés au contenu.
 
 Ce langage est complété par l'utilisation d'un second langage appelé \textit{Cascading Style Sheets} (CSS) qui vise à mettre en forme le contenu d'une page. Cette mise en page est réalisée par la définition de règles propres au langage (style des titres, taille d'écriture, couleurs...). En réalité, le style s'applique sur les balises définies grâce au langage \textit{HTML}. 
 
@@ -381,11 +381,11 @@ Enfin, il est nécessaire de pouvoir modifier le contenu d'une page dynamiquemen
 
 \urlstyle{sf}
 
-Comme évoqué dans la première partie de ce rapport, nous avons fait le choix d'adopter un style rétro pour notre jeu. Pour cela, le framework utilisé s'appelle \textit{NES.css}. Grâce à cet outil, il est possible de créer des effets de pixelisation sur les éléments présents. La page \url{https://nostalgic-css.github.io/NES.css/} regroupe tous les éléments pouvant être utilisés pour notre jeu. 
+Comme évoqué dans la première partie de ce rapport, nous avons fait le choix d'adopter un style rétro pour notre jeu. Pour cela, le framework utilisé s'appelle \textit{NES.css}. Grâce à cet outil, il est possible de créer des effets de pixélisation sur les éléments présents. La page \url{https://nostalgic-css.github.io/NES.css/} regroupe tous les éléments pouvant être utilisés pour notre jeu. 
 
 \subsection{Sockets}
 
-Comme dans la partie \ref{chapter:back_end_sockets}, il est nécessaire de gérer les sockets mais du côté utilisateur. Afin de pouvoir être sensible aux événements déclenchés par le serveur, le client doit pouvoir les détecter et réaliser des modifications en conséquence sur la page courante. La librairie \textit{JavaScript} utilisée s'appelle \textit{EchoJS} et nécessite simplement d'être inclue dans le contenu de la page. Afin de mieux comprendre son fonctionnement, il est possible de se reporter au schéma d'architecture dans la partie \ref{chapter:global_architecture}.
+Comme dans la partie \ref{chapter:back_end_sockets}, il est nécessaire de gérer les sockets mais du côté utilisateur. Afin de pouvoir être sensible aux événements déclenchés par le serveur, le client doit pouvoir les détecter et réaliser des modifications en conséquence sur la page courante. La librairie \textit{JavaScript} utilisée s'appelle \textit{EchoJS} et nécessite simplement d'être incluse dans le contenu de la page. Afin de mieux comprendre son fonctionnement, il est possible de se reporter au schéma d'architecture dans la partie \ref{chapter:global_architecture}.
 
 \section{Déploiement}
 
@@ -423,7 +423,7 @@ Pour choisir le joueur actif, le serveur a besoin de connaître l'ensemble des j
 
 \subsubsection{Envoi du départ d'un joueur par le joueur hôte}
 
-Avec cette solution, à chaque fois qu'un joueur se déconnectait, l'hôte notifiait le serveur pour lui indiquer le départ du joueur. Cependant, si un joueur reactualisait la page, l'hôte envoyait son départ de façon asynchrone. Il arrivait que le joueur soit revenu dans la partie avant que le serveur n'ait reçu une notification quant à son départ. De ce fait, le joueur était dans la partie mais le serveur le considérait comme absent.
+Avec cette solution, à chaque fois qu'un joueur se déconnectait, l'hôte notifiait le serveur pour lui indiquer le départ du joueur. Cependant, si un joueur reactualisait la page, l'hôte envoyait son départ de façon asynchrone. Il arrivait que le joueur soit revenu dans la partie avant que le serveur ait reçu une notification quant à son départ. De ce fait, le joueur était dans la partie mais le serveur le considérait comme absent.
 
 Autre problème de cette solution : lorsque l'hôte quittait la partie, il était difficile d'en désigner un nouveau.
 
@@ -472,10 +472,10 @@ Avec cette solution, lorsque l'hôte quitte la partie, chaque joueur demande au 
 \textbf{Bootstrap} : https://getbootstrap.com/\\
 \textbf{Laravel Echo} : https://github.com/laravel/echo\\
 
-\section{API externes}
+\section{External API}
 \textbf{WordsApi} : https://www.wordsapi.com/\\
 
-\section{Déploiement}
+\section{Deployment}
 \textbf{Docker} : https://www.docker.com/\\
 
 
