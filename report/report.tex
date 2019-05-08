@@ -345,19 +345,17 @@ L'idée ici est de persister les données essentielles pour le jeu. Par exemple,
 
 \section{Déploiement}
 
+\subsection{Docker}
+
 Cette sous-partie s'attache à décrire la stratégie de déploiement adoptée. Afin de garantir un déploiement efficace et de partager un environnement de travail commun, nous avons décidé d'utiliser la technologie \textit{Docker}. Il s'agit d'un outil basé sur la conteneurisation permettant le déploiement automatique de services selon une configuration définie par les développeurs. Nous avons donc dû réaliser cette configuration en nous basant sur nos connaissances quant à cet outil et à la documentation fournie pour le framework Laravel. L'annexe \ref{annexe:docker_compose} montre le fichier \textit{docker-compose.yml} utilisé pour créer nos conteneurs, c'est-à-dire nos services utiles au bon déroulement du jeu.
 
-Pourquoi avons-nous décidé de réaliser cette configuration ? En réalité, l'utilisation de Docker est une force puisqu'il permet de déployer l'application sur n'importe quel serveur où docker est installé. Nous avons donc voulu rendre l'application durable ...
+Pourquoi avons-nous décidé de réaliser cette configuration ? En réalité, l'utilisation de Docker est une force puisqu'il permet de déployer l'application sur n'importe quel serveur où docker est installé. Nous avons donc voulu rendre l'application durable dans le temps et installable sur n'importe quel système.
 
-// TO BE FINISHED !
+\subsection{Nom de domaine}
 
-\begin{itemize}
-	\item 
-\end{itemize}
+Afin de rendre accessible notre plateforme à n'importe quelle personne, nous avons choisi d'acheter un nom de domaine pour que le jeu puisse être en ligne. Le nom de domaine choisi est lié au nom de notre jeu (Wordify), à savoir : \textbf{\textit{wordify.online}}.
 
-// DOCKER \\
-// DEPLOIEMENT SUR SERVEUR (ACCESSIBLE EN LIGNE) \\
-// NOM DE DOMAINE \\
+Pour que le nom de domaine redirige vers notre jeu, nous avons dû configurer le \textit{Domain Name Server} (DNS) de notre serveur. Une fois cette configuration réalisée, il est alors possible de lancer une partie en multijoueur avec des personnes se trouvant potentiellement dans différentes parties du monde. Le jeu est alors lancé selon les règles exposées dans la partie \ref{chapter:rules}. 
 
 \section{Architecture globale}
 !
