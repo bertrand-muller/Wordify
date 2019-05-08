@@ -86,6 +86,8 @@ As previously mentioned, players will have to connect to a common online platfor
 
 \section{Rules}
 
+\label{chapter:rules}
+
 \textbf{Number of players : 3-7}
 
 Once the players are connected to a game, the first round will automatically be initialized with the designation of an active player. An active player is the player who will have to guess the word according to the hints proposed by his teammates. Once the player selection is made, the system selects a word among a list stored in the database. This action completes the initialization phase for the first round. 
@@ -159,7 +161,7 @@ Once the player managed to join a game, he is waiting for other players. The fig
 
 To start the game, the host will have to click on the blue button where the number of players is filled. All players present at the game launch will start to play. If not enough players are present, bots will be created. It is possible to identify them by the "robot" icon. 
 
-\subsubsection{Guess a word}
+\subsubsection{Enter a word}
 
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
@@ -169,25 +171,26 @@ To start the game, the host will have to click on the blue button where the numb
 	\label{fig:guessing_word}
 \end{wrapfigure} 
 
-Once the game started, a player is designated to be the person to guess the word according to his teammates' hints. The active player must wait for the other players to choose their hint, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the hints have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
+When a player is not considered active, he has the responsibility to find a hint related to the word to be guessed by the active player. All non-active players perform the same task at the same time. They have a given time to enter a hint in the dedicated field (figure \ref{fig:entering_word}). If the time is up, no hint is sent and the person lost an additional chance to make the word to be guessed by the active player. 
 
-Once the player has made his choice, the other players, waiting for his decision, know if their hint allowed him to find the right answer. The number of points earned is displayed in the interface and added to the total already obtained. At the end of the round, a new player is designated as the person to guess the next word.
+Once each player has entered a hint, all non-active players see the words entered by the others. At this time, they must decide what words they want to keep by eliminating similar words. Once each player has voted, the scores are used to remove a word or not. The hints left are sent to the guesser. At this stage, we go to the next described functionality. 
 
 \bigskip
 
-\subsubsection{Enter a word}
+\subsubsection{Guess a word}
 
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
+	\vspace*{-1cm}
 	\includegraphics[scale=0.4]{figures/guessing_word}
 	\vspace*{-0.1cm}
 	\caption{Entering a word}
 	\label{fig:entering_word}
 \end{wrapfigure}
 
-When a player is not considered active, he has the responsibility to find a hint related to the word to be guessed by the active player. All non-active players perform the same task at the same time. They have a given time to enter a hint in the dedicated field (figure \ref{fig:entering_word}). If the time is up, no hint is sent and the person lost an additional chance to make the word to be guessed by the active player. 
+Once the game started, a player is designated to be the person to guess the word according to his teammates' hints. The active player must wait for the other players to choose their hint, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the hints have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
 
-Once each player has entered a hint, all non-active players see the words entered by the others. At this time, they must decide what words they want to keep by eliminating similar words. Once each player has voted, the scores are used to remove a word or not. The hints left are sent to the guesser. At this stage, we go back to the previously described functionality. 
+Once the player has made his choice, the other players, waiting for his decision, know if their hint allowed him to find the right answer. The number of points earned is displayed in the interface and added to the total already obtained. At the end of the round, a new player is designated as the person to guess the next word.
 
 \bigskip
 
@@ -202,7 +205,7 @@ Once each player has entered a hint, all non-active players see the words entere
 	\vspace*{-2cm}
 \end{wrapfigure}
 
-The last feature we want to introduce is the ability to chat with other players sharing the same game. At the bottom right of the screen, it is possible to talk and to share feelings about the current game. The figure \ref{fig:chat} shows how the chat menu looks like.
+Another feature we want to introduce is the ability to chat with other players sharing the same game. At the bottom right of the screen, it is possible to talk and to share feelings about the current game. The figure \ref{fig:chat} shows how the chat menu looks like.
 
 \clearpage
 
