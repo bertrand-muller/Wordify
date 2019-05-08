@@ -160,6 +160,8 @@ input{
     font-size: 10px;
 }
 
+#word-list,
+#word-list .split,
 .profile section.loginForm,
 .profile section.helloSection {
     border-color: #a8ce3c;
@@ -178,6 +180,7 @@ input{
     margin-top: 10px;
 }
 
+#word-list .title,
 .profile section.loginForm .title,
 .profile section.helloSection .title {
     background-color: #a8ce3c;
@@ -188,6 +191,7 @@ input{
 .profile section.loginForm label {
     color: #a8ce3c;
 }
+
 
 .profile section.loginForm button{
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(74,165,46)" /></svg>');
@@ -201,7 +205,7 @@ input{
 #join_createGame button{
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(197,81,74)" /></svg>');
 }
-.profile section.updateProfile button {
+.profile section.updateProfile button{
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(72,124,165)" /></svg>');
 }
 #join_submitWord button {
@@ -217,9 +221,11 @@ input{
 .profile section.guestLogin input{
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
 }
+#findWord input,
 .joinGameSection input{
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(134,87,136)" /></svg>');
 }
+#addWord input,
 #join_createGame input{
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(239,98,90)" /></svg>');
 }
@@ -294,10 +300,17 @@ input{
     box-shadow: inset -4px -4px #cfa82c !important;
 }
 
+#word-list,
+#wordValidated{
+    color: lightgray;
+}
+
+#wordValidated,
 .profile section.updateProfile {
     border-color: #5bb1e1;
 }
 
+#wordValidated .title,
 .profile section.updateProfile .title {
     background-color: #5bb1e1;
     padding: 4px;
@@ -308,6 +321,7 @@ input{
     color: #5bb1e1;
 }
 
+#wordValidated .split,
 .profile section.updateProfile .split {
     border-color: #5bb1e1;
 }
@@ -331,6 +345,8 @@ input{
     box-shadow: inset -4px -4px #487ca5 !important;
 }
 
+
+#findWord,
 .joinGameSection {
     border-color: #865788;
 }
@@ -348,22 +364,26 @@ input{
     box-shadow: inset -4px -4px #523354 !important;
 }
 
+#findWord .title,
 .joinGameSection .title {
     background-color: #865788 !important;
     padding: 4px;
     color: white;
 }
 
+#findWord label,
 .joinGameSection label {
     color: #865788;
 }
 
+#addWord .title,
 #join_createGame .title {
     background-color: #ef625a !important;
     padding: 4px;
     color:white;
 }
 
+#addWord label,
 #join_createGame label {
     color: #ef625a;
 }
@@ -372,19 +392,23 @@ input{
     color: gray;
 }
 
+#addWord,
 #join_createGame {
     border-color: #ef625a;
 }
 
+#addWord button,
 #join_createGame button {
     background-color: #ef625a;
     border-color: #ef625a;
 }
 
+#addWord button:hover,
 #join_createGame button:hover {
     background-color: #c5514a;
 }
 
+#addWord button::after,
 #join_createGame button::after {
     box-shadow: inset -4px -4px #c5514a; !important;
 }
