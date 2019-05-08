@@ -29,8 +29,8 @@
                         <div page="1">
                             <h2>What is Wordify ?</h2>
                             <p>
-                                Wordify is a retro cooperative party game where all players play together to discover a mystery words.
-                                Find the best clue to help your teammate and be original, because all identical clues will be canceled !
+                                Wordify is a retro cooperative game where all players play together to discover a mystery word.
+                                Find the best hint to help your teammate and be creative, because all similar hints will be removed !
                             </p>
                             <br/>
                             <br/>
@@ -39,50 +39,52 @@
                         <div page="2">
                             <h2>Start a game</h2>
                             <p>
-                                First player which join the game will be the "host". This one will be able to start the game when he wants.<br/>
-                                If there is not enought player in game, bots will replace missing players.
+                                First player who joins the game will be the "host". He will be able to start the game whenever he wants.<br/>
+                                If there is not enough player for the game, bots will replace missing players.
                             </p>
-                            <h2>Course of the game</h2>
+                            <h2>CGame timeline</h2>
                             <p>
-                                A game is splitted in some rounds.<br/>
-                                Course of a round :
+                                A game is splitted in rounds.<br/>
+                                Round :
                                 <ul class="text-left">
-                                    <li>A player is choose to guess the word, he is called "guesser".</li>
-                                    <li>Others players (named "helpers") will be able to see the word and they will try to find the best clue.</li>
-                                    <li>When all players have submit their words, they will remove indentical clues.</li>
-                                    <li>At the end, the chooser will try to guess the word.</li>
+                                    <li>A player who guesses the word is called the "guesser".</li>
+                                    <li>Other players (named "helpers") will be able to see the mystery word and they will try to find the best hint.</li>
+                                    <li>When all players have submited their words, they will remove similar ones.</li>
+                                    <li>At the end, the host will try to guess the word.</li>
                                 </ul>
                             </p>
                         </div>
                         <div page="3">
-                            <h2>Choose clue word to help</h2>
+                            <h2>Choose a hint to help</h2>
                             <p>
-                                Each helper has to input and send a clue which relates to word.
+                                Each helper has to send a hint related to the mystery word.
                             </p>
                             <h2>Select words</h2>
                             <p>
-                                Helpers will now see all clues. If some clues are similar to the word or some clues are identical, clues may be removed.<br/>
-                                To remove a word, press on red cross under the clue, to validate it, press on green check. If you don't know if you have to choose it or not, click on the orange question mark.
+                                Helpers will now see all hints. If some hints are similar, hints may be removed.<br/>
+                                To remove a word, press on the red cross under the given hint.
+                                To validate it, press on the green check.
+                                If you don't know if you have to choose it or not, click on the orange question mark.
                             </p>
                             <h2>Guess the word</h2>
                             <p>
-                                Guesser will be able to see all selected clues and he will tries to guess the word.<br/>
-                                To guess a word, input it and send it. If you don't want to try, you can pass by clicking on the pass button.
+                                Guesser will be able to see all selected hints and he will try to guess the word.<br/>
+                                To guess a word, write it and send it. If you don't want to try, you can skip it by clicking on the skip button.
                             </p>
                         </div>
                         <div page="4">
-                            <h2>End of round</h2>
+                            <h2>End of a round</h2>
                             <p>
-                                The round end when the guesser has done his guessed (or passed).<br/>
-                                The team score :
-                                <p class="nes-text is-success">-> 1 point if the guesser guess the word</p>
-                                <p class="nes-text">-> 0 point if the guesser passed</p>
-                                <p class="nes-text is-error">-> -1 point if the guesser fail to guess the word</p>
+                                The round ends when the guesser has tried to guess or not the word.<br/>
+                                The team scores :
+                                <p class="nes-text is-success">-> 1 point if the guesser got the right word</p>
+                                <p class="nes-text">-> 0 point if the guesser skipped his turn</p>
+                                <p class="nes-text is-error">-> -1 point if the guesser put a wrong word</p>
                             </p>
-                            <h2>End of game</h2>
+                            <h2>End of a game</h2>
                             <p>
-                                The game end when all rounds are finished.<br/>
-                                A game is winned if the score is upper than 0. Else, players loose.
+                                The game ends when all rounds are finished.<br/>
+                                A game is won if the score is more than 0. Otherwise, players loose the game.
                             </p>
                         </div>
                     </div>
@@ -278,7 +280,7 @@
                             </div>
                             <label></label>
                             <div class="nes-field">
-                                <button type="button" class="nes-btn is-success">Sumbit word</button>
+                                <button type="button" class="nes-btn is-success">Submit word</button>
                             </div>
                         </section>
                     </div>
