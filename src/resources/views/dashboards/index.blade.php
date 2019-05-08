@@ -42,7 +42,7 @@
                                 First player who joins the game will be the "host". He will be able to start the game whenever he wants.<br/>
                                 If there is not enough player for the game, bots will replace missing players.
                             </p>
-                            <h2>CGame timeline</h2>
+                            <h2>Game timeline</h2>
                             <p>
                                 A game is splitted in rounds.<br/>
                                 Round :
