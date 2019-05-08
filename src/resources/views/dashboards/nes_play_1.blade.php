@@ -56,16 +56,19 @@
         </div>
         <div class="menu">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 exit">
                     <button type="button" class="nes-btn is-error exit" data-toggle="modal" data-target="#exitModal">Exit</button>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 titleGame">
                     <section class="nes-container noMargin gameName">
                         Wordify
                     </section>
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
         <div class="row">
             <div class="col-md-3 onlineUsers">
                 <section class="nes-container with-title is-dark">
@@ -99,12 +102,16 @@
                 </section>
             </div>
             <div class="col-md-5 gamePannel">
+                <br>
+                <br>
+                <br>
                 <div class="row" id="informations">
                     <section class="nes-container with-title informations">
                         <h3 class="title">Information</h3>
                         <span class="nes-text" id="informationsToDisplay">No information to display</span>
                     </section>
                 </div>
+                <br>
                 <div class="row" id="game">
                     <section class="nes-container" id="game-begin">
                             <p>Waiting for players<span class="dot"></span></p>
