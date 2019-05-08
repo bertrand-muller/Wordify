@@ -89,8 +89,15 @@ rules_content.find("> div").each(function (index, element) {
     maxHeight = $(element).innerHeight() > maxHeight ? $(element).innerHeight() : maxHeight;
 });
 
-rules_content.find("> div").each(function (index, element) {
-    $(element).innerHeight(maxHeight);
+$().ready(function () {
+    let maxHeight = 0;
+    rules_content.find("> div").each(function (index, element) {
+        maxHeight = $(element).innerHeight() > maxHeight ? $(element).innerHeight() : maxHeight;
+    });
+
+    rules_content.find("> div").each(function (index, element) {
+        $(element).innerHeight(maxHeight);
+    });
 });
 
 displayJoinButton();
