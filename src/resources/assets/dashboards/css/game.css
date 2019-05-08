@@ -529,3 +529,7 @@ a.btnInInput {
     font-size: 1em;
     font-weight: bold;
 }
+
+.nes-text.is-warning {
+    color: darkorange;
+}
