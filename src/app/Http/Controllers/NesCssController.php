@@ -359,7 +359,7 @@ class NesCssController extends Controller {
             throw new Exception('failed to initialize');
         }
 
-        curl_setopt($ch, CURLOPT_URL, config('app.echo_url').'/bf3ca786357a179b/channels/presence-game-'.$game->id.'/users?auth_key=e9f35bc4827c0917763c91553f7d151f');
+        curl_setopt($ch, CURLOPT_URL, config('app.echo_url').'/apps/bf3ca786357a179b/channels/presence-game-'.$game->id.'/users?auth_key=e9f35bc4827c0917763c91553f7d151f');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
