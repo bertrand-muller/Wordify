@@ -372,17 +372,26 @@ Pour que le nom de domaine redirige vers notre jeu, nous avons dû configurer le
 // COMMENT TOUT COMMUNIQUE ? => DIAGRAMME D'ARCHITECTURE SYNTHETIQUE
 
 \section{Problèmes rencontrés}
+
 \subsection{Gestion d'un salon de jeu}
-Le serveur a besoin de connaître les joueurs en lignes pour choisir le joueur actif, pour limiter le nombre de joueurs dans chaque partie et pour ajouter le bon nombre de bots. Cette partie est la plus complexe car le serveur ne peut pas connaître les utilisateurs présents dans le salon en temps réel. Lorsqu'un utilisateur se connecte, il doit faire une demande au serveur. Nous pouvons donc savoir le nombre d'utilisateurs entrant. Mais, si un utilisateur se déconnecte, aucun événement ne sera déclenché côté serveur. Seul les utilisateurs présents dans le salon sont informé grâce à Echo.\\
+
+Pour choisir le joueur actif, le serveur a besoin de connaître l'ensemble des joueurs afin de limiter le nombre de joueurs dans chaque partie et d'ajouter le bon nombre de robots. Ce système est difficile à mettre en oeuvre car le serveur ne peut pas connaître les utilisateurs présents dans le salon en temps réel. Lorsqu'un utilisateur se connecte, il doit faire une demande au serveur. Nous pouvons donc savoir le nombre d'utilisateurs entrants. Cependant, si un utilisateur se déconnecte, aucun événement ne sera déclenché côté serveur. Seuls les utilisateurs présents dans le salon sont informés grâce à la librairie \textit{EchoJS}.
+
 \subsection{Solutions adoptées}
+
 \subsubsection{Envoi du départ d'un joueur par le joueur hôte}
-Avec cette solution, à chaque fois qu'un joueur se déconnectais, l'hôte notifiais le serveur pour lui indiquer le départ du joueur. Cependant, si un joueur réactualisé la page, l'hôte envoyai son départ de façon asynchrone. Il arrivait que le joueur soit revenu dans la partie avant que le serveur ai reçu son départ, de ce fait, le joueur était dans la partie mais le serveur le considérait comme absent.\\
-Autre problème de cette solution : lorsque l'hôte quittais la partie, il était difficile d'en désigner un nouveau.\\
-\\
-Suite à ces difficultés, nous avons donc chercher une autre solution.
+
+Avec cette solution, à chaque fois qu'un joueur se déconnectait, l'hôte notifiait le serveur pour lui indiquer le départ du joueur. Cependant, si un joueur reactualisait la page, l'hôte envoyait son départ de façon asynchrone. Il arrivait que le joueur soit revenu dans la partie avant que le serveur n'ait reçu une notification quant à son départ. De ce fait, le joueur était dans la partie mais le serveur le considérait comme absent.
+
+Autre problème de cette solution : lorsque l'hôte quittait la partie, il était difficile d'en désigner un nouveau.
+
+Suite à ces difficultés, nous avons donc cherché une autre solution.
+
 \subsubsection{Utilisation de l'API Laravel Echo Serveur}
-Une autre solution est l'utilisation de l'API Laravel Echo Serveur. En effet, celle-ci peut nous permettre de connaître la liste des joueurs présents dans un salon de jeu. Pour permettre l'affichage des joueurs en ligne, le front utilisera les événements reçu depuis Echo. Pour créer les parties et savoir si il reste de place dans un partie, le serveur appellera l'API Laravel Echo Serveur.\\
-Avec cette solution, lorsque l'hôte quitte la partie, chaque joueur demande au serveur de désigner le nouvel hôte. Grâce à l'API Laravel Echo Serveur, le serveur peut vérifier si l'hôte a bien quitté la partie, si tel est le cas, il choisi aléatoirement un utilisateur et transmet le nouvel hôte à tous les joueurs en ligne.\\
+
+Une autre solution est l'utilisation de l'API \textit{Laravel Echo Serveur}. En effet, celle-ci peut nous permettre de connaître la liste des joueurs présents dans un salon de jeu. Pour permettre l'affichage des joueurs en ligne, le front utilisera les événements reçus depuis \textit{EchoJS}. Pour créer les parties et savoir s'il reste de place dans une partie, le serveur appellera l'API \textit{Laravel Echo Serveur}.
+
+Avec cette solution, lorsque l'hôte quitte la partie, chaque joueur demande au serveur de désigner le nouvel hôte. Grâce à l'API \textit{Laravel Echo Serveur}, le serveur peut vérifier si l'hôte a bien quitté la partie. Si tel est le cas, il choisit aléatoirement un utilisateur et transmet le nouvel hôte à tous les joueurs en ligne.\\
 
 \cleardoublepage
 
