@@ -167,7 +167,13 @@
 
 \medskip
 
-{\fontsize{14}{14}\selectfont \bf Année \reportYear{}}
+{\fontsize{14}{14}\selectfont \bf 2019}
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+{\bf Academic supervisor} : Karen Fournier
 
 \vfill
 \vfill
