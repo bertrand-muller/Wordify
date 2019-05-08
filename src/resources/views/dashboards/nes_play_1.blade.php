@@ -138,14 +138,14 @@
                         <button type="button" class="nes-btn is-error">Don't guess the word</button>
                     </section>
                     <section class="nes-container with-title" id="game-word_helperInput">
-                        <h3 class="title">Your clue</h3>
+                        <h3 class="title">Your hint</h3>
                         <div class="nes-field">
-                            <input type="text" class="nes-input" placeholder="Type a clue to help the guesser" />
-                            <button type="button" class="nes-btn">Send the clue</button>
+                            <input type="text" class="nes-input" placeholder="Type a hint to help the guesser" />
+                            <button type="button" class="nes-btn">Send the hint</button>
                         </div>
                     </section>
                     <section class="nes-container with-title" id="game-word_current">
-                        <h3 class="title">Clues of helpers</h3>
+                        <h3 class="title">Helpers' hints</h3>
                         <div id="game-word_current_words">
                         </div>
                     </section>

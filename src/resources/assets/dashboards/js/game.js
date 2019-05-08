@@ -618,27 +618,27 @@ let printGame = function(game, words, updatePlayers){
             switch (round.step) {
                 case 1:
                     if(isChooser()){
-                        informationsToDisplay.text("The others players are choosing their clues.");
+                        informationsToDisplay.text("The other players are currently choosing their hints.");
                     }else if(isWatcher()) {
                         informationsToDisplay.text("You will join the game next round.");
                     }else{ // helper
                         gameWord_display.show();
                         if (!round.words[currentUserId].done) {
-                            informationsToDisplay.text("You have to choose a clue to help "+round.chooserName+".");
+                            informationsToDisplay.text("You have to choose a hint to help "+round.chooserName+".");
                             hasActionToDo = true;
                             gameWord_helperInput.show();
                         }else{
-                            informationsToDisplay.text("The others players are choosing their clues.");
+                            informationsToDisplay.text("The other players are choosing their hints.");
                         }
                     }
                     break;
                 case 2:
                     if(isChooser()){
-                        informationsToDisplay.text("The others players are removing duplicate clues.");
+                        informationsToDisplay.text("The other players are removing similar hints.");
                     }else if(isWatcher()) {
                         informationsToDisplay.text("You will join the game next round.");
                     }else{
-                        informationsToDisplay.text("You have to remove similar clues.");
+                        informationsToDisplay.text("You have to remove similar hints.");
                         hasActionToDo = false;
                         for(var k in round.words){
                             if(round.words.hasOwnProperty(k)){
@@ -649,9 +649,9 @@ let printGame = function(game, words, updatePlayers){
                         }
                         gameWord_display.show();
                         if(hasActionToDo){
-                            informationsToDisplay.text("You have to remove similar clues.");
+                            informationsToDisplay.text("You have to remove similar hints.");
                         }else{
-                            informationsToDisplay.text("The others players are selecting clues.");
+                            informationsToDisplay.text("The other players are selecting hints.");
                         }
                     }
                     break;
@@ -762,7 +762,7 @@ let printGame = function(game, words, updatePlayers){
                     .append($("<div>").text("Guesser : "+gameRound.chooserName))
                     .append($("<div>").text("Word to guess : "+gameRound.word))
                     .append(guessWord)
-                    .append($("<div>").text("Clues of helpers : "))
+                    .append($("<div>").text("Helpers' hints : "))
                     .append($("<div>").addClass("lists").append(ul));
             });
             let statusText = '';
