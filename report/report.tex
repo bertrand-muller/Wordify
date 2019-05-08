@@ -312,6 +312,8 @@ Ce framework repose sur le langage \textit{PHP} et offre notamment la possibilit
 
 \subsection{Sockets}
 
+\label{chapter:back_end_sockets}
+
 Pour éviter des rechargements inopinés de page lorsqu'un jeu est en cours, nous avons veillé à utiliser des scokets. Cette technologie permet de communiquer avec le serveur sans avoir à recharger la page sur laquelle on se trouve, en vue de voir de potentiels changements s'afficher. Ceci garantit donc une navigation plus agréable à l'utilisateur final sachant que le serveur est sensible à ses actions. 
 
 Pour cela, nous avons dû utiliser des outils complémentaires et veiller à les associer au framework Laravel. Cette phase a constitué une partie importante de notre travail. En effet, nous avons dû configurer un outil appelé \textit{Redis} qui permet de sauvegarder les événements déclenchés par le serveur en réponse aux interactions faites par un ou plusieurs joueurs.
@@ -342,12 +344,13 @@ Enfin, il est nécessaire de pouvoir modifier le contenu d'une page dynamiquemen
 
 \subsection{Design}
 
-// NES CSS \\
-// COULEURS UTILISEES
+\urlstyle{sf}
+
+Comme évoqué dans la première partie de ce rapport, nous avons fait le choix d'adopter un style rétro pour notre jeu. Pour cela, le framework utilisé s'appelle \textit{NES.css}. Grâce à cet outil, il est possible de créer des effets de pixelisation sur les éléments présents. La page \url{https://nostalgic-css.github.io/NES.css/} regroupe tous les éléments pouvant être utilisés pour notre jeu. 
 
 \subsection{Sockets}
 
-// EVITER REFRESH DE PAGE
+Comme dans la partie \ref{chapter:back_end_sockets}, il est nécessaire de gérer les sockets mais du côté utilisateur. Afin de pouvoir être sensible aux événements déclenchés par le serveur, le client doit pouvoir les détecter et réaliser des modifications en conséquence sur la page courante. La librairie \textit{JavaScript} utilisée s'appelle \textit{EchoJS} et nécessite simplement d'être inclue dans le contenu de la page. Afin de mieux comprendre son fonctionnement, il est possible de se reporter au schéma d'architecture dans la partie \ref{chapter:global_architecture}.
 
 \section{Déploiement}
 
@@ -364,7 +367,9 @@ Afin de rendre accessible notre plateforme à n'importe quelle personne, nous av
 Pour que le nom de domaine redirige vers notre jeu, nous avons dû configurer le \textit{Domain Name Server} (DNS) de notre serveur. Une fois cette configuration réalisée, il est alors possible de lancer une partie en multijoueur avec des personnes se trouvant potentiellement dans différentes parties du monde. Le jeu est alors lancé selon les règles exposées dans la partie \ref{chapter:rules}. 
 
 \section{Architecture globale}
-!
+
+\label{chapter:global_architecture}
+
 // COMMENT TOUT COMMUNIQUE ? => DIAGRAMME D'ARCHITECTURE SYNTHETIQUE
 
 \section{Problèmes rencontrés}
