@@ -187,7 +187,7 @@ Once each player has entered a hint, all non-active players see the words entere
 	\label{fig:entering_word}
 \end{wrapfigure}
 
-Once the game started, a player is designated to be the person to guess the word according to his teammates' hints. The active player must wait for the other players to choose their hint, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the hints have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
+Once the game started, a player is designated to be the person to guess the word according to his teammates' hints. The active player must wait for the other players choose their hint, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the hints have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
 
 Once the player has made his choice, the other players, waiting for his decision, know if their hint allowed him to find the right answer. The number of points earned is displayed in the interface and added to the total already obtained. At the end of the round, a new player is designated as the person to guess the next word.
 
@@ -219,7 +219,7 @@ Another feature we want to introduce is the ability to chat with other players s
 	\vspace*{-2cm}
 \end{wrapfigure}
 
-In addition to game-specific features, user has the possibility to access statistics about the previously played games. The figure \ref{fig:statistics} shows all the statistics a player has access to. They can be accessed from the home page if the player is connected with his own account. 
+In addition to game-specific features, user has the possibility to access statistics about the previous played games. The figure \ref{fig:statistics} shows all the statistics a player has access to. They can be accessed from the home page if the player is connected with his own account. 
 
 \bigskip
 \bigskip
@@ -236,7 +236,7 @@ In addition to game-specific features, user has the possibility to access statis
 	\vspace*{-2cm}
 \end{wrapfigure}
 
-Once te player is logged in, he can also update his pseudo, password and avatar. After the avatar has been changed, it is visible to the other players during a game. We wanted to offer the possibility to personalize his account. The figure \ref{fig:update_profile} shows the menu allowing to make these modifications. 
+Once the player is logged in, he can also update his pseudo, password and avatar. After the avatar has been changed, it is visible to the other players during a game. We wanted to offer the possibility to personalize his account. The figure \ref{fig:update_profile} shows the menu allowing to make these modifications. 
 
 \bigskip
 \bigskip
@@ -254,7 +254,7 @@ Finally, the last proposed feature is to propose a word to the game administrato
 
 \subsection{Administrator}
 
-To present all the proposed features, we have to place ourself from an administrator responsibility point of view. In this part, we want to highlight the decisions that can e taken by this person in order to administer the game and to make it more enjoyable ! Of course, the administrator can be a player who has more important responsibilities. 
+To present all the proposed features, we have to place ourselves from an administrator responsibility point of view. In this part, we want to highlight the decisions that can be taken by this person in order to administer the game and to make it more enjoyable ! Of course, the administrator can be a player who has more important responsibilities. 
 
 \subsubsection{Add a new word}
 
@@ -313,17 +313,17 @@ Ce framework repose sur le langage \textit{PHP} et offre notamment la possibilit
 
 \label{chapter:back_end_sockets}
 
-Pour éviter des rechargements inopinés de page lorsqu'un jeu est en cours, nous avons veillé à utiliser des scokets. Cette technologie permet de communiquer avec le serveur sans avoir à recharger la page sur laquelle on se trouve, en vue de voir de potentiels changements s'afficher. Ceci garantit donc une navigation plus agréable à l'utilisateur final sachant que le serveur est sensible à ses actions. 
+Pour éviter des rechargements inopinés de page lorsqu'un jeu est en cours, nous avons veillé à utiliser des sockets. Cette technologie permet de communiquer avec le serveur sans avoir à recharger la page sur laquelle on se trouve, en vue de voir de potentiels changements s'afficher. Ceci garantit donc une navigation plus agréable pour l'utilisateur final sachant que le serveur est sensible à ses actions. 
 
 Pour cela, nous avons dû utiliser des outils complémentaires et veiller à les associer au framework Laravel. Cette phase a constitué une partie importante de notre travail. En effet, nous avons dû configurer un outil appelé \textit{Redis} qui permet de sauvegarder les événements déclenchés par le serveur en réponse aux interactions faites par un ou plusieurs joueurs.
 
 \subsection{API externe}
 
-Par ailleurs, nous avons le choix d'utiliser une API externe pour récupérer des synonymes, des mots appartenant au même champ lexical ou des définitions de ces mots. Cet outil, appelé \textit{WordsAPI}, nous permet de constituer une base de données importante de mots afin de garantir un nombre important de parties différentes. On évite ainsi aux joueurs de s'ennuyer et de tomber fréquemment sur les mêmes mots. 
+Par ailleurs, nous avons le choix d'utiliser une API externe pour récupérer des synonymes, des mots appartenant au même champ lexical ou des définitions de ces mots. Cet outil, appelé \textit{WordsAPI}, nous permet de constituer une base de données importante de mots afin de garantir un nombre conséquent de parties différentes. On évite ainsi aux joueurs de s'ennuyer et de recontrer fréquemment les mêmes mots. 
 
 Pour l'employer de la manière le plus efficace qui soit, nous avons fait le choix de l'appeler depuis le serveur afin de stocker régulièrement les résultats de ces appels en base de données. Ainsi, après un certain nombre de parties jouées, on limite fortement le nombre d'appels effectués à ce service et on réduit le temps d'attente pour l'utilisateur. De cette manière, plus le nombre de parties jouées est important, plus l'expérience utilisateur est améliorée.
 
-D'un point de vue des interfaces du jeu, un joueur ou un administrateur peut ainsi obtenir une définition d'un mot qu'il ne connaît pas (ceci enrichi donc leur vocabulaire) et les robots, jouant à la place de vrais joueurs, peuvent trouver des mots du même champ lexical que celui du mot à faire deviner. 
+D'un point de vue des interfaces du jeu, un joueur ou un administrateur peut ainsi obtenir une définition d'un mot qu'il ne connaît pas (ceci enrichit donc leur vocabulaire) et les robots, jouant à la place de vrais joueurs, peuvent trouver des mots du même champ lexical que celui du mot à faire deviner. 
 
 \subsection{PostgreSQL}
 
