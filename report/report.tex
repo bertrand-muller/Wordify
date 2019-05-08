@@ -71,12 +71,12 @@ In order to be in adequacy with this concept of interactivity, we made the choic
 
 As previously mentioned, players will have to connect to a common online platform to collaborate and to guess as many words as possible. It is accessible from the following website address : \textbf{\textit{wordify.online}}. Once this page has been accessed from a browser (figure \ref{fig:wordify_home_page}), it is possible for a player to join a party or to create a new one. Then, he can invite his friends, his family members... The interface is intended to be original (retro effect) but simple to allow people to quickly understand how to start a new game. Once the player has joined a game, the rules, described in the next section, are applied. 
 
-%\bigskip
+\bigskip
 
 \begin{figure}[ht]
 	\centering
 	\fboxsep=1.2pt
-	\includegraphics[scale=0.33]{figures/wordify_home_page}
+	\includegraphics[scale=0.4]{figures/wordify_home_page}
 	\caption{Wordify - Home page}
 	\label{fig:wordify_home_page}
 \end{figure} 
@@ -87,7 +87,7 @@ As previously mentioned, players will have to connect to a common online platfor
 
 \label{chapter:rules}
 
-\textbf{Number of players : 3-7}
+\textbf{Number of players : 3 to 7}
 
 Once the players are connected to a game, the first round will automatically be initialized with the designation of an active player. An active player is the player who will have to guess the word according to the hints proposed by his teammates. Once the player selection is made, the system selects a word among a list stored in the database. This action completes the initialization phase for the first round. 
 
@@ -115,15 +115,48 @@ In this new part, we want to detail the user manual to know how to use the inter
 
 Upon arrival on the platform, a player accesses the game homepage (figure \ref{fig:wordify_home_page}). As mentioned before, we decided to adopt a retro style to make it more attractive and to feel nostalgic about the first games developed on console. 
 
-Apart from this design aspect, the player has access to different menus that will allow him to trigger specific actions. The figure \ref{fig:wordify_home_page_menus} shows the menus a player has access to.  The first one is used to present game rules. The second one allows people to connect to their account and to have access to their statistics for the previously played rounds. The third one provides an access to a registration form to create a new account. The fourth menu enables the player to join a random game with unknown people. Finally, the last one offers a way to propose new words to the game moderators (administrators), who can validate them and integrate them to the game. 
+Apart from this design aspect, the player has access to different menus that will allow him to trigger specific actions. The figure \ref{fig:wordify_home_page_menus} shows the menus a player has access to.  The first one (\ref{fig:game_rules}) is used to present game rules. The second one (\ref{fig:login_form}) allows people to connect to their account and to have access to their statistics for the previously played rounds. The third one (\ref{fig:registration_form}) provides an access to a registration form to create a new account. The fourth menu (\ref{fig:random_game_2}) enables the player to join a random game with unknown people. Finally, the last one (\ref{fig:propose_word}) offers a way to propose new words to the game administrators, who can validate them and integrate them to the game. 
+
+\vspace*{0.1cm}
 
 \begin{figure}[ht]
 	\centering
 	\fboxsep=1.2pt
-	\includegraphics[scale=0.3]{figures/no_picture}
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[height=1.2in]{figures/game_rules}
+		\caption{Game rules}
+		\label{fig:game_rules}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[height=1.2in]{figures/login_form}
+		\caption{Login form}
+		\label{fig:login_form}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[height=1.2in]{figures/registration_form}
+		\caption{Registration form}
+		\label{fig:registration_form}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.48\textwidth}
+		\centering
+		\vspace*{0.5cm}
+		\includegraphics[height=1in]{figures/random_game}
+		\caption{Random game}
+		\label{fig:random_game_2}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.48\textwidth}
+		\centering
+		\vspace*{0.5cm}
+		\includegraphics[height=1in]{figures/propose_word}
+		\caption{Random game}
+		\label{fig:propose_word}
+	\end{subfigure}
 	\caption{Wordify - Home page menus}
 	\label{fig:wordify_home_page_menus}
-\end{figure} 
+\end{figure}
 
 The game design is identical for all pages and allows players to easily interact with the application and to exploit all the associated features. 
 
@@ -137,7 +170,8 @@ From now on, we want to detail the functionalities a player has access to while 
 
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
-	\includegraphics[scale=0.7]{figures/join_game}
+	\vspace*{1cm}
+	\includegraphics[scale=0.7]{figures/random_game}
 	\caption{Join a game}
 	\label{fig:join_game}
 \end{wrapfigure}
@@ -150,10 +184,12 @@ If he is logged in, he will be able to play with his account to update his stats
 
 Once the player managed to join a game, he is waiting for other players. The figure \ref{fig:waiting_players} shows the number of players currently connected, waiting to play the game. It is also possible to visualize the game ID in the upper left corner. It can be shared to anyone while the game is being initialized (waiting for players). 
 
+\vspace*{0.1cm}
+
 \begin{figure}[ht]
 	\centering
 	\fboxsep=1.2pt
-	\includegraphics[scale=0.53]{figures/waiting_players}
+	\includegraphics[scale=0.52]{figures/waiting_players}
 	\caption{Waiting for players}
 	\label{fig:waiting_players}
 \end{figure} 
@@ -164,10 +200,10 @@ To start the game, the host will have to click on the blue button where the numb
 
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
-	\vspace*{-0.7cm}
-	\includegraphics[scale=0.4]{figures/guessing_word}
-	\caption{Guessing a word}
-	\label{fig:guessing_word}
+	\vspace*{-0.2cm}
+	\includegraphics[scale=0.4]{figures/entering_word}
+	\caption{Entering a word}
+	\label{fig:entering_word}
 \end{wrapfigure} 
 
 When a player is not considered active, he has the responsibility to find a hint related to the word to be guessed by the active player. All non-active players perform the same task at the same time. They have a given time to enter a hint in the dedicated field (figure \ref{fig:entering_word}). If the time is up, no hint is sent and the person lost an additional chance to make the word to be guessed by the active player. 
@@ -180,11 +216,11 @@ Once each player has entered a hint, all non-active players see the words entere
 
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
-	\vspace*{-1cm}
+	\vspace*{-0.5cm}
 	\includegraphics[scale=0.4]{figures/guessing_word}
-	\vspace*{-0.1cm}
-	\caption{Entering a word}
-	\label{fig:entering_word}
+	\caption{Guessing a word}
+	\label{fig:guessing_word}
+	\vspace*{-0.5cm}
 \end{wrapfigure}
 
 Once the game started, a player is designated to be the person to guess the word according to his teammates' hints. The active player must wait for the other players choose their hint, so that he can guess the sought word. The figure \ref{fig:guessing_word} shows the interface resulting from this waiting time. Once the hints have been displayed, he can try to guess the word in the allotted time or skip it (see the rules to know the number of points). 
@@ -198,7 +234,7 @@ Once the player has made his choice, the other players, waiting for his decision
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
 	\vspace*{-2cm}
-	\includegraphics[scale=0.58]{figures/chat}
+	\includegraphics[scale=0.63]{figures/chat}
 	\caption{Chat}
 	\label{fig:chat}
 	\vspace*{-2cm}
@@ -233,7 +269,7 @@ In addition to game-specific features, user has the possibility to access statis
 	\includegraphics[scale=0.5]{figures/update_profile}
 	\caption{Updating profile}
 	\label{fig:update_profile}
-	\vspace*{-2cm}
+	\vspace*{-3cm}
 \end{wrapfigure}
 
 Once the player is logged in, he can also update his pseudo, password and avatar. After the avatar has been changed, it is visible to the other players during a game. We wanted to offer the possibility to personalize his account. The figure \ref{fig:update_profile} shows the menu allowing to make these modifications. 
@@ -246,7 +282,7 @@ Once the player is logged in, he can also update his pseudo, password and avatar
 \begin{wrapfigure}{r}{0.4\linewidth}
 	\centering
 	\includegraphics[scale=0.5]{figures/send_word}
-	\caption{Updating profile}
+	\caption{Sending a word}
 	\label{fig:send_word}
 \end{wrapfigure}
 
@@ -274,14 +310,14 @@ Finally, he can also see a list of words that have already been validated by adm
 	\centering
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[height=1.2in]{figures/admin_add_word}
+		\includegraphics[height=1.5in]{figures/admin_add_word}
 		\caption{Adding a word}
 		\label{fig:admin_add_word}
 	\end{subfigure}%
 	~ 
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[height=1.2in]{figures/admin_validate_word}
+		\includegraphics[height=1.5in]{figures/admin_validate_word}
 		\caption{Validating a new word}
 		\label{fig:admin_validate_word}
 	\end{subfigure}
