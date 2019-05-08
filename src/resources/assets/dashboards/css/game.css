@@ -1,7 +1,12 @@
-body {
-    background: linear-gradient(135deg,#171c36,#181b34 0,#112d45 30%,#002d3b);
-    height: 100%;
+html, body{
+    background-color: #999;
 }
+
+section.nes-container.with-title > .title,
+section{
+    background-color: #F0F0F0;
+}
+
 
 .message-list{
     font-size: 10px;
@@ -37,8 +42,6 @@ body {
 section.gameName {
     padding: 5px;
     text-align: center;
-    border-color: white;
-    color: gray !important;
 }
 .menu button{
     padding: 2px;
@@ -74,7 +77,7 @@ img.pixelated{
     }
 
     .menu > .row > div{
-        background-color: white;
+        background-color: #999;
         padding-bottom: 4px;
     }
 
@@ -88,10 +91,6 @@ img.pixelated{
     .chat{
         margin: 0;
     }
-}
-
-input{
-    background-color: lightgray;
 }
 
 #chat-messages{
@@ -160,391 +159,6 @@ input{
     font-size: 10px;
 }
 
-#game-allRounds,
-#game-word_chooserInput,
-#game-word_helperInput,
-#game-word_current,
-#word-list,
-#word-list .split,
-.profile section.loginForm,
-.profile section.helloSection {
-    border-color: #a8ce3c;
-}
-
-#game-allRounds .nes-text,
-#game-word_chooserInput .nes-text,
-.profile section.helloSection .nes-text {
-    color: white;
-}
-
-.profile section.helloSection .split {
-    border-color: white;
-}
-
-.profile section.helloSection label {
-    color: #a8ce3c;
-    margin-top: 10px;
-}
-
-#game-allRounds > .title,
-#game-word_chooserInput .title,
-#game-word_helperInput .title,
-#game-word_current .title,
-#word-list .title,
-.profile section.loginForm .title,
-.profile section.helloSection .title {
-    background-color: #a8ce3c !important;
-    padding: 4px !important;
-    color: white !important;
-}
-
-
-
-#game-word_chooserInput section,
-#game-word_current_words section {
-    border-color: white;
-}
-
-#game-word_current_words section .nes-text {
-    color: white !important;
-}
-
-#game-word_current_words section .btn-getDefinition,
-#game-word_current_words section .nes-btn {
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
-}
-
-.profile section.loginForm label {
-    color: #a8ce3c;
-}
-
-
-.profile section.loginForm button{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(74,165,46)" /></svg>');
-}
-.profile section.signupForm button{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(0,107,179)" /></svg>');
-}
-.joinGameSection button{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(82,51,84)" /></svg>');
-}
-#join_createGame button{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(197,81,74)" /></svg>');
-}
-.profile section.updateProfile button{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(72,124,165)" /></svg>');
-}
-#join_submitWord button {
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(207,168,44)" /></svg>');
-}
-
-.profile section.loginForm input{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(146,204,65)" /></svg>');
-}
-.profile section.signupForm input{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(91,177,225)" /></svg>');
-}
-.profile section.guestLogin input{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
-}
-#findWord input,
-.joinGameSection input{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(134,87,136)" /></svg>');
-}
-#addWord input,
-#join_createGame input{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(239,98,90)" /></svg>');
-}
-#join_submitWord input{
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,206,58)" /></svg>');
-}
-.profile section.updateProfile .nes-input-avatar,
-.profile section.updateProfile .avatar-sectionDisplay div,
-.profile section.updateProfile input {
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(91,177,225)" /></svg>');
-}
-.profile section.updateProfile .nes-input-avatar{
-    background-color: lightgray;
-}
-
-.profile section.updateProfile .avatar-sectionInput label {
-    background-color: unset;
-}
-
-.profile section.signupForm {
-     border-color: #5bb1e1;
- }
-
-.profile section.signupForm .title {
-    background-color: #5bb1e1;
-    padding: 4px;
-}
-
-.profile section.signupForm label {
-    color: #5bb1e1;
-}
-
-#game-timer {
-    margin-top: 0 !important;
-}
-
-#game-timer,
-.profile section.guestLogin {
-    border-color: #ffce3a;
-}
-
-#game-timer .title,
-.profile section.guestLogin .title {
-    background-color: #ffce3a !important;
-    padding: 4px !important;
-    color: white !important;
-}
-
-.profile section.guestLogin label {
-    color: #ffce3a;
-}
-
-#join_submitWord .title {
-    background-color: #ffce3a;
-    padding: 4px;
-    color: white !important;
-}
-
-#join_submitWord label {
-    color: #ffce3a !important;
-}
-
-#join_submitWord {
-    border-color: #ffce3a;
-}
-
-#join_submitWord button {
-    background-color:  #ffce3a;
-    border-color:  #ffce3a;
-    color: white;
-}
-
-#join_submitWord button:hover {
-    background-color: #ebbc38;
-}
-
-#join_submitWord button::after {
-    box-shadow: inset -4px -4px #cfa82c !important;
-}
-
-#word-list,
-#wordValidated{
-    color: lightgray;
-}
-
-#wordValidated,
-.profile section.updateProfile {
-    border-color: #5bb1e1;
-}
-
-#wordValidated .title,
-.profile section.updateProfile .title {
-    background-color: #5bb1e1;
-    padding: 4px;
-    color: white !important;
-}
-
-.profile section.updateProfile label {
-    color: #5bb1e1;
-}
-
-#wordValidated .split,
-.profile section.updateProfile .split {
-    border-color: #5bb1e1;
-}
-
-.profile section.guestLogin span,
-.profile section.updateProfile span {
-    color: #666666;
-}
-
-.profile section.updateProfile button {
-    background-color: #5bb1e1;
-    border-color: #5bb1e1;
-    color: white;
-}
-
-.profile section.updateProfile button:hover {
-    background-color: #4c9cc8;
-}
-
-.profile section.updateProfile button::after {
-    box-shadow: inset -4px -4px #487ca5 !important;
-}
-
-#game-word_display,
-#game-wordGuesser_display,
-
-#findWord,
-.joinGameSection {
-    border-color: #865788;
-}
-
-#game-word_display .title,
-#game-wordGuesser_display .title {
-    background-color: #865788;
-    padding: 4px;
-    color: white;
-}
-
-#game-word_display .wordValue,
-#game-wordGuesser_display span {
-    color: white !important;
-}
-
-#game-word_display .btn-getDefinition {
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(134,87,136)" /></svg>');
-}
-
-.joinGameSection .randomGameButton {
-    background-color: #865788 !important;
-    border-color: #865788;
-}
-
-.joinGameSection .randomGameButton:hover {
-    background-color: #68406a !important;
-}
-
-.joinGameSection .randomGameButton::after {
-    box-shadow: inset -4px -4px #523354 !important;
-}
-
-#findWord .title,
-.joinGameSection .title {
-    background-color: #865788 !important;
-    padding: 4px;
-    color: white;
-}
-
-#findWord label,
-.joinGameSection label {
-    color: #865788;
-}
-
-#game-word_status {
-    border-color: #ef625a;
-}
-
-#game-word_status .title,
-#addWord .title,
-#join_createGame .title {
-    background-color: #ef625a !important;
-    padding: 4px;
-    color:white;
-}
-
-#addWord label,
-#join_createGame label {
-    color: #ef625a;
-}
-
-#join_createGame label span:before {
-    color: gray;
-}
-
-#addWord,
-#join_createGame {
-    border-color: #ef625a;
-}
-
-#addWord button,
-#join_createGame button {
-    background-color: #ef625a;
-    border-color: #ef625a;
-}
-
-#addWord button:hover,
-#join_createGame button:hover {
-    background-color: #c5514a;
-}
-
-#addWord button::after,
-#join_createGame button::after {
-    box-shadow: inset -4px -4px #c5514a; !important;
-}
-
-#join_gameWithId .nes-btn {
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(134,87,136)" /></svg>') !important;
-}
-
-section.informations {
-    border-color: #5bb1e1 !important;
-}
-
-#informations .title {
-    background-color: #5bb1e1;
-    color: white;
-    padding: 4px;
-}
-
-#informationsToDisplay {
-    color: white;
-}
-
-#game-begin {
-    border-color: #a8ce3c !important;
-}
-
-#game-begin p {
-    color: white;
-}
-
-#game-begin button {
-    background-color:  #a8ce3c;
-    border-color:  #a8ce3c;
-    color: white;
-}
-
-#game-begin button:hover {
-    background-color: #98bf39;
-}
-
-#game-begin button::after {
-    box-shadow: inset -4px -4px #83a633 !important;
-}
-
-.chat {
-    border-color: #3f51b5;
-}
-
-.chat .title {
-    color: white;
-    background-color: #3f51b5 !important;
-    padding: 4px !important;
-}
-
-.chat .nes-balloon.smallPadding {
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M3 1 h1 v1 h-1 z M4 1 h1 v1 h-1 z M2 2 h1 v1 h-1 z M5 2 h1 v1 h-1 z M1 3 h1 v1 h-1 z M6 3 h1 v1 h-1 z M1 4 h1 v1 h-1 z M6 4 h1 v1 h-1 z M2 5 h1 v1 h-1 z M5 5 h1 v1 h-1 z M3 6 h1 v1 h-1 z M4 6 h1 v1 h-1 z" fill="rgb(63,81,181)" /></svg>');
-}
-
-.chat .nes-balloon.smallPadding::after,
-.chat .nes-balloon.smallPadding::before {
-    border-color: #3f51b5;
-}
-
-.chat #chat-input,
-.chat #chat-btn {
-    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
-}
-
-.chat #chat-btn {
-    background-color: #3f51b5;
-}
-
-.chat #chat-btn::after {
-    box-shadow: inset -4px -4px #2f3b76 !important;
-}
-
-.col-md-3.exit,
-.col-md-5.titleGame  {
-    background-color: unset !important;
-}
-
 .profile .nes-field{
     padding-bottom: 1em;
 }
@@ -552,7 +166,6 @@ section.informations {
 .logOut{
     text-align: right;
 }
-
 .logOut button{
     font-size: 10px;
     padding: 2px;
@@ -695,10 +308,9 @@ section.informations {
     top: 0px;
 }
 
-.gameName {
+.gameName{
     border-top: none;
     margin-bottom: 1em;
-    background-color: white;
 }
 
 .nes-container.is-dark.member-card{
@@ -916,18 +528,4 @@ a.btnInInput {
 .largeText{
     font-size: 1em;
     font-weight: bold;
-}
-
-#game-allRounds .nes-container {
-    border-color: white !important;
-    color: white !important;
-}
-
-#game-allRounds .nes-container .title {
-    color: black !important;
-    padding: 4px !important;
-}
-
-#game-allRounds li {
-    color: #a8ce3c !important;
 }
