@@ -23,7 +23,7 @@
     "laravel-echo": "^1.5.3",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
-    "mathjs": "^5.4.2",
+    "mathjs": "^7.5.1",
     "npm": "^6.7.0",
     "pace-progress": "^1.0.2",
     "select2": "^4.0.3",
